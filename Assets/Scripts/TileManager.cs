@@ -57,34 +57,33 @@ public class TileManager : MonoBehaviour {
     public TileBase[] prefabs;
 
     public TileBase[,] tiles = new TileBase[width, depth];
+    public Hut hutTile;
 
 	// Use this for initialization
 	void Start () {
-        // Build starting city
-        var starting = new List<KeyValuePair<int, int>>()
-        {
-            new KeyValuePair<int, int>(4, 0),
-            new KeyValuePair<int, int>(5, 0),
-            new KeyValuePair<int, int>(5, 1),
-            new KeyValuePair<int, int>(4, 1),
-            new KeyValuePair<int, int>(3, 1),
-            new KeyValuePair<int, int>(3, 2),
-        };
 
         for (int ii = 0; ii < width; ++ii)
         {
             for (int jj = 0; jj < depth; ++jj)
             {
-                if (starting.Contains(new KeyValuePair<int, int>(ii, jj) ) )
+                TileBase.TileType type = TileBase.TileType.FILLED;
+                if (jj == 0)
                 {
-                    CreateNewTile(ii, jj, TileBase.TileType.STORAGE);
+                    if (ii == width - 2)
+                        type = TileBase.TileType.HUT;
+                    else if (ii == width - 3)
+                        type = TileBase.TileType.STORAGE;
+                    else if (ii == width - 4)
+                        type = TileBase.TileType.NEST;
+                        
                 }
-                else
-                {
-                    CreateNewTile(ii, jj, TileBase.TileType.FILLED);
-                }
+
+                CreateNewTile(ii, jj, type);
+
             }
         }
+
+        hutTile = tiles[width - 2, 0] as Hut;
         		
 	}
 	
