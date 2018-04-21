@@ -14,7 +14,10 @@ abstract public class TileBase : MonoBehaviour {
         STORAGE = 3,
         HATCHERY = 4,
         NEST = 5,
-        TAILOR = 6
+        TAILOR = 6,
+        TRAP = 7,
+        FARM = 8,
+        TVROOM = 9
     }
 
     public abstract TileType Type();

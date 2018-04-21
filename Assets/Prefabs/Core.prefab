@@ -2678,10 +2678,13 @@ MonoBehaviour:
   - {fileID: 114500621637726544, guid: 8d330119f532fa74a98ed9650a9db096, type: 2}
   - {fileID: 114040370595614146, guid: 8615dcc90c136dd4b867fee18b0c876f, type: 2}
   - {fileID: 114634534490276040, guid: 76d384f0ae0f9334e98e8f7a663dd887, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 114209329805174970, guid: 5856cb6ea974fb24b8e37242b5de0c70, type: 2}
+  - {fileID: 114001789644401746, guid: 617fd98e208fb024984faaf21205ee80, type: 2}
+  - {fileID: 114348493131379720, guid: 0653931f7b209fb4ca1f47e67ce5e8fb, type: 2}
   hutTile: {fileID: 0}
+  lizardPrefab: {fileID: 114301004083443652, guid: 66097e9de9be50f49917513d4fd64b4b,
+    type: 2}
+  lizards: []
 --- !u!114 &114877245867344290
 MonoBehaviour:
   m_ObjectHideFlags: 1
