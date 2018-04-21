@@ -225,29 +225,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 224704612796856520, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224704612796856520, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114954758345443334, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-        type: 2}
-      propertyPath: toolbarGroup
-      value: 
-      objectReference: {fileID: 555676448}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b95fb354e438f4b8c82020a7dba1a0, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &555676448 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1492371060570874, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-    type: 2}
-  m_PrefabInternal: {fileID: 555676447}
 --- !u!1 &585768955
 GameObject:
   m_ObjectHideFlags: 0
