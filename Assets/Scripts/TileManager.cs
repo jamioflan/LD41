@@ -185,6 +185,8 @@ public class TileManager : MonoBehaviour {
             if (!doLoop)
                 break;
             // Now look at the first 'open' point
+            if (open.Count == 0)
+                return null;
             var nextKey = open.Keys.GetEnumerator().Current;
             // Add 'current' to closed, remove this one from 'open' and set it to be 'current'
             closed.Add(current.ClosedKey(), current);
