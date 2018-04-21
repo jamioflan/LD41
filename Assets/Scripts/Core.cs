@@ -15,7 +15,10 @@ public class Core : MonoBehaviour
 		END_GAME_MENU,
 	}
 
-	public float fGameTimeScale = 0.0f;
+	public GameObject mainMenu;
+	public GameObject pauseMenu;
+	public GameObject HUD;
+	public GameObject endGameMenu;
 
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
@@ -28,7 +31,12 @@ public class Core : MonoBehaviour
 
 	void Enter_StartMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (mainMenu != null)
+		{
+			mainMenu.SetActive(true);
+		}
 	}
 
 	void Update_StartMenu()
@@ -38,12 +46,20 @@ public class Core : MonoBehaviour
 
 	void Exit_StartMenu()
 	{
-
+		if (mainMenu != null)
+		{
+			mainMenu.SetActive(false);
+		}
 	}
 
 	void Enter_InGame()
 	{
-		fGameTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
+
+		if (HUD != null)
+		{
+			HUD.SetActive(true);
+		}
 	}
 
 	void Update_InGame()
@@ -53,12 +69,20 @@ public class Core : MonoBehaviour
 
 	void Exit_InGame()
 	{
-
+		if (HUD != null)
+		{
+			HUD.SetActive(true);
+		}
 	}
 
 	void Enter_PauseMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (pauseMenu != null)
+		{
+			pauseMenu.SetActive(true);
+		}
 	}
 
 	void Update_PauseMenu()
@@ -68,12 +92,20 @@ public class Core : MonoBehaviour
 
 	void Exit_PauseMenu()
 	{
-
+		if (pauseMenu != null)
+		{
+			pauseMenu.SetActive(false);
+		}
 	}
 
 	void Enter_EndGameMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (endGameMenu != null)
+		{
+			endGameMenu.SetActive(true);
+		}
 	}
 
 	void Update_EndGameMenu()
@@ -83,7 +115,10 @@ public class Core : MonoBehaviour
 
 	void Exit_EndGameMenu()
 	{
-
+		if (endGameMenu != null)
+		{
+			endGameMenu.SetActive(false);
+		}
 	}
 
 	// Use this for initialization
