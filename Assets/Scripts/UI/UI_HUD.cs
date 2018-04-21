@@ -34,10 +34,41 @@ public class UI_HUD : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		// Update the human suspicion amount
 		if (humanSuspicionMeter != null)
 		{
-			// Set human suspicion amount
 			humanSuspicionMeter.value = 0.1f; // TODO: Get value!
+		}
+
+		if( isBuildingAThing || isFillingInATile || isMarkingATileAsPriority )
+		{
+			if( Input.GetAxis("Fire1") > 0.0f )
+			{
+				// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
+				// If none was clicked on, cancel the action and open the toolbar again. If one was
+				// clicked on, perform the required action for that tile (and open the toolbar again!).
+
+
+				// Return everything to the default state
+				isBuildingAThing = false;
+				isFillingInATile = false;
+				isMarkingATileAsPriority = false;
+
+				if (toolbarGroup != null)
+				{
+					toolbarGroup.SetActive(true);
+				}
+
+				if (buildOptionsGroup != null)
+				{
+					buildOptionsGroup.SetActive(false);
+				}
+			}
+			else
+			{
+				// Maybe render an image to show the tile you're hovering over. Could be different image
+				// per action/thing to build.
+			}
 		}
 	}
 
@@ -57,7 +88,14 @@ public class UI_HUD : MonoBehaviour
 			buildOptionsGroup.SetActive(false);
 		}
 
-		// Tell something somewhere that the next click needs to do a filling in
+		// Hide the toolbar
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(false);
+		}
+
+		// Note down that the next click needs to do a thing
+		isFillingInATile = true;
 	}
 
 	public void MarkSomethingAsPriority()
@@ -94,9 +132,7 @@ public class UI_HUD : MonoBehaviour
 		// Note down that the next click needs to do a thing
 		isBuildingAThing = true;
 
-		// Get the thing corresponding to this index
+		// Store which thing we'll be building
 		thingToBuild = (BUILD_ITEM)iThingIndex;
-
-		// Build the thing whenever the user next clicks on a tile (render mouse over image would be nice)
 	}
 }

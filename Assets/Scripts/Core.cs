@@ -158,7 +158,7 @@ public class Core : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		bIsEscPressed = ( Input.GetAxisRaw("Cancel") > 0 );
+		bIsEscPressed = ( Input.GetAxisRaw("Cancel") > 0.0f );
 
 		if( eRequestedState != eCurrentState )
 		{

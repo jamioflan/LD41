@@ -371,6 +371,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1492371060570874
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224339141686081286}
+  m_Layer: 5
+  m_Name: ToolbarGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1492744884846194
 GameObject:
   m_ObjectHideFlags: 1
@@ -2384,7 +2399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humanSuspicionMeter: {fileID: 114877245867344290}
-  toolbarGroup: {fileID: 0}
+  toolbarGroup: {fileID: 1492371060570874}
   buildOptionsGroup: {fileID: 1850632388673446}
 --- !u!114 &114964169774674996
 MonoBehaviour:
@@ -2752,12 +2767,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224526322726106764}
-  m_Father: {fileID: 224940166548455660}
+  m_Father: {fileID: 224339141686081286}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1615, y: -210}
+  m_AnchoredPosition: {x: 4.5, y: -210}
   m_SizeDelta: {x: 210, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224080918750005762
@@ -2908,12 +2923,33 @@ RectTransform:
   - {fileID: 224433874962363504}
   - {fileID: 224080918750005762}
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1315, y: 210}
   m_SizeDelta: {x: 210, y: 630}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224339141686081286
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492371060570874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224554447473881092}
+  - {fileID: 224810767606342062}
+  - {fileID: 224043928560100586}
+  m_Father: {fileID: 224940166548455660}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1619.5, y: 0}
+  m_SizeDelta: {x: 201.1, y: 630}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224346582921400708
 RectTransform:
@@ -2986,7 +3022,7 @@ RectTransform:
   - {fileID: 224218513233162694}
   - {fileID: 224787701439040548}
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -3095,12 +3131,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224479752411420490}
-  m_Father: {fileID: 224940166548455660}
+  m_Father: {fileID: 224339141686081286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1615, y: 210}
+  m_AnchoredPosition: {x: 4.5, y: 210}
   m_SizeDelta: {x: 210, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224581882327404802
@@ -3283,12 +3319,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224490398309912462}
-  m_Father: {fileID: 224940166548455660}
+  m_Father: {fileID: 224339141686081286}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1615, y: 0}
+  m_AnchoredPosition: {x: 4.5, y: 0}
   m_SizeDelta: {x: 210, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224868690802333222
@@ -3394,9 +3430,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 224554447473881092}
-  - {fileID: 224810767606342062}
-  - {fileID: 224043928560100586}
+  - {fileID: 224339141686081286}
   - {fileID: 224277678079681520}
   - {fileID: 224430213058889904}
   m_Father: {fileID: 224693962077548224}
