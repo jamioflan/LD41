@@ -7,7 +7,7 @@ public class Lizard : Entity {
     public enum State
     {
         IDLE,
-        MOVING
+        TRAVELLING_TO_TASK,
     }
 
     public State state;
