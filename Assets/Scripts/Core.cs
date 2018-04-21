@@ -23,6 +23,9 @@ public class Core : MonoBehaviour
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
 
+	bool bWasEscPressed = false;
+	bool bIsEscPressed = false;
+
 	public void RequestState( CORE_STATE eState ) { eRequestedState = eState; }
 
 	void Enter_Void() {}
@@ -64,14 +67,17 @@ public class Core : MonoBehaviour
 
 	void Update_InGame()
 	{
-
+		if( !bWasEscPressed && bIsEscPressed )
+		{
+			RequestState(CORE_STATE.PAUSE_MENU);
+		}
 	}
 
 	void Exit_InGame()
 	{
 		if (HUD != null)
 		{
-			HUD.SetActive(true);
+			HUD.SetActive(false);
 		}
 	}
 
@@ -87,7 +93,10 @@ public class Core : MonoBehaviour
 
 	void Update_PauseMenu()
 	{
-
+		if (!bWasEscPressed && bIsEscPressed)
+		{
+			RequestState(CORE_STATE.IN_GAME);
+		}
 	}
 
 	void Exit_PauseMenu()
@@ -131,6 +140,8 @@ public class Core : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+		bIsEscPressed = ( Input.GetAxisRaw("Cancel") > 0 );
+
 		if( eRequestedState != eCurrentState )
 		{
 			switch( eCurrentState )
@@ -234,5 +245,7 @@ public class Core : MonoBehaviour
 				break;
 			}
 		}
+
+		bWasEscPressed = bIsEscPressed;
 	}
 }
