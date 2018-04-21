@@ -19,7 +19,8 @@ public class DrillTruck : Entity
     public Anim unloadAnim, drillAnim;
     public float fDrillProgress = 0.0f;
 
-    public Transform drillPlansPrefab, drillPlansEndPrefab, drillBitPrefab, drillBitEndPrefab;
+    public Transform drillPlansPrefab, drillPlansEndPrefab, drillBitEndPrefab;
+    public SpriteRenderer drillBitPrefab;
 
     public SpriteRenderer topDrill;
     public List<SpriteRenderer> drills;
@@ -47,7 +48,7 @@ public class DrillTruck : Entity
                 {
                     transform.localPosition = new Vector3(iTargetX + 0.45f, 0.75f, -3.0f);
                     SetAnim(unloadAnim);
-                    fTimeUntilNextPhase = 10.0f;
+                    fTimeUntilNextPhase = 1.0f;
                     phase = Phase.UNLOAD;
                 }
                 break;
@@ -65,16 +66,16 @@ public class DrillTruck : Entity
                     {
                         Transform plans = Instantiate<Transform>(drillPlansPrefab);
                         plans.SetParent(transform);
-                        plans.localPosition = new Vector3(0.05f, -1.03125f - i, 0.0f);
+                        plans.localPosition = new Vector3(0.05f, -1.03125f - i, 0.2f);
                     }
 
                     Transform end = Instantiate<Transform>(drillPlansEndPrefab);
                     end.SetParent(transform);
-                    end.localPosition = new Vector3(0.05f, -1.03125f - iTargetDepth, 0.0f);
+                    end.localPosition = new Vector3(0.05f, -1.03125f - iTargetDepth, 0.2f);
 
-                    drillBit = Instantiate<Transform>(drillBitPrefab);
+                    drillBit = Instantiate<Transform>(drillBitEndPrefab);
                     drillBit.SetParent(transform);
-                    drillBit.localPosition = new Vector3(0.05f, -0.625f, -0.1f);
+                    drillBit.localPosition = new Vector3(0.05f, -0.625f, 0.1f);
 
 
                 }
@@ -85,6 +86,20 @@ public class DrillTruck : Entity
                 fDrillProgress += fDrillSpeed * Time.deltaTime;
 
                 int iDrillProgress = Mathf.FloorToInt(fDrillProgress);
+                float fRemainder = fDrillProgress - iDrillProgress;
+                if (iDrillProgress >= drills.Count)
+                {
+                    drills.Add(Instantiate<SpriteRenderer>(drillBitPrefab));
+                    topDrill = drills[drills.Count - 1];
+                    topDrill.transform.SetParent(transform);
+                }
+
+                for(int i = 0; i < drills.Count; i++)
+                {
+                    drills[i].transform.localPosition = new Vector3(0.05f, -0.03125f - i - fRemainder, 0.1f);
+                }
+
+                drillBit.localPosition = new Vector3(0.05f, -0.625f - fDrillProgress, 0.1f);
 
                 break;
         }

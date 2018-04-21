@@ -318,6 +318,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1332216953010506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4175150307674786}
+  - component: {fileID: 114015556610490142}
+  m_Layer: 0
+  m_Name: HumanSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1348420968381108
 GameObject:
   m_ObjectHideFlags: 1
@@ -833,6 +849,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4175150307674786
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332216953010506}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4968731508223724}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4968731508223724
 Transform:
   m_ObjectHideFlags: 1
@@ -845,6 +874,7 @@ Transform:
   m_Children:
   - {fileID: 224693962077548224}
   - {fileID: 4996855910495516}
+  - {fileID: 4175150307674786}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -861,6 +891,25 @@ Transform:
   m_Father: {fileID: 4968731508223724}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114015556610490142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332216953010506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7edeefef7830c384aa605b09b1464f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  humanPrefabs:
+  - {fileID: 114139968517542462, guid: dc7ed9239062e7d42801d77b6792436c, type: 2}
+  - {fileID: 114139968517542462, guid: 7e6032c7e8c516941a02e4322f83dbad, type: 2}
+  - {fileID: 114139968517542462, guid: b83c56a3fe25c7f4b9fd88b76ebcb37b, type: 2}
+  fTimeToNextHuman: 0
+  drillTruckPrefab: {fileID: 114195534909214186, guid: 17917b3558c53bc4e933da4735d0b1ab,
+    type: 2}
+  fTimeToNextDrillTruck: 0
 --- !u!114 &114028627084113048
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -76,17 +76,22 @@ MonoBehaviour:
   iTargetX: 0
   iTargetDepth: 0
   fSpeed: 3
+  fDrillSpeed: 0.1
   fTimeUntilNextPhase: 0
   unloadAnim: {fileID: 114625050364409458}
   drillAnim: {fileID: 114578811983880080}
+  fDrillProgress: 0
   drillPlansPrefab: {fileID: 4021675152987578, guid: 91f093bb4d3344e4ea88133c692abdef,
     type: 2}
   drillPlansEndPrefab: {fileID: 4255580904996768, guid: 3eb7a536028cbb445ac3700e474bdf1d,
     type: 2}
-  drillBitPrefab: {fileID: 4730776117284630, guid: d92c2e00fccadaf41b357280475e7b4f,
-    type: 2}
   drillBitEndPrefab: {fileID: 4906070118886686, guid: ad40d6351e2b3224791e214ddcb1b820,
     type: 2}
+  drillBitPrefab: {fileID: 212097535648929312, guid: d92c2e00fccadaf41b357280475e7b4f,
+    type: 2}
+  topDrill: {fileID: 0}
+  drills: []
+  drillBit: {fileID: 0}
 --- !u!114 &114578811983880080
 MonoBehaviour:
   m_ObjectHideFlags: 1
