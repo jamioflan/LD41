@@ -20,6 +20,10 @@ public class DrillTruck : Entity
 
     public Transform drillPlansPrefab, drillPlansEndPrefab, drillBitPrefab, drillBitEndPrefab;
 
+    public SpriteRenderer topDrill;
+    public List<SpriteRenderer> drills;
+    public Transform drillBit;
+
     // Use this for initialization
     public override void Start ()
     {
@@ -66,6 +70,8 @@ public class DrillTruck : Entity
                     Transform end = Instantiate<Transform>(drillPlansEndPrefab);
                     end.SetParent(transform);
                     end.localPosition = new Vector3(0.05f, -1.03125f - iTargetDepth, 0.0f);
+
+                    //drillBit = Instantiate<Transform>()
                 }
                 break;
             case Phase.DRILL:
