@@ -82,7 +82,7 @@ public class TileManager : MonoBehaviour {
                         
                 }
 
-                CreateNewTile(ii, jj, type);
+                RequestNewTile(ii, jj, type);
 
             }
         }
@@ -116,7 +116,7 @@ public class TileManager : MonoBehaviour {
     }
 
     // Create a new tile
-    public TileBase CreateNewTile(int x, int y, TileBase.TileType type)
+    public TileBase RequestNewTile(int x, int y, TileBase.TileType type)
     {
         if (tiles[x, y] != null)
         {

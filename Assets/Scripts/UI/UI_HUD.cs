@@ -72,7 +72,7 @@ public class UI_HUD : MonoBehaviour
 								if( targetTile != null )
 								{
 									TileBase.TileType eTileType = GetTileTypeToBuild();
-									theTileManager.CreateNewTile( targetTile.x, targetTile.y, eTileType);
+									theTileManager.RequestNewTile( targetTile.x, targetTile.y, eTileType);
 								}
 							}
 						}
@@ -90,7 +90,7 @@ public class UI_HUD : MonoBehaviour
 								if (targetTile != null)
 								{
 									TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-									theTileManager.CreateNewTile(targetTile.x, targetTile.y, eTileType);
+									theTileManager.RequestNewTile(targetTile.x, targetTile.y, eTileType);
 								}
 							}
 						}
@@ -108,7 +108,7 @@ public class UI_HUD : MonoBehaviour
 								if (targetTile != null)
 								{
 									TileBase.TileType eTileType = TileBase.TileType.FILLED;
-									theTileManager.CreateNewTile(targetTile.x, targetTile.y, eTileType);
+									theTileManager.RequestNewTile(targetTile.x, targetTile.y, eTileType);
 								}
 							}
 						}
