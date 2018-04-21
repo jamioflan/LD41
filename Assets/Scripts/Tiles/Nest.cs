@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Nest : TileBase {
 
+    public override TileBase.TileType Type()
+    {
+        return TileBase.TileType.NEST;
+    }
+
 	// Use this for initialization
 	void Start () {
 		

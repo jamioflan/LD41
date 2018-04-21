@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Empty : TileBase {
 
+    public override TileBase.TileType Type()
+    {
+        return TileBase.TileType.EMPTY;
+    }
+
 	// Use this for initialization
 	void Start () {
 		

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Hatchery : TileBase {
 
+    public override TileBase.TileType Type()
+    {
+        return TileBase.TileType.HATCHERY;
+    }
+
 	// Use this for initialization
 	void Start () {
 		
