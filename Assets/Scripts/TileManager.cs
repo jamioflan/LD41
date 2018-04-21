@@ -81,7 +81,7 @@ public class TileManager : MonoBehaviour {
                 }
                 else
                 {
-                    CreateNewTile(ii, jj, TileBase.TileType.EMPTY);
+                    CreateNewTile(ii, jj, TileBase.TileType.FILLED);
                 }
             }
         }

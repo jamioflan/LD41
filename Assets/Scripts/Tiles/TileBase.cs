@@ -17,6 +17,8 @@ abstract public class TileBase : MonoBehaviour {
         TAILOR = 6
     }
 
+    public abstract TileType Type();
+
     virtual public bool IsPassable()
     {
         return true;
