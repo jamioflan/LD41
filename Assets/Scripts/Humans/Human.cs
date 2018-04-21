@@ -14,5 +14,8 @@ public class Human : Entity
 
 
         transform.localPosition += new Vector3(Time.deltaTime * fSpeed * (bFlip ? -1.0f : 1.0f), 0.0f, 0.0f);
+
+        if (transform.position.x > 12.0f || transform.position.x < -12.0f)
+            Destroy(gameObject);
     }
 }

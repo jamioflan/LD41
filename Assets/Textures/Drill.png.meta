@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: a1b927431d9cbea4ca7331316eea8cab
-timeCreated: 1524317928
+guid: 04dcb888fac044d489969b8cd998f624
+timeCreated: 1524323836
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Truck_0
-    21300002: Truck_1
-    21300004: Truck_2
-    21300006: Truck_3
+    21300000: Drill_0
+    21300002: Drill_1
+    21300004: Drill_2
+    21300006: Drill_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -95,35 +95,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Truck_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Truck_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Truck_2
+      name: Drill_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,10 +109,38 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Truck_3
+      name: Drill_1
       rect:
         serializedVersion: 2
         x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Drill_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Drill_3
+      rect:
+        serializedVersion: 2
+        x: 96
         y: 0
         width: 32
         height: 32
