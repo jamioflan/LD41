@@ -59,6 +59,10 @@ public class TileManager : MonoBehaviour {
     public TileBase[,] tiles = new TileBase[width, depth];
     public Hut hutTile;
 
+    public Lizard lizardPrefab;
+    public List<Lizard> lizards;
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -92,10 +96,24 @@ public class TileManager : MonoBehaviour {
 		
 	}
 
-	public void Reset()
+
+    public Lizard CreateLizard(int x, int y)
+    {
+        var lizard = Instantiate<Lizard>(lizardPrefab);
+        TileBase tile = tiles[x, y];
+        lizard.transform.position = tile.transform.position + new Vector3(0.0f, 0.05f, -1.0f);
+        lizards.Add(lizard);
+        return lizard;
+    }
+
+
+    public void Reset()
 	{
-		Start();
-	}
+        while (lizards.Count != 0)
+            lizards[0].Destroy();
+        CreateLizard(hutTile.x, hutTile.y);
+
+    }
 
     // Create a new tile
     public TileBase CreateNewTile(int x, int y, TileBase.TileType type)

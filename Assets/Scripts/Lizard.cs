@@ -22,6 +22,15 @@ public class Lizard : Entity {
 
     float fSpeed = 1.0f;
 
+
+
+    public void Destroy()
+    {
+        int idx = mgr.lizards.IndexOf(this);
+        mgr.lizards.RemoveAt(idx);
+        Destroy(gameObject);
+    }
+
 	// Use this for initialization
 	public override void Start () {
         base.Start();
@@ -30,15 +39,16 @@ public class Lizard : Entity {
 	
 	// Update is called once per frame
 	public override void Update () {
-        base.Update();
-		if (target != null)
+        //base.Update();
+        if (target != null)
         {
-            
-            transform.localPosition += Mathf.Max(Time.deltaTime * fSpeed, (target.position - transform.position).magnitude) * (target.position - transform.position).normalized;
-        }
-        if ( (target.position - transform.position).magnitude < 0.05f)
-        {
-            target = null;
+            var targetPosition = target.position - new Vector3(0.0f, 0.0f, 1.0f);
+            transform.localPosition += Mathf.Max(Time.deltaTime * fSpeed, (targetPosition - transform.position).magnitude) * (targetPosition - transform.position).normalized;
+
+            if ((targetPosition - transform.position).magnitude < 0.01f)
+            {
+                target = null;
+            }
         }
         switch(state)
         {
