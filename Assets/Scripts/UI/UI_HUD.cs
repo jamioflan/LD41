@@ -11,8 +11,11 @@ public class UI_HUD : MonoBehaviour
 
 	public enum BUILD_ITEM
 	{
-		CORRIDOR_HORIZONTAL,
-		CORRIDOR_VERTICAL,
+		HUT,
+		STORAGE,
+		HATCHERY,
+		NEST,
+		TAILOR,
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
@@ -65,9 +68,7 @@ public class UI_HUD : MonoBehaviour
 								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
 								if( targetTile != null )
 								{
-									// For testing, just build storage for now. Should use thingToBuild!
-									TileBase.TileType eTileType = TileBase.TileType.STORAGE;
-
+									TileBase.TileType eTileType = GetTileTypeToBuild();
 									theTileManager.CreateNewTile( targetTile.x, targetTile.y, eTileType);
 								}
 							}
@@ -183,5 +184,36 @@ public class UI_HUD : MonoBehaviour
 
 		// Store which thing we'll be building
 		thingToBuild = (BUILD_ITEM)iThingIndex;
+	}
+
+	TileBase.TileType GetTileTypeToBuild()
+	{
+		switch( thingToBuild )
+		{
+			case BUILD_ITEM.HUT:
+			{
+				return TileBase.TileType.HUT;
+			}
+			case BUILD_ITEM.STORAGE:
+			{
+				return TileBase.TileType.STORAGE;
+			}
+			case BUILD_ITEM.HATCHERY:
+			{
+				return TileBase.TileType.HATCHERY;
+			}
+			case BUILD_ITEM.NEST:
+			{
+				return TileBase.TileType.NEST;
+			}
+			case BUILD_ITEM.TAILOR:
+			{
+				return TileBase.TileType.TAILOR;
+			}
+			default:
+			{
+				return TileBase.TileType.FILLED;
+			}
+		}
 	}
 }
