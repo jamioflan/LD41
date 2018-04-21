@@ -58,11 +58,39 @@ public class UI_HUD : MonoBehaviour
 						if( hit.collider.gameObject.name == "Empty(Clone)" )
 						{
 							Debug.Log("Building a thing!");
+
+							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
+							if( theTileManager != null )
+							{
+								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+								if( targetTile != null )
+								{
+									// For testing, just build storage for now. Should use thingToBuild!
+									TileBase.TileType eTileType = TileBase.TileType.STORAGE;
+
+									theTileManager.CreateNewTile( targetTile.x, targetTile.y, eTileType);
+								}
+							}
 						}
 					}
 					else if( isFillingInATile )
 					{
-						Debug.Log("Filling in a tile!");
+						if (hit.collider.gameObject.name == "Storage(Clone)")
+						{
+							Debug.Log("Filling in a tile!");
+
+							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
+							if (theTileManager != null)
+							{
+								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+								if (targetTile != null)
+								{
+									TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+
+									theTileManager.CreateNewTile(targetTile.x, targetTile.y, eTileType);
+								}
+							}
+						}
 					}
 					else if( isMarkingATileAsPriority )
 					{
