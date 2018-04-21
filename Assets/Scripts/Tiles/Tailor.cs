@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Empty : TileBase {
+public class Tailor : TileBase {
 
 	// Use this for initialization
 	void Start () {

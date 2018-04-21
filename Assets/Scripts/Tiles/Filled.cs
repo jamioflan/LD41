@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Empty : TileBase {
-
+public class Filled : TileBase {
+    
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +13,9 @@ public class Empty : TileBase {
 	void Update () {
 		
 	}
+
+    override public bool IsPassable()
+    {
+        return false;
+    }
 }
