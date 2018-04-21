@@ -34,9 +34,9 @@ public class Lizard : Entity {
 		if (target != null)
         {
             
-            transform.localPosition += Math.Max(Time.deltaTime * fSpeed, (target.position - transform.position).Magnitude) * (target.position - transform.position).Direction;
+            transform.localPosition += Mathf.Max(Time.deltaTime * fSpeed, (target.position - transform.position).magnitude) * (target.position - transform.position).normalized;
         }
-        if ( (target.position - transform.position).Magnitude < 0.05f)
+        if ( (target.position - transform.position).magnitude < 0.05f)
         {
             target = null;
         }
@@ -46,14 +46,14 @@ public class Lizard : Entity {
                 // TODO - random movement
                 break;
             case State.MOVING:
-                if (currentPath.Size == 0)
+                if (currentPath.Count == 0)           
                 {
                     state = State.IDLE;
                     break;
                 } 
                 var next = currentPath[0];
                 currentPath.RemoveAt(0);
-                target = mgr.tiles[next.Key, next.Value].transform.position;
+                target = mgr.tiles[next.Key, next.Value].transform;
                 break;
         }
 
