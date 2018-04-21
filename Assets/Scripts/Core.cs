@@ -15,12 +15,28 @@ public class Core : MonoBehaviour
 		END_GAME_MENU,
 	}
 
-	public float fGameTimeScale = 0.0f;
+	public GameObject mainMenu;
+	public GameObject pauseMenu;
+	public GameObject HUD;
+	public GameObject endGameMenu;
 
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
 
-	public void RequestState( CORE_STATE eState ) { eRequestedState = eState; }
+	bool bWasEscPressed = false;
+	bool bIsEscPressed = false;
+
+	bool bIsSuccess = false;
+
+	public void RequestState(CORE_STATE eState) { eRequestedState = eState; }
+
+	public void SetIsSuccess(bool bSuccess) { bIsSuccess = bSuccess; }
+
+	void Reset()
+	{
+		// Logic to perform on resetting the game (called in Enter_StartMenu)
+		bIsSuccess = false;
+	}
 
 	void Enter_Void() {}
 	void Update_Void() {}
@@ -28,7 +44,14 @@ public class Core : MonoBehaviour
 
 	void Enter_StartMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (mainMenu != null)
+		{
+			mainMenu.SetActive(true);
+		}
+
+		Reset();
 	}
 
 	void Update_StartMenu()
@@ -38,42 +61,78 @@ public class Core : MonoBehaviour
 
 	void Exit_StartMenu()
 	{
-
+		if (mainMenu != null)
+		{
+			mainMenu.SetActive(false);
+		}
 	}
 
 	void Enter_InGame()
 	{
-		fGameTimeScale = 1.0f;
+		Time.timeScale = 1.0f;
+
+		if (HUD != null)
+		{
+			HUD.SetActive(true);
+		}
 	}
 
 	void Update_InGame()
 	{
-
+		if( !bWasEscPressed && bIsEscPressed )
+		{
+			RequestState(CORE_STATE.PAUSE_MENU);
+		}
 	}
 
 	void Exit_InGame()
 	{
-
+		if (HUD != null)
+		{
+			HUD.SetActive(false);
+		}
 	}
 
 	void Enter_PauseMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (pauseMenu != null)
+		{
+			pauseMenu.SetActive(true);
+		}
 	}
 
 	void Update_PauseMenu()
 	{
-
+		if (!bWasEscPressed && bIsEscPressed)
+		{
+			RequestState(CORE_STATE.IN_GAME);
+		}
 	}
 
 	void Exit_PauseMenu()
 	{
-
+		if (pauseMenu != null)
+		{
+			pauseMenu.SetActive(false);
+		}
 	}
 
 	void Enter_EndGameMenu()
 	{
-		fGameTimeScale = 0.0f;
+		Time.timeScale = 0.0f;
+
+		if (endGameMenu != null)
+		{
+			endGameMenu.SetActive(true);
+
+			UI_EndGameMenu menuClass = endGameMenu.GetComponent<UI_EndGameMenu>();
+			if( menuClass != null )
+			{
+				menuClass.SetSuccessFailText(bIsSuccess);
+			}
+		}
 	}
 
 	void Update_EndGameMenu()
@@ -83,18 +142,24 @@ public class Core : MonoBehaviour
 
 	void Exit_EndGameMenu()
 	{
-
+		if (endGameMenu != null)
+		{
+			endGameMenu.SetActive(false);
+		}
 	}
 
 	// Use this for initialization
 	void Start ()
     {
 		theCore = this;
+		RequestState(CORE_STATE.START_MENU);
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+		bIsEscPressed = ( Input.GetAxisRaw("Cancel") > 0.0f );
+
 		if( eRequestedState != eCurrentState )
 		{
 			switch( eCurrentState )
@@ -198,5 +263,7 @@ public class Core : MonoBehaviour
 				break;
 			}
 		}
+
+		bWasEscPressed = bIsEscPressed;
 	}
 }
