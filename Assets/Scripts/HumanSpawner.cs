@@ -33,7 +33,7 @@ public class HumanSpawner : MonoBehaviour
 
         if (fTimeToNextDrillTruck <= 0.0f)
         {
-            fTimeToNextDrillTruck = Random.Range(5f, 10.0f);
+            fTimeToNextDrillTruck = Random.Range(20f, 30.0f);
             DrillTruck human = Instantiate<DrillTruck>(drillTruckPrefab);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;

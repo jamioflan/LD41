@@ -48,7 +48,7 @@ public class DrillTruck : Entity
                 {
                     transform.localPosition = new Vector3(iTargetX + 0.45f, 0.75f, -3.0f);
                     SetAnim(unloadAnim);
-                    fTimeUntilNextPhase = 1.0f;
+                    fTimeUntilNextPhase = 5.0f;
                     phase = Phase.UNLOAD;
                 }
                 break;
