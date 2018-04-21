@@ -29,7 +29,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public virtual void Destroy()
     {
-
+		Destroy(gameObject);
     }
 
 
