@@ -193,6 +193,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114274908964571808, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: tasks.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4968731508223724, guid: c8b95fb354e438f4b8c82020a7dba1a0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -345,6 +350,26 @@ Prefab:
       value: 
       objectReference: {fileID: 12800000, guid: 7a91f9aaa44ac3a428044b1535092ec7,
         type: 3}
+    - target: {fileID: 114274908964571808, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: tasks.Array.data[0].name
+      value: Breeding
+      objectReference: {fileID: 0}
+    - target: {fileID: 114274908964571808, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: tasks.Array.data[1].name
+      value: Farming
+      objectReference: {fileID: 0}
+    - target: {fileID: 114274908964571808, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: tasks.Array.data[2].name
+      value: Tailoring
+      objectReference: {fileID: 0}
+    - target: {fileID: 114274908964571808, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: tasks.Array.data[3].name
+      value: Building, digging, filling, moving resources
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b95fb354e438f4b8c82020a7dba1a0, type: 2}
   m_IsPrefabParent: 0
