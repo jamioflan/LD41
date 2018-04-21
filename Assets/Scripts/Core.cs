@@ -26,7 +26,17 @@ public class Core : MonoBehaviour
 	bool bWasEscPressed = false;
 	bool bIsEscPressed = false;
 
-	public void RequestState( CORE_STATE eState ) { eRequestedState = eState; }
+	bool bIsSuccess = false;
+
+	public void RequestState(CORE_STATE eState) { eRequestedState = eState; }
+
+	public void SetIsSuccess(bool bSuccess) { bIsSuccess = bSuccess; }
+
+	void Reset()
+	{
+		// Logic to perform on resetting the game (called in Enter_StartMenu)
+		bIsSuccess = false;
+	}
 
 	void Enter_Void() {}
 	void Update_Void() {}
@@ -40,6 +50,8 @@ public class Core : MonoBehaviour
 		{
 			mainMenu.SetActive(true);
 		}
+
+		Reset();
 	}
 
 	void Update_StartMenu()
@@ -114,6 +126,12 @@ public class Core : MonoBehaviour
 		if (endGameMenu != null)
 		{
 			endGameMenu.SetActive(true);
+
+			UI_EndGameMenu menuClass = endGameMenu.GetComponent<UI_EndGameMenu>();
+			if( menuClass != null )
+			{
+				menuClass.SetSuccessFailText(bIsSuccess);
+			}
 		}
 	}
 

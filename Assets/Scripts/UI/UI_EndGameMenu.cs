@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_EndGameMenu : MonoBehaviour
 {
+	public Text successFailText;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -14,6 +17,14 @@ public class UI_EndGameMenu : MonoBehaviour
 	void Update ()
 	{
 		
+	}
+
+	public void SetSuccessFailText( bool bIsSuccess )
+	{
+		if( successFailText != null )
+		{
+			successFailText.text = bIsSuccess ? "Congratulations!" : "Too bad!";
+		}
 	}
 
 	public void ExitToMain_OnClick()
