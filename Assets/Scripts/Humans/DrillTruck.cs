@@ -13,10 +13,11 @@ public class DrillTruck : Entity
 
     public int iTargetX = 0;
     public int iTargetDepth = 0;
-    public float fSpeed = 1.0f;
+    public float fSpeed = 1.0f, fDrillSpeed = 0.1f;
     private Phase phase = Phase.MOVE;
     public float fTimeUntilNextPhase = 0.0f;
     public Anim unloadAnim, drillAnim;
+    public float fDrillProgress = 0.0f;
 
     public Transform drillPlansPrefab, drillPlansEndPrefab, drillBitPrefab, drillBitEndPrefab;
 
@@ -71,12 +72,20 @@ public class DrillTruck : Entity
                     end.SetParent(transform);
                     end.localPosition = new Vector3(0.05f, -1.03125f - iTargetDepth, 0.0f);
 
-                    //drillBit = Instantiate<Transform>()
+                    drillBit = Instantiate<Transform>(drillBitPrefab);
+                    drillBit.SetParent(transform);
+                    drillBit.localPosition = new Vector3(0.05f, -0.625f, -0.1f);
+
+
                 }
                 break;
             case Phase.DRILL:
 
                 // Do some drilling
+                fDrillProgress += fDrillSpeed * Time.deltaTime;
+
+                int iDrillProgress = Mathf.FloorToInt(fDrillProgress);
+
                 break;
         }
 		
