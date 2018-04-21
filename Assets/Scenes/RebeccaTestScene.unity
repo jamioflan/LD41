@@ -152,18 +152,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114825722218191678, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenTheShopOptions
-      objectReference: {fileID: 0}
-    - target: {fileID: 114199829648489464, guid: c8b95fb354e438f4b8c82020a7dba1a0,
-        type: 2}
-      propertyPath: m_Text
-      value: 'Dig, build, expand. But don''t let the humans find you!
-
-        You win if you get 10 lizards disguised as humans above surface.'
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b95fb354e438f4b8c82020a7dba1a0, type: 2}
   m_IsPrefabParent: 0
