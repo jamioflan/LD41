@@ -41,6 +41,12 @@ public class Core : MonoBehaviour
 		{
 			Player.thePlayer.Reset();
 		}
+
+		TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
+		if (theTileManager != null)
+		{
+			theTileManager.Reset();
+		}
 	}
 
 	void Enter_Void() {}

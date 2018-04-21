@@ -92,6 +92,11 @@ public class TileManager : MonoBehaviour {
 		
 	}
 
+	public void Reset()
+	{
+		Start();
+	}
+
     // Create a new tile
     public TileBase CreateNewTile(int x, int y, TileBase.TileType type)
     {
