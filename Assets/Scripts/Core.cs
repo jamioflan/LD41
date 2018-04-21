@@ -125,6 +125,7 @@ public class Core : MonoBehaviour
 	void Start ()
     {
 		theCore = this;
+		RequestState(CORE_STATE.START_MENU);
 	}
 	
 	// Update is called once per frame

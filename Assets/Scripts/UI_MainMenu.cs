@@ -16,7 +16,7 @@ public class UI_MainMenu : MonoBehaviour
 		
 	}
 
-	public void Start_OnClick()
+	void Start_OnClick()
 	{
 		if (Core.theCore != null)
 		{
