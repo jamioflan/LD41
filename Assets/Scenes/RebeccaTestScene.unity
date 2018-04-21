@@ -343,6 +343,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 188273426}
+  - component: {fileID: 188273427}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -373,6 +374,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.00012207}
   m_SizeDelta: {x: 3440, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &188273427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188273425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651e8d5ac6e34284bb4880cb5221b1dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &466545769
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,6 +794,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 644032219}
+  - component: {fileID: 644032220}
   m_Layer: 5
   m_Name: EndGameMenu
   m_TagString: Untagged
@@ -810,6 +823,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.000061035}
   m_SizeDelta: {x: 3440, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &644032220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 644032218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b15b6277f93c294bac8acacd4de12b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &695906657
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,6 +2791,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1624303950}
+  - component: {fileID: 1624303951}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -2796,6 +2821,17 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 3440, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1624303951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1624303949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b43e544edf84642b3fc72818c5499a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1757849192
 GameObject:
   m_ObjectHideFlags: 0
@@ -3063,6 +3099,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1860071559}
+  - component: {fileID: 1860071560}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -3090,6 +3127,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.000061035}
   m_SizeDelta: {x: 3440, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1860071560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1860071558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5570fd43a2b515479e721cece597f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1894098439
 GameObject:
   m_ObjectHideFlags: 0
