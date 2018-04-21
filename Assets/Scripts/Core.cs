@@ -36,6 +36,11 @@ public class Core : MonoBehaviour
 	{
 		// Logic to perform on resetting the game (called in Enter_StartMenu)
 		bIsSuccess = false;
+
+		if (Player.thePlayer != null)
+		{
+			Player.thePlayer.Reset();
+		}
 	}
 
 	void Enter_Void() {}
