@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Empty : TileBase {
+public class Hut : TileBase {
 
     public override TileBase.TileType Type()
     {
-        return TileBase.TileType.EMPTY;
+        return TileBase.TileType.HUT;
     }
 
 	// Use this for initialization

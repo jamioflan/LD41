@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Empty : TileBase {
-
-    public override TileBase.TileType Type()
+public class Filled : TileBase {
+    
+    override public TileBase.TileType Type()
     {
-        return TileBase.TileType.EMPTY;
+        return TileBase.TileType.FILLED;
     }
 
 	// Use this for initialization
@@ -18,4 +18,9 @@ public class Empty : TileBase {
 	void Update () {
 		
 	}
+
+    override public bool IsPassable()
+    {
+        return false;
+    }
 }

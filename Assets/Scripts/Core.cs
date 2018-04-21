@@ -36,6 +36,17 @@ public class Core : MonoBehaviour
 	{
 		// Logic to perform on resetting the game (called in Enter_StartMenu)
 		bIsSuccess = false;
+
+		if (Player.thePlayer != null)
+		{
+			Player.thePlayer.Reset();
+		}
+
+		TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
+		if (theTileManager != null)
+		{
+			theTileManager.Reset();
+		}
 	}
 
 	void Enter_Void() {}

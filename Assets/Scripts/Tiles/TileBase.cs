@@ -9,8 +9,15 @@ abstract public class TileBase : MonoBehaviour {
 
     public enum TileType {
         EMPTY = 0,
-        STORAGE = 1,
+        FILLED = 1,
+        HUT = 2,
+        STORAGE = 3,
+        HATCHERY = 4,
+        NEST = 5,
+        TAILOR = 6
     }
+
+    public abstract TileType Type();
 
     virtual public bool IsPassable()
     {

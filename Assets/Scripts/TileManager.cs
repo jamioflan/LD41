@@ -81,7 +81,7 @@ public class TileManager : MonoBehaviour {
                 }
                 else
                 {
-                    CreateNewTile(ii, jj, TileBase.TileType.EMPTY);
+                    CreateNewTile(ii, jj, TileBase.TileType.FILLED);
                 }
             }
         }
@@ -91,6 +91,11 @@ public class TileManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void Reset()
+	{
+		Start();
 	}
 
     // Create a new tile
