@@ -321,6 +321,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1720979118 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1850632388673446, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 2101898293}
 --- !u!1001 &2101898293
 Prefab:
   m_ObjectHideFlags: 0
@@ -360,16 +365,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 224704612796856520, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+    - target: {fileID: 114954758345443334, guid: c8b95fb354e438f4b8c82020a7dba1a0,
         type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224704612796856520, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+      propertyPath: humanSuspicionMeter
+      value: 
+      objectReference: {fileID: 2105386580}
+    - target: {fileID: 114954758345443334, guid: c8b95fb354e438f4b8c82020a7dba1a0,
         type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: buildOptionsGroup
+      value: 
+      objectReference: {fileID: 1720979118}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b95fb354e438f4b8c82020a7dba1a0, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2105386580 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114877245867344290, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 2101898293}
+  m_Script: {fileID: -113659843, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
