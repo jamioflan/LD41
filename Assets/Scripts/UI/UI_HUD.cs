@@ -47,7 +47,28 @@ public class UI_HUD : MonoBehaviour
 				// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
 				// If none was clicked on, cancel the action and open the toolbar again. If one was
 				// clicked on, perform the required action for that tile (and open the toolbar again!).
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+				if (hit)
+				{
+					Debug.Log("Hit " + hit.collider.gameObject.name);
 
+					if( isBuildingAThing )
+					{
+						if( hit.collider.gameObject.name == "Empty(Clone)" )
+						{
+							Debug.Log("Building a thing!");
+						}
+					}
+					else if( isFillingInATile )
+					{
+						Debug.Log("Filling in a tile!");
+					}
+					else if( isMarkingATileAsPriority )
+					{
+						Debug.Log("Marking a tile as priority!");
+					}
+				}
 
 				// Return everything to the default state
 				isBuildingAThing = false;
