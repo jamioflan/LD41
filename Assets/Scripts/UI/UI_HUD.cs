@@ -260,7 +260,7 @@ public class UI_HUD : MonoBehaviour
 
 		if (shopOptionsGroup != null)
 		{
-			shopOptionsGroup.SetActive(!buildOptionsGroup.activeSelf);
+			shopOptionsGroup.SetActive(!shopOptionsGroup.activeSelf);
 		}
 	}
 
