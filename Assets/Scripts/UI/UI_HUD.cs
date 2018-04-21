@@ -11,16 +11,18 @@ public class UI_HUD : MonoBehaviour
 
 	public enum BUILD_ITEM
 	{
-		HUT,
-		STORAGE,
-		HATCHERY,
-		NEST,
-		TAILOR,
+		STORAGE = 0,
+		HATCHERY = 1,
+		NEST = 2,
+		TAILOR = 3,
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
 	bool isBuildingAThing;
 	BUILD_ITEM thingToBuild;
+
+	// Whether we've chosen to dig a tile, but haven't chosen which yet
+	bool isDiggingATile;
 
 	// Whether we've chosen to fill in a tile, but haven't chosen which yet
 	bool isFillingInATile;
@@ -43,7 +45,7 @@ public class UI_HUD : MonoBehaviour
 			humanSuspicionMeter.value = 0.1f; // TODO: Get value!
 		}
 
-		if( isBuildingAThing || isFillingInATile || isMarkingATileAsPriority )
+		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
 		{
 			if( Input.GetAxis("Fire1") > 0.0f )
 			{
@@ -74,9 +76,27 @@ public class UI_HUD : MonoBehaviour
 							}
 						}
 					}
+					else if( isDiggingATile )
+					{
+						if (hit.collider.gameObject.name == "Filled(Clone)")
+						{
+							Debug.Log("Digging a tile!");
+
+							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
+							if (theTileManager != null)
+							{
+								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+								if (targetTile != null)
+								{
+									TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+									theTileManager.CreateNewTile(targetTile.x, targetTile.y, eTileType);
+								}
+							}
+						}
+					}
 					else if( isFillingInATile )
 					{
-						if (hit.collider.gameObject.name == "Storage(Clone)")
+						if (hit.collider.gameObject.name == "Empty(Clone)")
 						{
 							Debug.Log("Filling in a tile!");
 
@@ -86,8 +106,7 @@ public class UI_HUD : MonoBehaviour
 								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
 								if (targetTile != null)
 								{
-									TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-
+									TileBase.TileType eTileType = TileBase.TileType.FILLED;
 									theTileManager.CreateNewTile(targetTile.x, targetTile.y, eTileType);
 								}
 							}
@@ -101,6 +120,7 @@ public class UI_HUD : MonoBehaviour
 
 				// Return everything to the default state
 				isBuildingAThing = false;
+				isDiggingATile = false;
 				isFillingInATile = false;
 				isMarkingATileAsPriority = false;
 
@@ -130,11 +150,26 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
+	public void DigSomething_OnClick()
+	{
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		// Hide the toolbar
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(false);
+		}
+
+		isDiggingATile = true;
+	}
+
 	public void FillSomethingIn_OnClick()
 	{
 		if (buildOptionsGroup != null)
 		{
-			// This definitely shouldn't be active
 			buildOptionsGroup.SetActive(false);
 		}
 
@@ -152,7 +187,6 @@ public class UI_HUD : MonoBehaviour
 	{
 		if (buildOptionsGroup != null)
 		{
-			// This definitely shouldn't be active
 			buildOptionsGroup.SetActive(false);
 		}
 
@@ -190,10 +224,6 @@ public class UI_HUD : MonoBehaviour
 	{
 		switch( thingToBuild )
 		{
-			case BUILD_ITEM.HUT:
-			{
-				return TileBase.TileType.HUT;
-			}
 			case BUILD_ITEM.STORAGE:
 			{
 				return TileBase.TileType.STORAGE;
