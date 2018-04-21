@@ -8,6 +8,7 @@ public class UI_HUD : MonoBehaviour
 	public Slider humanSuspicionMeter;
 	public GameObject toolbarGroup;
 	public GameObject buildOptionsGroup;
+	public GameObject shopOptionsGroup;
 
 	public enum BUILD_ITEM
 	{
@@ -133,6 +134,11 @@ public class UI_HUD : MonoBehaviour
 				{
 					buildOptionsGroup.SetActive(false);
 				}
+
+				if (shopOptionsGroup != null)
+				{
+					shopOptionsGroup.SetActive(false);
+				}
 			}
 			else
 			{
@@ -148,6 +154,11 @@ public class UI_HUD : MonoBehaviour
 		{
 			buildOptionsGroup.SetActive(!buildOptionsGroup.activeSelf);
 		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
 	}
 
 	public void DigSomething_OnClick()
@@ -155,6 +166,11 @@ public class UI_HUD : MonoBehaviour
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
 		}
 
 		// Hide the toolbar
@@ -171,6 +187,11 @@ public class UI_HUD : MonoBehaviour
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
 		}
 
 		// Hide the toolbar
@@ -190,6 +211,11 @@ public class UI_HUD : MonoBehaviour
 			buildOptionsGroup.SetActive(false);
 		}
 
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+
 		// Hide the toolbar
 		if (toolbarGroup != null)
 		{
@@ -207,6 +233,11 @@ public class UI_HUD : MonoBehaviour
 			buildOptionsGroup.SetActive(false);
 		}
 
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+
 		// Hide the toolbar
 		if (toolbarGroup != null)
 		{
@@ -218,6 +249,103 @@ public class UI_HUD : MonoBehaviour
 
 		// Store which thing we'll be building
 		thingToBuild = (BUILD_ITEM)iThingIndex;
+	}
+
+	public void OpenTheShopOptions()
+	{
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(!buildOptionsGroup.activeSelf);
+		}
+	}
+
+	public void Shop_SellMetals()
+	{
+		// Sell some metal...
+
+		// Return to normal
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+	}
+
+	public void Shop_SellGems()
+	{
+		// Sell some gems...
+
+		// Return to normal
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+	}
+
+	public void Shop_SellMushrooms()
+	{
+		// Sell some mushrooms...
+
+		// Return to normal
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+	}
+
+	public void Shop_BuyDrillEquipment()
+	{
+		// Buy some drill equipment...
+
+		// Return to normal
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
 	}
 
 	TileBase.TileType GetTileTypeToBuild()
