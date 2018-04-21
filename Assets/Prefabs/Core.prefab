@@ -1674,7 +1674,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fill in instructions here
+  m_Text: 'Dig, build, expand. But don''t let the humans find you!
+
+    You win if you get 10 lizards disguised as humans above surface.'
 --- !u!114 &114205853761901192
 MonoBehaviour:
   m_ObjectHideFlags: 1
