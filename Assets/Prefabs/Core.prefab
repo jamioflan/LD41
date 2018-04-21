@@ -1149,6 +1149,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e49671efb8f08e4aa1feba195f6caf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tasks:
+  - name: Breeding
+    icon: {fileID: 0}
+    currentNumWorkers: 0
+    maxNumWorkers: 0
+  - name: Farming
+    icon: {fileID: 0}
+    currentNumWorkers: 0
+    maxNumWorkers: 0
+  - name: Tailoring
+    icon: {fileID: 0}
+    currentNumWorkers: 0
+    maxNumWorkers: 0
+  - name: Building, digging, filling, moving resources
+    icon: {fileID: 0}
+    currentNumWorkers: 0
+    maxNumWorkers: 0
 --- !u!114 &114288777662804806
 MonoBehaviour:
   m_ObjectHideFlags: 1
