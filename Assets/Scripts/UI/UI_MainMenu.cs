@@ -16,11 +16,16 @@ public class UI_MainMenu : MonoBehaviour
 		
 	}
 
-	void Start_OnClick()
+	public void Start_OnClick()
 	{
 		if (Core.theCore != null)
 		{
 			Core.theCore.RequestState(Core.CORE_STATE.IN_GAME);
 		}
+	}
+
+	public void Exit_OnClick()
+	{
+		Application.Quit();
 	}
 }
