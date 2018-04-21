@@ -55,7 +55,7 @@ public class Lizard : Entity {
             case State.IDLE:
                 // TODO - random movement
                 break;
-            case State.MOVING:
+            case State.TRAVELLING_TO_TASK:
                 if (currentPath.Count == 0)           
                 {
                     state = State.IDLE;
