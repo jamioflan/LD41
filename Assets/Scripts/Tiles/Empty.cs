@@ -13,4 +13,9 @@ public class Empty : TileBase {
 	void Update () {
 		
 	}
+
+    override public bool IsPassable()
+    {
+        return false;
+    }
 }

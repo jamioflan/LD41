@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileBase : MonoBehaviour {
+abstract public class TileBase : MonoBehaviour {
 
     public int x;
     public int y;
@@ -11,8 +11,11 @@ public class TileBase : MonoBehaviour {
         EMPTY = 0,
         STORAGE = 1,
     }
-        
 
+    virtual public bool IsPassable()
+    {
+        return true;
+    }
 
 	// Use this for initialization
 	void Start () {

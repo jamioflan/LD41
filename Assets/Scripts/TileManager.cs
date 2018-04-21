@@ -13,11 +13,22 @@ public class TileManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        // Build starting city
+        var starting = new List<KeyValuePair<int, int>>()
+        {
+            new KeyValuePair<int, int>(4, 0),
+            new KeyValuePair<int, int>(5, 0),
+            new KeyValuePair<int, int>(5, 1),
+            new KeyValuePair<int, int>(4, 1),
+            new KeyValuePair<int, int>(3, 1),
+            new KeyValuePair<int, int>(3, 2),
+        };
+
         for (int ii = 0; ii < width; ++ii)
         {
             for (int jj = 0; jj < depth; ++jj)
             {
-                if (jj == 0 && (ii == 5 || ii == 6))
+                if (starting.Contains(new KeyValuePair<int, int>(ii, jj) ) )
                 {
                     CreateNewTile(ii, jj, TileBase.TileType.STORAGE);
                 }
@@ -46,6 +57,12 @@ public class TileManager : MonoBehaviour {
         tiles[x, y].transform.SetParent(transform);
         tiles[x, y].SetCoords(x, y);
         return tiles[x, y];
+    }
+
+    public List<KeyValuePair<int, int>> GetPath(KeyValuePair<int, int> from, KeyValuePair<int, int> to)
+    {
+        var path = new List<KeyValuePair<int, int>>() { from };
+        return path;
     }
 
 
