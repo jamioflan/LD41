@@ -34,7 +34,7 @@ public class UI_HUD : MonoBehaviour
 	{
 		if( buildOptionsGroup != null )
 		{
-			buildOptionsGroup.SetActive(true);
+			buildOptionsGroup.SetActive(!buildOptionsGroup.activeSelf);
 		}
 	}
 
