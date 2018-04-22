@@ -62,7 +62,7 @@ public class UI_HUD : MonoBehaviour
 		}
 		if (lizardInfiltrationMeter != null)
 		{
-			lizardInfiltrationMeter.value = Player.thePlayer.lizardsDisguisedAsHumans / 10.0f;
+			lizardInfiltrationMeter.value = Player.thePlayer.lizardsDisguisedAsHumans;
 		}
 		if ( numMetal != null )
 		{
