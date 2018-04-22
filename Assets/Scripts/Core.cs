@@ -121,9 +121,16 @@ public class Core : MonoBehaviour
 
 	void Update_InGame()
 	{
-		if( !bWasEscPressed && bIsEscPressed )
+		if (!bWasEscPressed && bIsEscPressed)
 		{
-			RequestState(CORE_STATE.PAUSE_MENU);
+			if (UI_HUD.instance.isBuildingAThing || UI_HUD.instance.isDiggingATile || UI_HUD.instance.isFillingInATile || UI_HUD.instance.isMarkingATileAsPriority)
+			{
+				UI_HUD.instance.Reset();
+			}
+			else
+			{
+				RequestState(CORE_STATE.PAUSE_MENU);
+			}
 		}
 
 		if( Input.GetAxis("Mouse ScrollWheel") > 0.0f || Input.GetAxis("Scroll") > 0.0f)
