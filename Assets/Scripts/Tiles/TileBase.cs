@@ -143,6 +143,7 @@ abstract public class TileBase : MonoBehaviour {
             case TileType.FILLED:
             case TileType.GEMS:
             case TileType.METAL:
+            case TileType.BONES:
                 return false;
         }
         return true;
