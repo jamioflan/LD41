@@ -410,27 +410,6 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
-	public void Shop_BuyDrillEquipment()
-	{
-		// Buy some drill equipment...
-
-		// Return to normal
-		if (toolbarGroup != null)
-		{
-			toolbarGroup.SetActive(true);
-		}
-
-		if (buildOptionsGroup != null)
-		{
-			buildOptionsGroup.SetActive(false);
-		}
-
-		if (shopOptionsGroup != null)
-		{
-			shopOptionsGroup.SetActive(false);
-		}
-	}
-
 	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost)
 	{
 		iMetalCost = 0;
