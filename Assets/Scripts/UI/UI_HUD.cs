@@ -93,7 +93,7 @@ public class UI_HUD : MonoBehaviour
 							if( (tileOnLeft == null || !tileOnLeft.IsLizardy()) &&
 								(tileOnRight == null || !tileOnRight.IsLizardy()) &&
 								(tileAbove == null || !tileAbove.IsLizardy()) &&
-								(tileAbove == null || !tileAbove.IsLizardy()) )
+								(tileBelow == null || !tileBelow.IsLizardy()) )
 							{
 								bValid = false;
 							}
