@@ -23,7 +23,7 @@ public class UI_EndGameMenu : MonoBehaviour
 	{
 		if( successFailText != null )
 		{
-			successFailText.text = bIsSuccess ? "Congratulations!" : "Too bad!";
+			successFailText.text = bIsSuccess ? "Congratulations!" : "You were discovered!";
 		}
 	}
 
