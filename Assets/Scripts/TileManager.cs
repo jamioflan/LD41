@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 struct Point
@@ -30,7 +29,7 @@ struct Point
     }
     public int DistanceTo(Point p)
     {
-        return Math.Abs(x - p.x) + Math.Abs(y - p.y);
+        return Mathf.Abs(x - p.x) + Mathf.Abs(y - p.y);
     }
 
 }
@@ -88,8 +87,32 @@ public class TileManager : MonoBehaviour {
         RequestNewTile(width - 3, 0, TileBase.TileType.STORAGE, true);
         RequestNewTile(width - 4, 0, TileBase.TileType.NEST, true);
 
-        		
-	}
+        for(int i = 0; i < 10; i++)
+        {
+            int x = Random.Range(0, width), y = Random.Range(0, 7);
+            if (tiles[x, y].Type() == TileBase.TileType.FILLED)
+                RequestNewTile(x, y, TileBase.TileType.METAL, true);
+        }
+        for (int i = 0; i < 2; i++)
+        {
+            int x = Random.Range(0, width), y = Random.Range(0, 7);
+            if(tiles[x,y].Type() == TileBase.TileType.FILLED)
+                RequestNewTile(x, y, TileBase.TileType.GEMS, true);
+        }
+
+        for (int i = 0; i < 20; i++)
+        {
+            int x = Random.Range(0, width), y = Random.Range(8, depth);
+            if (tiles[x, y].Type() == TileBase.TileType.FILLED)
+                RequestNewTile(x, y, TileBase.TileType.METAL, true);
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            int x = Random.Range(0, width), y = Random.Range(8, depth);
+            if (tiles[x, y].Type() == TileBase.TileType.FILLED)
+                RequestNewTile(x, y, TileBase.TileType.GEMS, true);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -217,7 +240,7 @@ public class TileManager : MonoBehaviour {
         p.y = y;
         p.isAccessible = t.IsPassable();
         p.travelCost = currentCost + 1;
-        p.manhattanCost = Math.Abs(x - targetX) + Math.Abs(y - targetY);
+        p.manhattanCost = Mathf.Abs(x - targetX) + Mathf.Abs(y - targetY);
         return p;
     }
 

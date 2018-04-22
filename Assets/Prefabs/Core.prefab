@@ -1494,6 +1494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ae6d7eaa2d5d24b97af253b7a231a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraMaxY: 4
+  cameraMinY: -15
   mainMenu: {fileID: 1492744884846194}
   pauseMenu: {fileID: 1556332461754844}
   HUD: {fileID: 1090414788758498}
@@ -1950,23 +1952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e49671efb8f08e4aa1feba195f6caf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tasks:
-  - name: Breeding
-    icon: {fileID: 0}
-    currentNumWorkers: 0
-    maxNumWorkers: 0
-  - name: Farming
-    icon: {fileID: 0}
-    currentNumWorkers: 0
-    maxNumWorkers: 0
-  - name: Tailoring
-    icon: {fileID: 0}
-    currentNumWorkers: 0
-    maxNumWorkers: 0
-  - name: Building, digging, filling, moving resources
-    icon: {fileID: 0}
-    currentNumWorkers: 0
-    maxNumWorkers: 0
+  lizardsDisguisedAsHumans: 0
+  fHumanSuspicion: 0
 --- !u!114 &114288777662804806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3699,10 +3686,12 @@ MonoBehaviour:
   - {fileID: 114209329805174970, guid: 5856cb6ea974fb24b8e37242b5de0c70, type: 2}
   - {fileID: 114001789644401746, guid: 617fd98e208fb024984faaf21205ee80, type: 2}
   - {fileID: 114348493131379720, guid: 0653931f7b209fb4ca1f47e67ce5e8fb, type: 2}
+  - {fileID: 114304631461961328, guid: 7ec714c2d23846449bb9fe903848a464, type: 2}
+  - {fileID: 114922117273839114, guid: 1828cd7a6dfd6b84fa29957862e3210c, type: 2}
+  - {fileID: 114737607877457332, guid: d88679d3f939dd94dad666f1dd823bbd, type: 2}
   hutTile: {fileID: 0}
   lizardPrefab: {fileID: 114301004083443652, guid: 66097e9de9be50f49917513d4fd64b4b,
     type: 2}
-  lizards: []
 --- !u!114 &114877245867344290
 MonoBehaviour:
   m_ObjectHideFlags: 1
