@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour {
+public class Resource : MonoBehaviour
+{
     public enum ResourceType
     {
         METAL,
@@ -12,13 +13,44 @@ public class Resource : MonoBehaviour {
         HUMAN_SKIN,
         NULL
     }
-	// Use this for initialization
+
+    public TileBase holder = null;
+    public Lizard carriedBy = null;
+
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void Drop()
+    {
+        if (holder != null)
+        {
+            holder.RemoveResource(this);
+            holder = null;
+        }
+        if (carriedBy != null)
+        {
+            carriedBy.carrying = null;
+            carriedBy = null;
+        }
+    }
+
+    public void PutInRoom(TileBase room)
+    {
+        Drop();
+        room.StoreResource(this);
+        holder = room;
+    }
+
+    public void GiveToLizard(Lizard lizzo)
+    {
+        Drop();
+        lizzo.carrying = this;
+        carriedBy = lizzo;
+    }
+
 }
