@@ -151,7 +151,8 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
-  gemPrefab: {fileID: 0}
+  gemPrefab: {fileID: 114505702806193204, guid: 7714aab9ead768f42927c32a20c79652,
+    type: 2}
 --- !u!212 &212191653262077316
 SpriteRenderer:
   m_ObjectHideFlags: 1

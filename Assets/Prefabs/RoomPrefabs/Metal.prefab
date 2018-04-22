@@ -151,7 +151,8 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
-  metalPrefab: {fileID: 0}
+  metalPrefab: {fileID: 114663128572053042, guid: 17e47cd8454da3b47a57e97151984348,
+    type: 2}
 --- !u!212 &212183924159507014
 SpriteRenderer:
   m_ObjectHideFlags: 1
