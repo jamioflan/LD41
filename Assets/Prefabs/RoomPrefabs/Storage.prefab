@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 212827527686972016}
   - component: {fileID: 61246424545938414}
   - component: {fileID: 114304755645697102}
+  - component: {fileID: 114305214206624532}
   m_Layer: 0
   m_Name: Storage
   m_TagString: Untagged
@@ -151,6 +152,18 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
+--- !u!114 &114305214206624532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1958290398891152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: Storage
 --- !u!212 &212289956234604854
 SpriteRenderer:
   m_ObjectHideFlags: 1

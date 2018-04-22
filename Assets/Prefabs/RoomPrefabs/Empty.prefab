@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212628111691358878}
   - component: {fileID: 61118971170497396}
   - component: {fileID: 114654133769476724}
+  - component: {fileID: 114965705412904876}
   m_Layer: 0
   m_Name: Empty
   m_TagString: Untagged
@@ -151,6 +152,18 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
+--- !u!114 &114965705412904876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660103911973090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: An empty room
 --- !u!212 &212267380821077450
 SpriteRenderer:
   m_ObjectHideFlags: 1

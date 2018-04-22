@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseOverText: Dinosaur Bones
+  mouseOverText: Dinosaur bones
 --- !u!114 &114333801238968142
 MonoBehaviour:
   m_ObjectHideFlags: 1

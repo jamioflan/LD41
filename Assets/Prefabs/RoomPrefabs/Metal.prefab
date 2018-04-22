@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212343296781363802}
   - component: {fileID: 61583525713437196}
   - component: {fileID: 114304631461961328}
+  - component: {fileID: 114374833808538416}
   m_Layer: 0
   m_Name: Metal
   m_TagString: Untagged
@@ -153,6 +154,18 @@ MonoBehaviour:
   replacingTile: {fileID: 0}
   metalPrefab: {fileID: 114663128572053042, guid: 17e47cd8454da3b47a57e97151984348,
     type: 2}
+--- !u!114 &114374833808538416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457413633681318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: Metal
 --- !u!212 &212183924159507014
 SpriteRenderer:
   m_ObjectHideFlags: 1
