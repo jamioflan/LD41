@@ -105,7 +105,7 @@ public class UI_HUD : MonoBehaviour
 			bool bShow = (Camera.main.transform.position.y > 0.0f);
 			scrollPrompt.enabled = bShow;
 
-			fScrollPromptTime += Time.deltaTime * 2.0f;
+			fScrollPromptTime += Time.deltaTime * 5.0f;
 			float scale = 1.0f + 0.1f * Mathf.Sin(fScrollPromptTime);
 			scrollPrompt.transform.localScale = new Vector3(scale, scale, scale);
 		}
