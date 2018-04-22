@@ -251,6 +251,7 @@ public class UI_HUD : MonoBehaviour
 		isFillingInATile = false;
 		isMarkingATileAsPriority = false;
 		fScrollPromptTime = 0.0f;
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 
 		if (toolbarGroup != null)
 		{
@@ -302,6 +303,10 @@ public class UI_HUD : MonoBehaviour
 		}
 
 		isDiggingATile = true;
+		if (Core.theCore.digCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.digCursor, Core.theCore.digCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void FillSomethingIn_OnClick()

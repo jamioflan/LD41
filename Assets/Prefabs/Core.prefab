@@ -2120,6 +2120,8 @@ MonoBehaviour:
   pauseMenu: {fileID: 1556332461754844}
   HUD: {fileID: 1090414788758498}
   endGameMenu: {fileID: 1296526781211102}
+  digCursor: {fileID: 2800000, guid: 23d805830103190489f7b8c83a10febb, type: 3}
+  digCursorHotSpot: {x: 0, y: 0}
 --- !u!114 &114149257512968362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6025,6 +6027,10 @@ MonoBehaviour:
   showMouseOver: 0
   mouseOverText: 
   scrollPrompt: {fileID: 114882441768132746}
+  isBuildingAThing: 0
+  isDiggingATile: 0
+  isFillingInATile: 0
+  isMarkingATileAsPriority: 0
 --- !u!114 &114964169774674996
 MonoBehaviour:
   m_ObjectHideFlags: 1
