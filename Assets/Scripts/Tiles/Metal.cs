@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Storage : TileBase {
-
+public class Metal : TileBase
+{
     public override TileBase.TileType Type()
     {
-        return TileBase.TileType.STORAGE;
+        return TileBase.TileType.METAL;
     }
 
     public override void Start()
@@ -18,6 +18,4 @@ public class Storage : TileBase {
     {
         base.Update();
     }
-
-
 }

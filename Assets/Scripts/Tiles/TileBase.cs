@@ -30,7 +30,10 @@ abstract public class TileBase : MonoBehaviour {
         TAILOR = 6,
         TRAP = 7,
         FARM = 8,
-        TVROOM = 9
+        TVROOM = 9,
+
+        METAL = 10,
+        GEMS = 11,
     }
 
     public void StoreResource(Resource resource)
@@ -87,6 +90,8 @@ abstract public class TileBase : MonoBehaviour {
         switch(Type())
         {
             case TileType.FILLED:
+            case TileType.GEMS:
+            case TileType.METAL:
                 return false;
         }
         return true;
