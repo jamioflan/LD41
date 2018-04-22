@@ -10,8 +10,8 @@ public class UI_HUD : MonoBehaviour
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
 
-	public Sprite highlightSprite;
-	Sprite[] activeHighlightSprites;
+	//public SpriteRenderer highlightSprite;
+	//Sprite[] activeHighlightSprites;
 
 	public enum BUILD_ITEM
 	{
@@ -116,47 +116,54 @@ public class UI_HUD : MonoBehaviour
 						if (bValid)
 						{
 							// Highlight tile. Also render extra highlight if moused-over.
-							//Instantiate<Sprite>(highlightSprite);
+							
 
-							// If we clicked on this tile, do the thing!
-							if (mousedOverTile != null && mousedOverTile == thisTile && bHasClicked)
+							// If we're mousing over this tile...
+							if (mousedOverTile != null && mousedOverTile == thisTile)
 							{
-								if (isBuildingAThing)
-								{
-									Debug.Log("Building a thing!");
+								// Render transparent version of some image to indicate mouse over
+								//Instantiate<Sprite>(highlightSprite);
 
-									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-									if (targetTile != null)
-									{
-										TileBase.TileType eTileType = GetTileTypeToBuild();
-										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-									}
-								}
-								else if (isDiggingATile)
+								// If we clicked on this tile, do the thing!
+								if (bHasClicked)
 								{
-									Debug.Log("Digging a tile!");
+									if (isBuildingAThing)
+									{
+										Debug.Log("Building a thing!");
 
-									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-									if (targetTile != null)
-									{
-										TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+										if (targetTile != null)
+										{
+											TileBase.TileType eTileType = GetTileTypeToBuild();
+											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+										}
 									}
-								}
-								else if (isFillingInATile)
-								{
-									Debug.Log("Filling in a tile!");
+									else if (isDiggingATile)
+									{
+										Debug.Log("Digging a tile!");
 
-									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-									if (targetTile != null)
-									{
-										TileBase.TileType eTileType = TileBase.TileType.FILLED;
-										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+										if (targetTile != null)
+										{
+											TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+										}
 									}
-								}
-								else if (isMarkingATileAsPriority)
-								{
-									Debug.Log("Marking a tile as priority!");
+									else if (isFillingInATile)
+									{
+										Debug.Log("Filling in a tile!");
+
+										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+										if (targetTile != null)
+										{
+											TileBase.TileType eTileType = TileBase.TileType.FILLED;
+											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+										}
+									}
+									else if (isMarkingATileAsPriority)
+									{
+										Debug.Log("Marking a tile as priority!");
+									}
 								}
 							}
 						}
