@@ -46,8 +46,8 @@ public class Lizard : Entity {
 
     public void Destroy()
     {
-        int idx = mgr.lizards.IndexOf(this);
-        mgr.lizards.RemoveAt(idx);
+        int idx = mgr.lizards[assignment].IndexOf(this);
+        mgr.lizards[assignment].RemoveAt(idx);
         Destroy(gameObject);
     }
 
