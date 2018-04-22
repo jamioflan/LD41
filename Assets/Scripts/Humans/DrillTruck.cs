@@ -48,7 +48,7 @@ public class DrillTruck : Entity
                 }
                 else
                 {
-                    transform.localPosition = new Vector3(iTargetX - TileManager.width / 2 + 0.45f, 0.75f, -3.0f);
+                    transform.localPosition = new Vector3(iTargetX - TileManager.width / 2 + 0.45f, 0.625f, -3.0f);
                     SetAnim(unloadAnim);
                     fTimeUntilNextPhase = 5.0f;
                     phase = Phase.UNLOAD;
