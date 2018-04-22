@@ -2122,6 +2122,8 @@ MonoBehaviour:
   endGameMenu: {fileID: 1296526781211102}
   digCursor: {fileID: 2800000, guid: 23d805830103190489f7b8c83a10febb, type: 3}
   digCursorHotSpot: {x: 0, y: 0}
+  fillInCursor: {fileID: 2800000, guid: f86ad9afd36894847af379faefa74817, type: 3}
+  fillInCursorHotSpot: {x: 0, y: 0}
 --- !u!114 &114149257512968362
 MonoBehaviour:
   m_ObjectHideFlags: 1

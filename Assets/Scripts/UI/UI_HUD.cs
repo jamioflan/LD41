@@ -331,6 +331,10 @@ public class UI_HUD : MonoBehaviour
 
 		// Note down that the next click needs to do a thing
 		isFillingInATile = true;
+		if (Core.theCore.fillInCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.fillInCursor, Core.theCore.fillInCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void MarkSomethingAsPriority()

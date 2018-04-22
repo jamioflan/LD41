@@ -30,6 +30,9 @@ public class Core : MonoBehaviour
 	public Texture2D digCursor;
 	public Vector2 digCursorHotSpot = Vector2.zero;
 
+	public Texture2D fillInCursor;
+	public Vector2 fillInCursorHotSpot = Vector2.zero;
+
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
 
