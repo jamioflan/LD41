@@ -96,9 +96,19 @@ abstract public class TileBase : MonoBehaviour {
         replacingTile.SetCoords(x, y);
         replacingTile.transform.SetParent(transform.parent);
 
-        {
-            GetComponentInParent<TileManager>().UpdateEdges(x, y);
-        }
+        // Stage on this list to avoid concurrent modification death!
+        List<Resource> stuffToMove = new List<Resource>();
+        foreach (Resource resource in clutteredResources)
+            stuffToMove.Add(resource);
+
+        foreach (Resource resource in tidyResources)
+            stuffToMove.Add(resource);
+
+        foreach(Resource resource in stuffToMove)
+            replacingTile.StoreResource(resource);
+
+
+        GetComponentInParent<TileManager>().UpdateEdges(x, y);
 
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
