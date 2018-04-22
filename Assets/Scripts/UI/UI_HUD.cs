@@ -49,7 +49,17 @@ public class UI_HUD : MonoBehaviour
 			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
 		}
 
-		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
+		// Hide all highlights
+		for (int ii = 0; ii < TileManager.width; ++ii)
+		{
+			for (int jj = 0; jj < TileManager.depth; ++jj)
+			{
+				TileBase thisTile = Core.theTM.tiles[ii, jj];
+				thisTile.bShouldBeHighlighted = false;
+			}
+		}
+
+		if ( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
 		{
 			// Get the tile that the mouse is over (if any!)
 			TileBase mousedOverTile = null;
@@ -73,8 +83,6 @@ public class UI_HUD : MonoBehaviour
 				for (int jj = 0; jj < TileManager.depth; ++jj)
 				{
 					TileBase thisTile = Core.theTM.tiles[ii, jj];
-
-					thisTile.bShouldBeHighlighted = false;
 
 					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() ) ||
 						( isDiggingATile && thisTile.CanBeDug() ) ||
