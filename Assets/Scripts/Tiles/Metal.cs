@@ -26,7 +26,12 @@ public class Metal : TileBase
         base.Update();
     }
 
-    public override void Destroy()
+	override public bool IsPassable()
+	{
+		return false;
+	}
+
+	public override void Destroy()
     {
         base.Destroy();
 
