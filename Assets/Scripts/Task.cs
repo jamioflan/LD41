@@ -31,6 +31,8 @@ public class Task
                 return kv.Key;
         return Resource.ResourceType.NULL;
     }
+    public Task(Type type_) : this(type_, new Dictionary<Resource.ResourceType, int>()) { }
+
     public Task (Type type_, Dictionary<Resource.ResourceType, int> required)
     {
         type = type_;
@@ -41,4 +43,9 @@ public class Task
             missingResources.Add(kv.Key, kv.Value);
     }
 
+    public void Finish()
+    {
+        assignedLizard.currentTask = null;
+        associatedTile.queuedTask = null;
+    }
 }

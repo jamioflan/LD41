@@ -53,8 +53,14 @@ public class Resource : MonoBehaviour
     public void GiveToLizard(Lizard lizzo)
     {
         Drop();
-        lizzo.carrying = this;
+        lizzo.Take(this);
         carriedBy = lizzo;
+    }
+
+    public void Unclaim()
+    {
+        Debug.Log("Update resource counts!");
+        reservee = null;
     }
 
 }

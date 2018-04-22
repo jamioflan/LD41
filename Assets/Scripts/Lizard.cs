@@ -30,7 +30,7 @@ public class Lizard : Entity {
 
     public TileBase currentTile;
 
-    Stack<KeyValuePair<int, int>> currentPath;
+    Path currentPath;
 
     Vector3 target;
     bool targetSet = false;
@@ -114,7 +114,7 @@ public class Lizard : Entity {
 	public override void Start () {
         base.Start();
         mgr = Core.theCore.GetComponent<TileManager>();
-        currentPath = new Stack<KeyValuePair<int, int>>();
+        currentPath = new Path();
 	}
 
     public void SetTarget(Vector3 newTarget) {
@@ -152,7 +152,7 @@ public class Lizard : Entity {
             case State.TRAVELLING_TO_TASK:
                 if (Move())
                 {
-                    if (currentPath.Count == 0)
+                    if (currentPath.Count() == 0)
                     {
                         SetState(State.WORKING);
                     }
@@ -190,34 +190,46 @@ public class Lizard : Entity {
     public void DoTask()
     {
         Resource.ResourceType nextType = currentTask.GetNextMissing();
-        claimed = 
-    }
-    // Return true if there is a task to set
-    public bool SetNextTask()
-    {
-        if (currentTaskList.Count == 0)
+        if (nextType == Resource.ResourceType.NULL)
         {
-            SetState(State.IDLE);
-            return false;
+            SetState(State.TRAVELLING_TO_TASK);
+            currentPath = Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile.GetKVPair());
         }
-        else {
-            Task task = currentTaskList.Peek();
-            currentPath = mgr.GetPath(
-                new KeyValuePair<int, int>(currentTile.x, currentTile.y),
-                new KeyValuePair<int, int>(task.targetX, task.targetY)
-                );
-            if (currentPath == null)
-            {
-                // DO SOMETHING!
-                SetState(State.IDLE);
-                return false;
-            }
-            else
-            {
-                SetState(State.TRAVELLING_TO_TASK);
-            }
-            return true;
+        else
+        {
+            // Get the next resource
+            var kvs = new List<KeyValuePair<int, int>>();
+            foreach (TileBase tile in mgr.GetTilesContaining(nextType))
+                kvs.Add(tile.GetKVPair());
+            currentPath = Path.GetPath(currentTile.GetKVPair(), kvs);
+            TileBase targetTile = mgr.GetTileBase(currentPath.endX, currentPath.endY);
+            Claim(targetTile.FindResource(nextType));
+            SetState(State.RETRIEVING_RESOURCE);
+        } 
+    }
+
+    public void FinishTask()
+    {
+        currentTask.Finish();
+    }
+
+    public void Claim(Resource resource)
+    {
+        resource.reservee = this;
+        if (claimed != null)
+        {
+            claimed.Unclaim();
         }
+        claimed = resource;
+    }
+
+    public void Take(Resource resource)
+    {
+        if (carrying != null)
+            carrying.Drop();
+        if (claimed != resource && claimed != null)
+            claimed.Unclaim();
+        claimed = null;
     }
 
     public void SetTile(TileBase tile)
