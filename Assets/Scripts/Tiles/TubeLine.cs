@@ -9,6 +9,11 @@ public class TubeLine : TileBase {
         return TileBase.TileType.TUBE_LINE;
     }
 
+    public override bool CanBeBuiltOver() { return false; }
+    public override bool CanBeDug() { return false; }
+    public override bool CanBeFilledIn() { return false; }
+    public override bool CanBeMarkedAsPriority() { return false; }
+
     public override void Start()
     {
         base.Start();
