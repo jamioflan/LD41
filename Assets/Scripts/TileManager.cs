@@ -75,24 +75,19 @@ public class TileManager : MonoBehaviour {
         {
             for (int jj = 0; jj < depth; ++jj)
             {
-                TileBase.TileType type = TileBase.TileType.FILLED;
-                if (jj == 0)
-                {
-                    if (ii == width - 2)
-                        type = TileBase.TileType.HUT;
-                    else if (ii == width - 3)
-                        type = TileBase.TileType.STORAGE;
-                    else if (ii == width - 4)
-                        type = TileBase.TileType.NEST;
-                        
-                }
-
-                RequestNewTile(ii, jj, type);
-
+                tiles[ii, jj] = Instantiate<TileBase>(prefabs[(int)TileBase.TileType.FILLED]);
+                tiles[ii, jj].SetCoords(ii, jj);
+                tiles[ii, jj].transform.SetParent(transform);
             }
         }
 
-        hutTile = tiles[width - 2, 0] as Hut;
+        Debug.Log("Create starting city");
+
+
+        hutTile = RequestNewTile(width -2 , 0, TileBase.TileType.HUT, true) as Hut;
+        RequestNewTile(width - 3, 0, TileBase.TileType.STORAGE, true);
+        RequestNewTile(width - 4, 0, TileBase.TileType.NEST, true);
+
         		
 	}
 	
@@ -180,15 +175,30 @@ public class TileManager : MonoBehaviour {
 
 
     // Create a new tile
-    public TileBase RequestNewTile(int x, int y, TileBase.TileType type)
+    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false)
     {
-        if (tiles[x, y] != null)
+        Debug.Log("Requesting new tile");
+        TileBase newTile = Instantiate<TileBase>(prefabs[(int)type]);
+        newTile.SetCoords(-100, -100);
+        tiles[x, y].replacingTile = newTile;
+        
+        if (instant)
         {
-            tiles[x, y].Destroy();
+            tiles[x, y].Replace();
+            tiles[x, y].fBuildLeft = -Time.deltaTime;
         }
-        tiles[x, y] = Instantiate<TileBase>(prefabs[(int)type]);
-        tiles[x, y].transform.SetParent(transform);
-        tiles[x, y].SetCoords(x, y);
+        else
+        {
+            Task task = new Task(Task.Type.BUILD);
+            task.targetX = x;
+            task.targetY = y;
+
+            var tl = new Queue<Task>();
+            tl.Enqueue(task);
+            Player.thePlayer.pendingWorkerTasks.Add(tl);
+
+        }
+
         return tiles[x, y];
     }
 
@@ -198,6 +208,8 @@ public class TileManager : MonoBehaviour {
         if (x < 0 || x >= TileManager.width || y < 0 || y >= TileManager.depth)
         {
             p.isAccessible = false;
+            p.x = -1;
+            p.y = -1;
             return p;
         }
         var t = tiles[x, y];    
@@ -211,7 +223,7 @@ public class TileManager : MonoBehaviour {
 
 
 
-    public List<KeyValuePair<int, int>> GetPath(KeyValuePair<int, int> from, KeyValuePair<int, int> to)
+    public Stack<KeyValuePair<int, int>> GetPath(KeyValuePair<int, int> from, KeyValuePair<int, int> to)
     {
         var considered = new HashSet<Point>(new PointHash());
         var open = new SortedDictionary<int, Point>();
@@ -236,22 +248,28 @@ public class TileManager : MonoBehaviour {
                 if (!considered.Add(p))
                     // Returns false if it was already there
                     continue;
-                if (p.isAccessible)
-                    continue;
+
                 if (p.x == targetX && p.y == targetY)
                 {
                     // This means we've reached the target!
                     doLoop = false;
                     break;
                 }
+                if (!p.isAccessible)
+                    continue;
                 open.Add(p.OpenKey(), p);
             }
             if (!doLoop)
                 break;
             // Now look at the first 'open' point
             if (open.Count == 0)
+            {
+                Debug.Log("Failed to build path - open set is empty!");
                 return null;
-            var nextKey = open.Keys.GetEnumerator().Current;
+            }
+            var keyItr = open.Keys.GetEnumerator();
+            keyItr.MoveNext();
+            var nextKey = keyItr.Current;
             // Add 'current' to closed, remove this one from 'open' and set it to be 'current'
             closed.Add(current.ClosedKey(), current);
             current = open[nextKey];
@@ -259,11 +277,10 @@ public class TileManager : MonoBehaviour {
         }
 
         // Now we can build the path
-        var path = new List<KeyValuePair<int, int>>()
-        {
-            to,
-            new KeyValuePair<int, int>(current.x, current.y)
-        };
+        var path = new Stack<KeyValuePair<int, int>>();
+        path.Push(to);
+        path.Push(new KeyValuePair<int, int>(current.x, current.y));
+
         var itr = closed.GetEnumerator();
         while(current.travelCost > 0)
         {
@@ -277,8 +294,9 @@ public class TileManager : MonoBehaviour {
                 itr.MoveNext();
             // We must be next to a new point! Add it to the path and then go again
             current = itr.Current.Value;
-            path.Add(new KeyValuePair<int, int>(current.x, current.y));
+            path.Push(new KeyValuePair<int, int>(current.x, current.y));
         }
+
 
         return path;
     }

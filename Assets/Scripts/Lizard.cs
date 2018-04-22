@@ -14,21 +14,22 @@ public class Lizard : Entity {
 
     public Assignment assignment = Assignment.WORKER;
 
-    public string name;
+    public string lizardName;
 
-    public Queue<Task> taskList = new Queue<Task>();
+    public Queue<Task> currentTaskList = new Queue<Task>();
 
     public enum State
     {
         IDLE,
         TRAVELLING_TO_TASK,
+        WORKING,
     }
 
     public State state = State.IDLE;
 
     public TileBase currentTile;
 
-    List<KeyValuePair<int, int>> currentPath;
+    Stack<KeyValuePair<int, int>> currentPath;
 
     Vector3 target;
     bool targetSet = false;
@@ -46,8 +47,8 @@ public class Lizard : Entity {
 
     public void Destroy()
     {
-        int idx = mgr.lizards[assignment].IndexOf(this);
-        mgr.lizards[assignment].RemoveAt(idx);
+        mgr.lizards[assignment].Remove(this);
+        SetTile(null);
         Destroy(gameObject);
     }
 
@@ -71,14 +72,14 @@ public class Lizard : Entity {
             float distance = difference.x;
             SetAnim(walkAnim);
             SetLeft(distance > 0);
-            transform.localPosition += new Vector3(Mathf.Sign(distance), 0.0f, 0.0f) * Mathf.Max(distance, Time.deltaTime * fSpeed);
+            transform.localPosition += new Vector3(Mathf.Sign(distance), 0.0f, 0.0f) * Mathf.Min(Mathf.Abs(distance), Time.deltaTime * fSpeed);
             reachedTarget = Mathf.Abs((target - transform.position).x) < tolerance;
         }
         else
         {
             float distance = difference.y;
             SetAnim(climbAnim);
-            transform.localPosition += new Vector3(0.0f, Mathf.Sign(distance), 0.0f) * Mathf.Max(distance, Time.deltaTime * fSpeed);
+            transform.localPosition += new Vector3(0.0f, Mathf.Sign(distance), 0.0f) * Mathf.Min(Mathf.Abs(distance), Time.deltaTime * fSpeed);
             reachedTarget = Mathf.Abs((target - transform.position).y) < tolerance;
         }
         if (reachedTarget)
@@ -93,7 +94,6 @@ public class Lizard : Entity {
     private void SetState(State newState)
     {
         state = newState;
-
         switch(newState)
         {
             case State.IDLE:
@@ -102,6 +102,9 @@ public class Lizard : Entity {
             case State.TRAVELLING_TO_TASK:
                 SetAnim(walkAnim);
                 break;
+            case State.WORKING:
+                SetAnim(interactAnim);
+                break;
         }
     }
 
@@ -109,6 +112,7 @@ public class Lizard : Entity {
 	public override void Start () {
         base.Start();
         mgr = Core.theCore.GetComponent<TileManager>();
+        currentPath = new Stack<KeyValuePair<int, int>>();
 	}
 
     public void SetTarget(Vector3 newTarget) {
@@ -124,6 +128,13 @@ public class Lizard : Entity {
         switch(state)
         {
             case State.IDLE:
+                if (Player.thePlayer.pendingWorkerTasks.Count != 0)
+                {
+                    currentTaskList = Player.thePlayer.pendingWorkerTasks[0];
+                    Player.thePlayer.pendingWorkerTasks.RemoveAt(0);
+                    SetNextTask();
+                    break;
+                }
                 fIdleTime -= Time.deltaTime;
                 if (!targetSet) {
                     if (fIdleTime < 0)
@@ -137,18 +148,80 @@ public class Lizard : Entity {
                 }
                 break;
             case State.TRAVELLING_TO_TASK:
-                if (currentPath.Count == 0)           
+                if (Move())
                 {
-                    SetState(State.IDLE);
-                    break;
-                } 
-                var next = currentPath[0];
-                currentPath.RemoveAt(0);
-                target = GetTileCenter(mgr.tiles[next.Key, next.Value]);
+                    if (currentPath.Count == 0)
+                    {
+                        SetState(State.WORKING);
+                    }
+                    else
+                    {
+                        var next = currentPath.Pop();
+                        SetTile(mgr.GetTileBase(next.Key, next.Value) );
+                        SetTarget(GetTileCenter(mgr.GetTileBase(next.Key, next.Value)) );
+                    }
+                }
+                break;
+            case State.WORKING:
+                Task t = currentTaskList.Peek();
+                switch (t.type)
+                {
+                    case Task.Type.BUILD:
+                        if (currentTile.Build(this) )
+                        {
+                            currentTaskList.Dequeue();
+                            SetNextTask();
+                        }
+                        else
+                            currentTaskList.Peek().fTaskTime = currentTile.fBuildLeft;
+                        break;
+                    case Task.Type.EAT:
+                    case Task.Type.RELAX:
+                    case Task.Type.WORK_ROOM:
+                    case Task.Type.FETCH_RESOURCE:
+                        SetNextTask();
+                        break;
+                        
+                }
                 break;
         }
 
 	}
 
+    // Return true if there is a task to set
+    public bool SetNextTask()
+    {
+        if (currentTaskList.Count == 0)
+        {
+            SetState(State.IDLE);
+            return false;
+        }
+        else {
+            Task task = currentTaskList.Peek();
+            currentPath = mgr.GetPath(
+                new KeyValuePair<int, int>(currentTile.x, currentTile.y),
+                new KeyValuePair<int, int>(task.targetX, task.targetY)
+                );
+            if (currentPath == null)
+            {
+                // DO SOMETHING!
+                SetState(State.IDLE);
+                return false;
+            }
+            else
+            {
+                SetState(State.TRAVELLING_TO_TASK);
+            }
+            return true;
+        }
+    }
+
+    public void SetTile(TileBase tile)
+    {
+        currentTile.lizardsOnTile.Remove(this);
+        if (tile != null)
+            tile.lizardsOnTile.Add(this);
+        currentTile = tile;
+    }
 
 }

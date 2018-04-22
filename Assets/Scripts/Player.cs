@@ -9,13 +9,17 @@ public class Player : MonoBehaviour
 	int metal = 0;
 	int gems = 0;
 	int mushrooms = 0;
+
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
 
-	// Use this for initialization
-	void Start ()
+    public List<Queue<Task>> pendingWorkerTasks;
+   
+    // Use this for initialization
+    void Start ()
 	{
 		thePlayer = this;
+        pendingWorkerTasks = new List<Queue<Task>>();
 	}
 	
 	// Update is called once per frame

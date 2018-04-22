@@ -12,10 +12,16 @@ abstract public class TileBase : MonoBehaviour {
     public int bWarning = 0; // Number of things intending to dig this tile
     public string printName = "";
 
+    static float fMaxBuildTime = 5.0f;
+    public float fBuildLeft = fMaxBuildTime;
+
     public Resource[] tidyResources;
     public List<Resource> clutteredResources = new List<Resource>();
+    public List<Lizard> lizardsOnTile = new List<Lizard>();
 
     public Transform[] tidyStorageSpots;
+
+    public TileBase replacingTile = null;
 
     [System.Serializable]
     public enum TileType {
@@ -76,7 +82,39 @@ abstract public class TileBase : MonoBehaviour {
 
     virtual public bool IsPassable()
     {
-        return true;
+        return fBuildLeft < 0;
+    }
+
+    public void Replace()
+    {
+        if (replacingTile == null)
+            return;
+        GetComponentInParent<TileManager>().tiles[x, y] = replacingTile;
+        replacingTile.SetCoords(x, y);
+        replacingTile.transform.SetParent(transform.parent);
+        while (lizardsOnTile.Count != 0)
+            lizardsOnTile[0].SetTile(replacingTile);
+        Destroy();
+    }
+
+    // Return true if building is done!
+    public bool Build(Lizard by)
+    {
+        if (replacingTile != null)
+        {
+            Replace();
+            return false;
+        }
+        fBuildLeft -= Time.deltaTime;
+        SetAlpha(Mathf.Min(1.0f, 0.3f + 0.7f * (1 - fBuildLeft / fMaxBuildTime)));
+
+        return fBuildLeft < 0;
+    }
+
+    public void SetAlpha(float alpha)
+    {
+        foreach (SpriteRenderer renderer in GetComponents<SpriteRenderer>())
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, alpha);
     }
 
     public bool IsLizardy()
@@ -115,6 +153,8 @@ abstract public class TileBase : MonoBehaviour {
 
     public virtual void Destroy()
     {
+        while (lizardsOnTile.Count != 0)
+            lizardsOnTile[0].SetTile(null);
 		Destroy(gameObject);
     }
 
