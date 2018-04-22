@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Nest : TileBase {
+public class Nest : TileBase
+{
+	public static int lizardCapacity = 4;
 
     public override TileBase.TileType Type()
     {

@@ -29,13 +29,26 @@ public class Hatchery : TileBase {
         if (x < 0 || y < 0)
             return;
 
-        // Where's the foetus gonna gestate? Temporary code
-        fGestationTimeRemaining -= Time.deltaTime;
+		// Where's the foetus gonna gestate? Temporary code
+		if (fGestationTimeRemaining > 0.0f)
+		{
+			fGestationTimeRemaining -= Time.deltaTime;
+		}
         if (fGestationTimeRemaining <= 0.0f)
         {
-            fGestationTimeRemaining = 1.0f;
+			// Check capacity
+			int capacity = Core.theTM.GetNumTilesOfType(TileType.NEST) * Nest.lizardCapacity;
+			int currentNumLizards = 0;
+			foreach (List<Lizard> llist in Core.theTM.lizards.Values)
+			{
+				currentNumLizards += llist.Count;
+			}
 
-            SpawnLizard();
+			if ( currentNumLizards < capacity  )
+			{
+				fGestationTimeRemaining = 1.0f;
+				SpawnLizard();
+			}
         }
     }
 

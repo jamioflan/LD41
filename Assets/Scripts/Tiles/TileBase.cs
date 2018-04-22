@@ -109,6 +109,16 @@ abstract public class TileBase : MonoBehaviour {
         return null;
     }
 
+    public void PurgeItems()
+    {
+        foreach (Resource r in clutteredResources)
+            Destroy(r.gameObject);
+        clutteredResources.Clear();
+        foreach (Resource r in tidyResources)
+            Destroy(r.gameObject);
+        tidyResources = new Resource[tidyResources.Length];
+    }
+
     public abstract TileType Type();
 
 	public abstract bool CanBeBuiltOver();

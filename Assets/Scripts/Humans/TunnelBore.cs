@@ -54,5 +54,11 @@ public class TunnelBore : Entity
     {
         fSpeed *= 4.0f;
         SetLeft(!bFlip);
+
+        for (int i = 0; i < TileManager.width; i++)
+        {
+            TileBase tb = Core.theTM.tiles[i, iDepth];
+            tb.bWarning--;
+        }
     }
 }
