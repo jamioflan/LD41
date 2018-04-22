@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4434675582418398}
   - component: {fileID: 114209329805174970}
+  - component: {fileID: 114052851212433282}
   m_Layer: 0
   m_Name: Trap
   m_TagString: Untagged
@@ -156,6 +157,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &114052851212433282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1034545348356962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: A human trap
 --- !u!114 &114209329805174970
 MonoBehaviour:
   m_ObjectHideFlags: 1
