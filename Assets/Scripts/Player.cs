@@ -19,13 +19,13 @@ public class Player : MonoBehaviour
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
 
-    public List<Queue<Task>> pendingWorkerTasks;
+    public List<Task> pendingWorkerTasks;
    
     // Use this for initialization
     void Start ()
 	{
 		thePlayer = this;
-        pendingWorkerTasks = new List<Queue<Task>>();
+        pendingWorkerTasks = new List<Task>();
 	}
 	
 	// Update is called once per frame

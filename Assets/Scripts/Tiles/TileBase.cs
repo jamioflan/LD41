@@ -7,6 +7,11 @@ abstract public class TileBase : MonoBehaviour {
     public int x;
     public int y;
 
+    public KeyValuePair<int, int> GetKVPair()
+    {
+        return new KeyValuePair<int, int>(x, y);
+    }
+
     public SpriteRenderer warningSprite;
     private float fWarningTime = 0.0f;
     public int bWarning = 0; // Number of things intending to dig this tile
@@ -25,6 +30,8 @@ abstract public class TileBase : MonoBehaviour {
     public Transform[] tidyStorageSpots;
 
     public TileBase replacingTile = null;
+
+    public Task queuedTask = null;
 
     [System.Serializable]
     public enum TileType {
@@ -77,6 +84,17 @@ abstract public class TileBase : MonoBehaviour {
         clutteredResources.Remove(resource);
     }
 
+    public Resource FindResource(Resource.ResourceType type)
+    {
+        foreach (Resource r in clutteredResources)
+            if (r.type == type)
+                return r;
+        foreach (Resource r in tidyResources)
+            if (r.type == type)
+                return r;
+        return null;
+    }
+
     public abstract TileType Type();
 
 	public abstract bool CanBeBuiltOver();
@@ -115,6 +133,8 @@ abstract public class TileBase : MonoBehaviour {
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
         Destroy();
+        if (queuedTask != null)
+            queuedTask.associatedTile = replacingTile;
     }
 
     // Return true if building is done!

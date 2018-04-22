@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Resource : MonoBehaviour
+
 {
     public enum ResourceType
     {
@@ -15,7 +16,7 @@ public class Resource : MonoBehaviour
     }
 
     public Lizard reservee = null;
-
+    public ResourceType type;
     public TileBase holder = null;
     public Lizard carriedBy = null;
 
@@ -26,6 +27,7 @@ public class Resource : MonoBehaviour
 	void Update () {
 		
 	}
+
 
     public void Drop()
     {
@@ -51,8 +53,14 @@ public class Resource : MonoBehaviour
     public void GiveToLizard(Lizard lizzo)
     {
         Drop();
-        lizzo.carrying = this;
+        lizzo.Take(this);
         carriedBy = lizzo;
+    }
+
+    public void Unclaim()
+    {
+        Debug.Log("Update resource counts!");
+        reservee = null;
     }
 
 }

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 212373842984630650}
   - component: {fileID: 61710043763390574}
   - component: {fileID: 114040370595614146}
+  - component: {fileID: 114203288120090152}
   m_Layer: 0
   m_Name: Nest
   m_TagString: Untagged
@@ -151,6 +152,18 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
+--- !u!114 &114203288120090152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1744813739541470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: A nest
 --- !u!212 &212228767209621284
 SpriteRenderer:
   m_ObjectHideFlags: 1

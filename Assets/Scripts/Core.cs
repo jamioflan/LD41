@@ -322,15 +322,13 @@ public class Core : MonoBehaviour
 
     public void Win()
     {
-        // TODO: Reeeeeebecccccccca! 
-        //
-        // Plis
+		RequestState(CORE_STATE.END_GAME_MENU);
+		bIsSuccess = true;
     }
 
     public void Lose()
     {
-        // TODO: Reeeeeebecccccccca! 
-        //
-        // Plis
-    }
+		RequestState(CORE_STATE.END_GAME_MENU);
+		bIsSuccess = false;
+	}
 }

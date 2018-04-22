@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4097418681338322}
   - component: {fileID: 212935091760981106}
   - component: {fileID: 114348493131379720}
+  - component: {fileID: 114054298374348462}
   m_Layer: 0
   m_Name: TVRoom
   m_TagString: Untagged
@@ -101,6 +102,18 @@ Transform:
   m_Father: {fileID: 4097418681338322}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114054298374348462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584069028729178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: A TV room
 --- !u!114 &114348493131379720
 MonoBehaviour:
   m_ObjectHideFlags: 1
