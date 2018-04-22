@@ -120,6 +120,11 @@ public class DrillTruck : Entity
                             CeaseDrilling();
                         }
                     }
+
+                    if(iDrillProgress > iTargetDepth)
+                    {
+                        CeaseDrilling();
+                    }
                 }
 
                 for(int i = 0; i < drills.Count; i++)

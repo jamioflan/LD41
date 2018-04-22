@@ -120,7 +120,7 @@ public class TileManager : MonoBehaviour {
     // Return whether to continue digging
     public bool HumanDigTile(int x, int y)
     {
-        if (!tiles[x, y].CanBeDug())
+        if (x < 0 || y < 0 || x >= width || y >= depth || !tiles[x, y].CanBeDug())
         {
             return false;
         }
