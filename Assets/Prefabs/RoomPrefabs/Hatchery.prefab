@@ -112,6 +112,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212844200963230568}
   bWarning: 0
+  printName: Hatchery
 --- !u!212 &212490781294251938
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -52,7 +52,7 @@ struct PointHash : IEqualityComparer<Point>
 public class TileManager : MonoBehaviour {
 
     public static int width = 10;
-    public static int depth = 50;
+    public static int depth = 15;
 
     public TileBase[] prefabs;
 

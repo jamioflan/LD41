@@ -10,6 +10,7 @@ abstract public class TileBase : MonoBehaviour {
     public SpriteRenderer warningSprite;
     private float fWarningTime = 0.0f;
     public int bWarning = 0; // Number of things intending to dig this tile
+    public string printName = "";
 
     public enum TileType {
         EMPTY = 0,

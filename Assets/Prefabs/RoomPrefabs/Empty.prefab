@@ -112,6 +112,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212953984761599672}
   bWarning: 0
+  printName: Empty Room
 --- !u!212 &212628111691358878
 SpriteRenderer:
   m_ObjectHideFlags: 1

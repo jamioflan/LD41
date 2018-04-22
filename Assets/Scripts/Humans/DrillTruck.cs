@@ -61,7 +61,7 @@ public class DrillTruck : Entity
                     SetAnim(drillAnim);
                     phase = Phase.DRILL;
                     // Redo based on player depth and duration of game so far
-                    iTargetDepth = Random.Range(0, TileManager.depth);
+                    iTargetDepth = Random.Range(1, 7);
 
                     // Spawn plans
                     for(int i = 0; i < iTargetDepth; i++)
@@ -92,6 +92,7 @@ public class DrillTruck : Entity
                         if(tb.IsLizardy())
                         {
                             tb.bWarning++;
+                            TextTicker.AddLine("Warning: Humans are about to drill into our " + tb.printName);
                         }
                     }
 
