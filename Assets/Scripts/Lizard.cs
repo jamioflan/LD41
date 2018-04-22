@@ -130,6 +130,9 @@ public class Lizard : Entity {
         base.Start();
         mgr = Core.theCore.GetComponent<TileManager>();
         currentPath = new Path();
+
+        for (int i = 0; i < (int)Need.NUM_NEEDS; i++)
+            afNeeds[i] = 1.0f;
 	}
 
     public void SetTarget(Vector3 newTarget) {

@@ -59,7 +59,7 @@ public class HumanSpawner : MonoBehaviour
 
         if (fTimeToNextBore <= 0.0f)
         {
-            fTimeToNextBore = Random.Range(10f, 20.0f);
+            fTimeToNextBore = Random.Range(45.0f, 60.0f);
             TunnelBore human = Instantiate<TunnelBore>(borePrefab);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;

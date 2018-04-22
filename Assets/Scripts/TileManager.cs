@@ -126,7 +126,7 @@ public class TileManager : MonoBehaviour {
         foreach (List<Lizard> llist in lizards.Values)
             while (llist.Count != 0)
                 llist[0].Destroy();
-        CreateLizard(hutTile.x, hutTile.y);
+        CreateLizard(hutTile.x, hutTile.y).lizardName = "Yvonne";
 
     }
 

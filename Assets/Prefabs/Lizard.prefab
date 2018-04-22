@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 114265320898909294}
   - component: {fileID: 114296786931195936}
   - component: {fileID: 114638337347098724}
+  - component: {fileID: 114230637878837786}
+  - component: {fileID: 61942070921142948}
   m_Layer: 0
   m_Name: Lizard
   m_TagString: Untagged
@@ -39,12 +41,49 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1543955680772896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.8345346, y: 0.6971377, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61942070921142948
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543955680772896}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.036566496, y: -0.104475856}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.5, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.19702005, y: 0.2910483}
+  m_EdgeRadius: 0
+--- !u!114 &114230637878837786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543955680772896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3247408cfc5a219488bb14757c7ea547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: 
 --- !u!114 &114265320898909294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,6 +132,10 @@ MonoBehaviour:
   currentAnim: {fileID: 114463626376255152}
   fAnimTime: 0
   bFlip: 0
+  afNeeds:
+  - 0
+  - 0
+  - 0
   assignment: 3
   lizardName: 
   currentTask:
