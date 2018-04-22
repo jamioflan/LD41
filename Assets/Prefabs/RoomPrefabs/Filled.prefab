@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 0
-  warningSprite: {fileID: 212777458655013648}
+  warningSprite: {fileID: 212191653262077316}
   bWarning: 0
   printName: 
   highlightSprite: {fileID: 212777458655013648}
