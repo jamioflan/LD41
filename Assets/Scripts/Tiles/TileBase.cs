@@ -37,12 +37,15 @@ abstract public class TileBase : MonoBehaviour {
             if (tidyResources[i] == null)
             {
                 tidyResources[i] = resource;
-                //resource.transform.SetParent()
+                resource.transform.SetParent(tidyStorageSpots[i]);
+                resource.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 return;
             }
         }
 
         clutteredResources.Add(resource);
+        resource.transform.SetParent(transform);
+        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);
     }
 
     public void RemoveResource(Resource resource)
