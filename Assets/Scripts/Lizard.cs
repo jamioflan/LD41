@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class Lizard : Entity {
     
+    public enum Need
+    {
+        // Essentials
+        FOOD,
+        
+
+        // Luxuries - Feed into happiness
+        HUMAN_FOOD,
+        ENTERTAINMENT,
+
+        NUM_NEEDS,
+    }
+
+    public float[] afNeeds = new float[(int)Need.NUM_NEEDS];
+
     public enum Assignment
     {
         HATCHERY,
@@ -126,8 +141,22 @@ public class Lizard : Entity {
 	// Update is called once per frame
 	public override void Update () {
         base.Update();
+        for (int i = 0; i < (int)Need.NUM_NEEDS; i++)
+            afNeeds[i] -= 0.01f * Time.deltaTime;
 
-        switch(state)
+        if(ShouldDie())
+        {
+            TextTicker.AddLine(lizardName + " died of starvation");
+            Destroy(gameObject);
+        }
+
+        if (ShouldGoMad())
+        {
+            TextTicker.AddLine(lizardName + " has gone mad and is trying to leave");
+            // TODO: Go into escape state
+        }
+
+        switch (state)
         {
             case State.IDLE:
                 if (Player.thePlayer.pendingWorkerTasks.Count != 0)
@@ -241,4 +270,32 @@ public class Lizard : Entity {
         currentTile = tile;
     }
 
+    public bool ShouldDie() { return afNeeds[(int)Need.FOOD] <= 0.0f; }
+    public bool ShouldGoMad() { return afNeeds[(int)Need.HUMAN_FOOD] + afNeeds[(int)Need.ENTERTAINMENT] <= 0.0f; }
+
+    public bool AmInDangerOfStarving()
+    {
+        return afNeeds[(int)Need.FOOD] < 0.25f;
+    }
+
+    public bool AmInDangerOfBreaking()
+    { 
+        return afNeeds[(int)Need.HUMAN_FOOD] + afNeeds[(int)Need.ENTERTAINMENT] < 0.25f;
+    }
+
+    public void Consume(Resource resource)
+    {
+        switch(resource.type)
+        {
+            case Resource.ResourceType.MUSHROOMS:
+                afNeeds[(int)Need.FOOD] += 0.5f;
+                break;
+            case Resource.ResourceType.HUMAN_FOOD:
+                afNeeds[(int)Need.HUMAN_FOOD] += 0.5f;
+                break;
+            default:
+                TextTicker.AddLine("Should you really be eating that, " + lizardName + "?");
+                break;
+        }
+    }
 }
