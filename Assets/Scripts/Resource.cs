@@ -9,7 +9,8 @@ public class Resource : MonoBehaviour {
         GEMS,
         MUSHROOMS,
         HUMAN_FOOD,
-        HUMAN_SKIN
+        HUMAN_SKIN,
+        NULL
     }
 	// Use this for initialization
 	void Start () {
