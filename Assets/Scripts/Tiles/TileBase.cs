@@ -135,7 +135,8 @@ abstract public class TileBase : MonoBehaviour {
     public virtual void Start ()
     {
         warningSprite.enabled = false;
-        tidyResources = new Resource[tidyStorageSpots.Length];
+		if (highlightSprite != null) { highlightSprite.enabled = false; }
+		tidyResources = new Resource[tidyStorageSpots.Length];
     }
 	
 	public virtual void Update ()
