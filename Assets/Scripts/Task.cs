@@ -16,7 +16,8 @@ public class Task
     public Type type;
     public Resource.ResourceType resourceType = Resource.ResourceType.NULL;
     float fTaskTime;
-    Vector3 target;
+    int targetX;
+    int targetY;
     Task(Type type)
     {
         switch (type)
@@ -34,7 +35,7 @@ public class Task
                 fTaskTime = float.PositiveInfinity;
                 break;
             case Type.BUILD:
-                fTaskTime = 3.0f;
+                fTaskTime = float.PositiveInfinity;
                 break;
         }
     }

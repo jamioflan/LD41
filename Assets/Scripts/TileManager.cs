@@ -87,7 +87,7 @@ public class TileManager : MonoBehaviour {
                         
                 }
 
-                RequestNewTile(ii, jj, type);
+                RequestNewTile(ii, jj, type, true);
 
             }
         }
@@ -134,7 +134,7 @@ public class TileManager : MonoBehaviour {
 
 
     // Create a new tile
-    public TileBase RequestNewTile(int x, int y, TileBase.TileType type)
+    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false)
     {
         if (tiles[x, y] != null)
         {
@@ -143,6 +143,10 @@ public class TileManager : MonoBehaviour {
         tiles[x, y] = Instantiate<TileBase>(prefabs[(int)type]);
         tiles[x, y].transform.SetParent(transform);
         tiles[x, y].SetCoords(x, y);
+        if (instant)
+        {
+            tiles[x, y].fBuildLeft = -Time.deltaTime;
+        }
         return tiles[x, y];
     }
 
