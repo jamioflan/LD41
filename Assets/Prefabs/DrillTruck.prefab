@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1608595417063280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.55, y: 0.75, z: -3}
+  m_LocalPosition: {x: -0.63064265, y: -1.8718383, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,6 +78,7 @@ MonoBehaviour:
   fSpeed: 3
   fDrillSpeed: 0.1
   fTimeUntilNextPhase: 0
+  walkAnim: {fileID: 114069788546993796}
   unloadAnim: {fileID: 114625050364409458}
   drillAnim: {fileID: 114578811983880080}
   fDrillProgress: 0
@@ -92,6 +93,7 @@ MonoBehaviour:
   topDrill: {fileID: 0}
   drills: []
   drillBit: {fileID: 0}
+  drillPlans: []
 --- !u!114 &114578811983880080
 MonoBehaviour:
   m_ObjectHideFlags: 1
