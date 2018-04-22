@@ -9,9 +9,10 @@ public class UI_HUD : MonoBehaviour
 	public GameObject toolbarGroup;
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
-
-	//public SpriteRenderer highlightSprite;
-	//Sprite[] activeHighlightSprites;
+	public Text numMetal;
+	public Text numGems;
+	public Text numMushrooms;
+	public Text numLizardsDisguisedAsHumans;
 
 	public enum BUILD_ITEM
 	{
@@ -43,10 +44,26 @@ public class UI_HUD : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		// Update the human suspicion amount
+		// Update the counters
 		if (humanSuspicionMeter != null)
 		{
 			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
+		}
+		if( numMetal != null )
+		{
+			numMetal.text = "" + Player.thePlayer.metal;
+		}
+		if (numGems != null)
+		{
+			numGems.text = "" + Player.thePlayer.gems;
+		}
+		if (numMushrooms != null)
+		{
+			numMushrooms.text = "" + Player.thePlayer.mushrooms;
+		}
+		if( numLizardsDisguisedAsHumans != null)
+		{
+			numLizardsDisguisedAsHumans.text = "" + Player.thePlayer.lizardsDisguisedAsHumans;
 		}
 
 		// Hide all highlights

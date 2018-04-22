@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
 	public static Player thePlayer;
 
-	int metal = 0;
-	int gems = 0;
-	int mushrooms = 0;
+	public int metal = 0;
+	public int gems = 0;
+	public int mushrooms = 0;
 
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
