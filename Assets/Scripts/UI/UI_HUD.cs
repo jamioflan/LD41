@@ -169,69 +169,6 @@ public class UI_HUD : MonoBehaviour
 				// When anything is clicked, return everything to the default state
 				Reset();
 			}
-
-			//if ( Input.GetAxis("Fire1") > 0.0f )
-			//{
-			//	// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
-			//	// If none was clicked on, cancel the action and open the toolbar again. If one was
-			//	// clicked on, perform the required action for that tile (and open the toolbar again!).
-			//	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			//	RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-			//	if (hit)
-			//	{
-			//		Debug.Log("Hit " + hit.collider.gameObject.name);
-			//
-			//		if( isBuildingAThing )
-			//		{
-			//			if( hit.collider.gameObject.name == "Empty(Clone)" )
-			//			{
-			//				Debug.Log("Building a thing!");
-			//
-			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-			//				if( targetTile != null )
-			//				{
-			//					TileBase.TileType eTileType = GetTileTypeToBuild();
-			//					Core.theTM.RequestNewTile( targetTile.x, targetTile.y, eTileType);
-			//				}
-			//			}
-			//		}
-			//		else if( isDiggingATile )
-			//		{
-			//			if (hit.collider.gameObject.name == "Filled(Clone)")
-			//			{
-			//				Debug.Log("Digging a tile!");
-			//
-			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-			//				if (targetTile != null)
-			//				{
-			//					TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-			//					Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-			//				}
-			//			}
-			//		}
-			//		else if( isFillingInATile )
-			//		{
-			//			if (hit.collider.gameObject.name == "Empty(Clone)")
-			//			{
-			//				Debug.Log("Filling in a tile!");
-			//
-			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-			//				if (targetTile != null)
-			//				{
-			//					TileBase.TileType eTileType = TileBase.TileType.FILLED;
-			//					Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-			//				}
-			//			}
-			//		}
-			//		else if( isMarkingATileAsPriority )
-			//		{
-			//			Debug.Log("Marking a tile as priority!");
-			//		}
-			//	}
-			//
-			//	// Return everything to the default state
-			//	Reset();
-			//}
 		}
 	}
 
