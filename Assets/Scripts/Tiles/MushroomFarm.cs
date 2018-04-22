@@ -9,7 +9,12 @@ public class MushroomFarm : TileBase {
         return TileBase.TileType.FARM;
     }
 
-    public override void Start()
+	public override bool CanBeBuiltOver() { return false; }
+	public override bool CanBeDug() { return false; }
+	public override bool CanBeFilledIn() { return true; }
+	public override bool CanBeMarkedAsPriority() { return true; }
+
+	public override void Start()
     {
         base.Start();
     }

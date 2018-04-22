@@ -9,7 +9,12 @@ public class TVRoom : TileBase {
         return TileBase.TileType.TVROOM;
     }
 
-    public override void Start()
+	public override bool CanBeBuiltOver() { return false; }
+	public override bool CanBeDug() { return false; }
+	public override bool CanBeFilledIn() { return true; }
+	public override bool CanBeMarkedAsPriority() { return false; }
+
+	public override void Start()
     {
         base.Start();
     }
