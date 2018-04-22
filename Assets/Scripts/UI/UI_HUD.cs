@@ -16,12 +16,16 @@ public class UI_HUD : MonoBehaviour
 	public Text numDinosaurBones;
 	public Text numLizardsDisguisedAsHumans;
 
+	// Do not delete/re-order! Numbers used in GUI
 	public enum BUILD_ITEM
 	{
 		STORAGE = 0,
 		HATCHERY = 1,
 		NEST = 2,
 		TAILOR = 3,
+		TRAP = 4,
+		MUSHROOMFARM = 5,
+		TVROOM = 6,
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
@@ -440,6 +444,21 @@ public class UI_HUD : MonoBehaviour
 			{
 				iMetalCost = 0;
 				return TileBase.TileType.TAILOR;
+			}
+			case BUILD_ITEM.TRAP:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.TRAP;
+			}
+			case BUILD_ITEM.MUSHROOMFARM:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.FARM;
+			}
+			case BUILD_ITEM.TVROOM:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.TVROOM;
 			}
 			default:
 			{
