@@ -26,7 +26,16 @@ public class Entity : MonoBehaviour
 
     public void SetAnim(Anim anim)
     {
-        currentAnim = anim;
-        fAnimTime = 0.0f;
+        if (anim != currentAnim)
+        {
+            currentAnim = anim;
+            fAnimTime = 0.0f;
+        }
+    }
+
+    public void SetLeft(bool bLeft)
+    {
+        bFlip = bLeft;
+        GetComponent<SpriteRenderer>().flipX = bFlip;
     }
 }
