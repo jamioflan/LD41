@@ -117,9 +117,55 @@ public class TileManager : MonoBehaviour {
 
     }
 
-    public void HumanDigTile(int x, int y)
+    // Return whether to continue digging
+    public bool HumanDigTile(int x, int y)
     {
+        if (!tiles[x, y].CanBeDug())
+        {
+            return false;
+        }
 
+        switch(tiles[x,y].Type())
+        {
+            case TileBase.TileType.METAL:
+            case TileBase.TileType.GEMS:
+                RequestNewTile(x, y, TileBase.TileType.FILLED);
+                return false;
+
+            case TileBase.TileType.FILLED:
+                return true;
+
+            case TileBase.TileType.TUBE_LINE:
+                return false;
+
+            case TileBase.TileType.EMPTY:
+                Player.thePlayer.AddSuspicion(10.0f);
+                return false;
+
+            case TileBase.TileType.HUT:
+            case TileBase.TileType.STORAGE:
+            case TileBase.TileType.NEST:
+            case TileBase.TileType.FARM:
+            case TileBase.TileType.TVROOM:
+            case TileBase.TileType.TRAP:
+                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                Player.thePlayer.AddSuspicion(10.0f);
+                return false;
+
+            case TileBase.TileType.HATCHERY:
+                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                Player.thePlayer.AddSuspicion(25.0f);
+                return false;
+
+            case TileBase.TileType.TAILOR:
+                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                Player.thePlayer.AddSuspicion(50.0f);
+                return false;           
+
+        }
+
+
+        return true;
     }
 
     public TileBase GetTileBase(int x, int y)

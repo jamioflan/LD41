@@ -9,7 +9,12 @@ public class Empty : TileBase {
         return TileBase.TileType.EMPTY;
     }
 
-    public override void Start()
+	public override bool CanBeBuiltOver() { return true; }
+	public override bool CanBeDug() { return false; }
+	public override bool CanBeFilledIn() { return true; }
+	public override bool CanBeMarkedAsPriority() { return false; }
+
+	public override void Start()
     {
         base.Start();
     }

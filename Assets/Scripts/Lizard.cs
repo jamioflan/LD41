@@ -14,7 +14,7 @@ public class Lizard : Entity {
 
     public Assignment assignment = Assignment.WORKER;
 
-    public string name;
+    public string lizardName;
 
     public Queue<Task> currentTaskList = new Queue<Task>();
 

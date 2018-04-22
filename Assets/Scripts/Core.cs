@@ -19,6 +19,9 @@ public class Core : MonoBehaviour
 		END_GAME_MENU,
 	}
 
+	public float cameraMaxY = 4.0f;
+	public float cameraMinY = -15.0f;
+
 	public GameObject mainMenu;
 	public GameObject pauseMenu;
 	public GameObject HUD;
@@ -51,6 +54,8 @@ public class Core : MonoBehaviour
 		{
 			theTileManager.Reset();
 		}
+
+		Camera.main.transform.position = new Vector3(0.0f, 1.0f, -10.0f);
 
 		// Reset all menus to default state
 		if (mainMenu != null)
@@ -119,6 +124,17 @@ public class Core : MonoBehaviour
 		if( !bWasEscPressed && bIsEscPressed )
 		{
 			RequestState(CORE_STATE.PAUSE_MENU);
+		}
+
+		if( Input.GetAxis("Mouse ScrollWheel") > 0 )
+		{
+			float fNewY = Mathf.Min(Camera.main.transform.position.y + 1.0f, cameraMaxY);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z );
+		}
+		else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+		{
+			float fNewY = Mathf.Max(Camera.main.transform.position.y - 1.0f, cameraMinY);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z);
 		}
 	}
 
@@ -303,4 +319,18 @@ public class Core : MonoBehaviour
 
 		bWasEscPressed = bIsEscPressed;
 	}
+
+    public void Win()
+    {
+        // TODO: Reeeeeebecccccccca! 
+        //
+        // Plis
+    }
+
+    public void Lose()
+    {
+        // TODO: Reeeeeebecccccccca! 
+        //
+        // Plis
+    }
 }

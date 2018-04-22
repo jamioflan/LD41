@@ -115,7 +115,10 @@ public class DrillTruck : Entity
 
                     if(iDrillProgress >= 1)
                     {
-                        Core.theTM.HumanDigTile(iTargetX, iDrillProgress - 1);
+                        if(!Core.theTM.HumanDigTile(iTargetX, iDrillProgress - 1))
+                        {
+                            CeaseDrilling();
+                        }
                     }
                 }
 

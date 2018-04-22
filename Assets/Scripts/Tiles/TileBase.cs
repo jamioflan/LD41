@@ -23,6 +23,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public TileBase replacingTile = null;
 
+    [System.Serializable]
     public enum TileType {
         EMPTY = 0,
         FILLED = 1,
@@ -37,6 +38,7 @@ abstract public class TileBase : MonoBehaviour {
 
         METAL = 10,
         GEMS = 11,
+        TUBE_LINE = 12,
     }
 
     public void StoreResource(Resource resource)
@@ -72,6 +74,11 @@ abstract public class TileBase : MonoBehaviour {
     }
 
     public abstract TileType Type();
+
+	public abstract bool CanBeBuiltOver();
+	public abstract bool CanBeDug();
+	public abstract bool CanBeFilledIn();
+	public abstract bool CanBeMarkedAsPriority();
 
     virtual public bool IsPassable()
     {
