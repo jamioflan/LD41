@@ -15,6 +15,8 @@ public class Lizard : Entity {
 
     public Assignment assignment = Assignment.WORKER;
 
+    public string name;
+
     public enum State
     {
         IDLE,
