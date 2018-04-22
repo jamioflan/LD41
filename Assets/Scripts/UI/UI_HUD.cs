@@ -13,6 +13,7 @@ public class UI_HUD : MonoBehaviour
 	public Text numGems;
 	public Text numMushrooms;
 	public Text numMoney;
+	public Text numDinosaurBones;
 	public Text numLizardsDisguisedAsHumans;
 
 	public enum BUILD_ITEM
@@ -65,6 +66,10 @@ public class UI_HUD : MonoBehaviour
 		if( numMoney != null )
 		{
 			numMoney.text = "" + Player.thePlayer.money;
+		}
+		if( numDinosaurBones != null )
+		{
+			numDinosaurBones.text = "" + Player.thePlayer.dinosaurBones;
 		}
 		if( numLizardsDisguisedAsHumans != null)
 		{
