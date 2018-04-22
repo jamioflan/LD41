@@ -32,6 +32,10 @@ public class Player : MonoBehaviour
 	void Update ()
 	{
         fHumanSuspicion -= 0.1f * Time.deltaTime;
+		if( fHumanSuspicion < 0.0f )
+		{
+			fHumanSuspicion = 0.0f;
+		}
         if(fHumanSuspicion >= 100.0f)
         {
             Core.theCore.Lose();
