@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class Task
-{
+{ 
     public enum Type
     {
         FETCH_RESOURCE,
@@ -13,32 +13,32 @@ public class Task
         WORK_ROOM,
         BUILD
     }
+    public Lizard assignedLizard;
+    public TileBase associatedTile;
     public Type type;
-    public Resource.ResourceType resourceType = Resource.ResourceType.NULL;
-    public float fTaskTime;
-    public int targetX;
-    public int targetY;
-    public Task(Type type_)
+    Dictionary<Resource.ResourceType, int> requiredResources; // The resources needed to carry out this task
+    List<Resource> claimedResources; // The resources claimed by this task (these sit on the associated tile)
+    Dictionary<Resource.ResourceType, int> missingResources; // The resources left over
+    public void AddResource(Resource resource)
+    {
+        claimedResources.Add(resource);
+        missingResources[resource.type] -= 1;
+    }
+    public Resource.ResourceType GetNextMissing()
+    {
+        foreach (KeyValuePair<Resource.ResourceType, int> kv in missingResources)
+            if (kv.Value <= 0)
+                return kv.Key;
+        return Resource.ResourceType.NULL;
+    }
+    public Task (Type type_, Dictionary<Resource.ResourceType, int> required)
     {
         type = type_;
-        switch (type)
-        {
-            case Type.FETCH_RESOURCE:
-                fTaskTime = 0.5f;
-                break;
-            case Type.EAT:
-                fTaskTime = 2.0f;
-                break;
-            case Type.RELAX:
-                fTaskTime = 10.0f;
-                break;
-            case Type.WORK_ROOM:
-                fTaskTime = float.PositiveInfinity;
-                break;
-            case Type.BUILD:
-                fTaskTime = float.PositiveInfinity;
-                break;
-        }
+        requiredResources = required;
+        claimedResources = new List<Resource>();
+        missingResources = new Dictionary<Resource.ResourceType, int>();
+        foreach (KeyValuePair<Resource.ResourceType, int> kv in required)
+            missingResources.Add(kv.Key, kv.Value);
     }
-}
 
+}

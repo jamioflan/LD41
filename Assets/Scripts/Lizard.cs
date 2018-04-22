@@ -16,12 +16,13 @@ public class Lizard : Entity {
 
     public string lizardName;
 
-    public Queue<Task> currentTaskList = new Queue<Task>();
+    public Task currentTask;
 
     public enum State
     {
         IDLE,
         TRAVELLING_TO_TASK,
+        RETRIEVING_RESOURCE,
         WORKING,
     }
 
@@ -43,6 +44,7 @@ public class Lizard : Entity {
 
     public Anim idleAnim, walkAnim, climbAnim, interactAnim;
 
+    public Resource claimed;
     public Resource carrying;
 
     public void Destroy()
@@ -130,9 +132,9 @@ public class Lizard : Entity {
             case State.IDLE:
                 if (Player.thePlayer.pendingWorkerTasks.Count != 0)
                 {
-                    currentTaskList = Player.thePlayer.pendingWorkerTasks[0];
+                    currentTask = Player.thePlayer.pendingWorkerTasks[0];
                     Player.thePlayer.pendingWorkerTasks.RemoveAt(0);
-                    SetNextTask();
+                    DoTask();
                     break;
                 }
                 fIdleTime -= Time.deltaTime;
@@ -163,23 +165,20 @@ public class Lizard : Entity {
                 }
                 break;
             case State.WORKING:
-                Task t = currentTaskList.Peek();
-                switch (t.type)
+                switch (currentTask.type)
                 {
                     case Task.Type.BUILD:
                         if (currentTile.Build(this) )
                         {
-                            currentTaskList.Dequeue();
-                            SetNextTask();
+                            FinishTask();
+                            SetState(State.IDLE);
                         }
-                        else
-                            currentTaskList.Peek().fTaskTime = currentTile.fBuildLeft;
                         break;
                     case Task.Type.EAT:
                     case Task.Type.RELAX:
                     case Task.Type.WORK_ROOM:
                     case Task.Type.FETCH_RESOURCE:
-                        SetNextTask();
+                        FinishTask();
                         break;
                         
                 }
@@ -188,6 +187,11 @@ public class Lizard : Entity {
 
 	}
 
+    public void DoTask()
+    {
+        Resource.ResourceType nextType = currentTask.GetNextMissing();
+        claimed = 
+    }
     // Return true if there is a task to set
     public bool SetNextTask()
     {
