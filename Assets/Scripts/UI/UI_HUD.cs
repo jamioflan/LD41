@@ -12,6 +12,7 @@ public class UI_HUD : MonoBehaviour
 	public Text numMetal;
 	public Text numGems;
 	public Text numMushrooms;
+	public Text numMoney;
 	public Text numLizardsDisguisedAsHumans;
 
 	public enum BUILD_ITEM
@@ -60,6 +61,10 @@ public class UI_HUD : MonoBehaviour
 		if (numMushrooms != null)
 		{
 			numMushrooms.text = "" + Player.thePlayer.mushrooms;
+		}
+		if( numMoney != null )
+		{
+			numMoney.text = "" + Player.thePlayer.money;
 		}
 		if( numLizardsDisguisedAsHumans != null)
 		{
@@ -348,7 +353,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMetals()
 	{
-		// Sell some metal...
+		// Sell a metal
+		Player.thePlayer.SellMetal(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -369,7 +375,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellGems()
 	{
-		// Sell some gems...
+		// Sell a gem
+		Player.thePlayer.SellGems(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -390,7 +397,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMushrooms()
 	{
-		// Sell some mushrooms...
+		// Sell a mushroom
+		Player.thePlayer.SellMushrooms(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
