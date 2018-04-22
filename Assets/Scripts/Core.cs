@@ -52,7 +52,22 @@ public class Core : MonoBehaviour
 			theTileManager.Reset();
 		}
 
-		// Reset the HUD to default state
+		// Reset all menus to default state
+		if (mainMenu != null)
+		{
+			mainMenu.SetActive(true);
+		}
+
+		if (pauseMenu != null)
+		{
+			pauseMenu.SetActive(false);
+		}
+
+		if (endGameMenu != null)
+		{
+			endGameMenu.SetActive(false);
+		}
+
 		if (HUD != null)
 		{
 			HUD.SetActive(false);
@@ -72,11 +87,6 @@ public class Core : MonoBehaviour
 	void Enter_StartMenu()
 	{
 		Time.timeScale = 0.0f;
-
-		if (mainMenu != null)
-		{
-			mainMenu.SetActive(true);
-		}
 
 		Reset();
 	}

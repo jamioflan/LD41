@@ -60,11 +60,16 @@ public class TileManager : MonoBehaviour {
     public Hut hutTile;
 
     public Lizard lizardPrefab;
-    public List<Lizard> lizards;
+    public Dictionary<Lizard.Assignment, List<Lizard>> lizards = new Dictionary<Lizard.Assignment, List<Lizard>>();
 
 
 	// Use this for initialization
 	void Start () {
+        // Set up lizard dict
+        lizards.Add(Lizard.Assignment.HATCHERY, new List<Lizard>());
+        lizards.Add(Lizard.Assignment.TRAP, new List<Lizard>());
+        lizards.Add(Lizard.Assignment.TAILOR, new List<Lizard>());
+        lizards.Add(Lizard.Assignment.WORKER, new List<Lizard>());
 
         for (int ii = 0; ii < width; ++ii)
         {
@@ -103,15 +108,16 @@ public class TileManager : MonoBehaviour {
         TileBase tile = tiles[x, y];
         lizard.transform.position = Lizard.GetTileCenter(tile);
         lizard.currentTile = tile;
-        lizards.Add(lizard);
+        lizards[Lizard.Assignment.WORKER].Add(lizard);
         return lizard;
     }
 
 
     public void Reset()
 	{
-        while (lizards.Count != 0)
-            lizards[0].Destroy();
+        foreach (List<Lizard> llist in lizards.Values)
+            while (llist.Count != 0)
+                llist[0].Destroy();
         CreateLizard(hutTile.x, hutTile.y);
 
     }
