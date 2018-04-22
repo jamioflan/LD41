@@ -19,6 +19,9 @@ public class Core : MonoBehaviour
 		END_GAME_MENU,
 	}
 
+	public float cameraMaxY = 4.0f;
+	public float cameraMinY = -15.0f;
+
 	public GameObject mainMenu;
 	public GameObject pauseMenu;
 	public GameObject HUD;
@@ -125,11 +128,13 @@ public class Core : MonoBehaviour
 
 		if( Input.GetAxis("Mouse ScrollWheel") > 0 )
 		{
-			Camera.main.transform.position = Camera.main.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+			float fNewY = Mathf.Min(Camera.main.transform.position.y + 1.0f, cameraMaxY);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z );
 		}
 		else if (Input.GetAxis("Mouse ScrollWheel") < 0)
 		{
-			Camera.main.transform.position = Camera.main.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+			float fNewY = Mathf.Max(Camera.main.transform.position.y - 1.0f, cameraMinY);
+			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z);
 		}
 	}
 
