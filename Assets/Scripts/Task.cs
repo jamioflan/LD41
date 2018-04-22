@@ -15,11 +15,12 @@ public class Task
     }
     public Type type;
     public Resource.ResourceType resourceType = Resource.ResourceType.NULL;
-    float fTaskTime;
-    int targetX;
-    int targetY;
-    Task(Type type)
+    public float fTaskTime;
+    public int targetX;
+    public int targetY;
+    public Task(Type type_)
     {
+        type = type_;
         switch (type)
         {
             case Type.FETCH_RESOURCE:

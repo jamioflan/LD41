@@ -11,11 +11,14 @@ public class Player : MonoBehaviour
 	int mushrooms = 0;
 	int lizardsDisguisedAsHumans = 0;
 
+    public List<Queue<Task>> pendingWorkerTasks;
+
 
 	// Use this for initialization
 	void Start ()
 	{
 		thePlayer = this;
+        pendingWorkerTasks = new List<Queue<Task>>();
 	}
 	
 	// Update is called once per frame
