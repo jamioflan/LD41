@@ -164,34 +164,27 @@ public class UI_HUD : MonoBehaviour
 									{
 										Debug.Log("Building a thing!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
+										int iMetalCost = 0;
+										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost );
+										if (iMetalCost <= Player.thePlayer.metal)
 										{
-											TileBase.TileType eTileType = GetTileTypeToBuild();
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+											Player.thePlayer.metal -= iMetalCost;
+											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 										}
 									}
 									else if (isDiggingATile)
 									{
 										Debug.Log("Digging a tile!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
-										{
-											TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-										}
+										TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 									}
 									else if (isFillingInATile)
 									{
 										Debug.Log("Filling in a tile!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
-										{
-											TileBase.TileType eTileType = TileBase.TileType.FILLED;
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-										}
+										TileBase.TileType eTileType = TileBase.TileType.FILLED;
+										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 									}
 									else if (isMarkingATileAsPriority)
 									{
@@ -438,24 +431,30 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
-	TileBase.TileType GetTileTypeToBuild()
+	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost)
 	{
+		iMetalCost = 0;
+
 		switch( thingToBuild )
 		{
 			case BUILD_ITEM.STORAGE:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.STORAGE;
 			}
 			case BUILD_ITEM.HATCHERY:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.HATCHERY;
 			}
 			case BUILD_ITEM.NEST:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.NEST;
 			}
 			case BUILD_ITEM.TAILOR:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.TAILOR;
 			}
 			default:
