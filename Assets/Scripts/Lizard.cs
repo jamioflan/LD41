@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class Lizard : Entity {
     
+    public enum Assignment
+    {
+        NEST,
+        HATCHERY,
+        TRAP,
+        TAILOR,
+        WORKER
+    }
+
+    public Assignment assignment = Assignment.WORKER;
+
     public enum State
     {
         IDLE,
         TRAVELLING_TO_TASK,
     }
 
-    public State state;
+    public State state = State.IDLE;
 
     public TileBase currentTile;
 
     List<KeyValuePair<int, int>> currentPath;
 
-    Transform target;
+    Vector3 target;
+    bool targetSet = false;
 
     TileManager mgr;
 
-    float fSpeed = 1.0f;
+    public float fSpeed = 1.0f;
+
+    // Time left to stand still whilst idling
+    public float fIdleTime = 0.0f;
 
     public Anim idleAnim, walkAnim, climbAnim, interactAnim;
 
@@ -31,6 +46,45 @@ public class Lizard : Entity {
         mgr.lizards.RemoveAt(idx);
         Destroy(gameObject);
     }
+
+    // Get the position a lizard should be to be at the center of a tile
+    public static Vector3 GetTileCenter(TileBase tile)
+    {
+        return tile.transform.position + new Vector3(0.0f, 0.05f, -1.0f);
+    }
+
+    // Move towards the current target
+    // Returns true if the target has been reached
+    private bool Move()
+    {
+        if (!targetSet)
+            return true;
+        float tolerance = 0.01f;
+        Vector3 difference = target - transform.position;
+        bool reachedTarget;
+        if (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) )
+        {
+            float distance = difference.x;
+            SetAnim(walkAnim);
+            SetLeft(distance > 0);
+            transform.localPosition += new Vector3(Mathf.Sign(distance), 0.0f, 0.0f) * Mathf.Max(distance, Time.deltaTime * fSpeed);
+            reachedTarget = Mathf.Abs((target - transform.position).x) < tolerance;
+        }
+        else
+        {
+            float distance = difference.y;
+            SetAnim(climbAnim);
+            transform.localPosition += new Vector3(0.0f, Mathf.Sign(distance), 0.0f) * Mathf.Max(distance, Time.deltaTime * fSpeed);
+            reachedTarget = Mathf.Abs((target - transform.position).y) < tolerance;
+        }
+        if (reachedTarget)
+        {
+            SetAnim(idleAnim);
+            targetSet = false;
+        }
+        return reachedTarget;
+    }
+
 
     private void SetState(State newState)
     {
@@ -52,24 +106,31 @@ public class Lizard : Entity {
         base.Start();
         mgr = Core.theCore.GetComponent<TileManager>();
 	}
+
+    public void SetTarget(Vector3 newTarget) {
+        target = newTarget;
+        targetSet = true;
+    }
+        
 	
 	// Update is called once per frame
 	public override void Update () {
-        //base.Update();
-        if (target != null)
-        {
-            var targetPosition = target.position - new Vector3(0.0f, 0.0f, 1.0f);
-            transform.localPosition += Mathf.Max(Time.deltaTime * fSpeed, (targetPosition - transform.position).magnitude) * (targetPosition - transform.position).normalized;
+        base.Update();
 
-            if ((targetPosition - transform.position).magnitude < 0.01f)
-            {
-                target = null;
-            }
-        }
         switch(state)
         {
             case State.IDLE:
-                // TODO - random movement
+                fIdleTime -= Time.deltaTime;
+                if (!targetSet) {
+                    if (fIdleTime < 0)
+                        SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f) );
+
+                }
+                else if (Move())
+                {
+                    // Set a cooldown timer
+                    fIdleTime = Random.Range(1.0f, 5.0f);
+                }
                 break;
             case State.TRAVELLING_TO_TASK:
                 if (currentPath.Count == 0)           
@@ -79,7 +140,7 @@ public class Lizard : Entity {
                 } 
                 var next = currentPath[0];
                 currentPath.RemoveAt(0);
-                target = mgr.tiles[next.Key, next.Value].transform;
+                target = GetTileCenter(mgr.tiles[next.Key, next.Value]);
                 break;
         }
 

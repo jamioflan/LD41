@@ -101,7 +101,8 @@ public class TileManager : MonoBehaviour {
     {
         var lizard = Instantiate<Lizard>(lizardPrefab);
         TileBase tile = tiles[x, y];
-        lizard.transform.position = tile.transform.position + new Vector3(0.0f, 0.05f, -1.0f);
+        lizard.transform.position = Lizard.GetTileCenter(tile);
+        lizard.currentTile = tile;
         lizards.Add(lizard);
         return lizard;
     }
