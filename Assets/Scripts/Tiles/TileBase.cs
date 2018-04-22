@@ -69,6 +69,11 @@ abstract public class TileBase : MonoBehaviour {
 
     public abstract TileType Type();
 
+	public abstract bool CanBeBuiltOver();
+	public abstract bool CanBeDug();
+	public abstract bool CanBeFilledIn();
+	public abstract bool CanBeMarkedAsPriority();
+
     virtual public bool IsPassable()
     {
         return true;

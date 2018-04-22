@@ -10,6 +10,9 @@ public class UI_HUD : MonoBehaviour
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
 
+	public Sprite highlightSprite;
+	Sprite[] activeHighlightSprites;
+
 	public enum BUILD_ITEM
 	{
 		STORAGE = 0,
@@ -17,6 +20,8 @@ public class UI_HUD : MonoBehaviour
 		NEST = 2,
 		TAILOR = 3,
 	}
+
+	TileManager theTileManager;
 
 	// Whether we've selected an item to place, but haven't placed it yet
 	bool isBuildingAThing;
@@ -34,7 +39,7 @@ public class UI_HUD : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		
+		theTileManager = Core.theCore.GetComponent<TileManager>();
 	}
 	
 	// Update is called once per frame
@@ -48,7 +53,24 @@ public class UI_HUD : MonoBehaviour
 
 		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
 		{
-			if( Input.GetAxis("Fire1") > 0.0f )
+			// Iterate through all tiles, check if they are valid for this action
+			for (int ii = 0; ii < TileManager.width; ++ii)
+			{
+				for (int jj = 0; jj < TileManager.depth; ++jj)
+				{
+					TileBase tile = theTileManager.tiles[ii, jj];
+					if( ( isBuildingAThing && tile.CanBeBuiltOver() ) ||
+						( isDiggingATile && tile.CanBeDug() ) ||
+						( isFillingInATile && tile.CanBeFilledIn() ) ||
+						( isMarkingATileAsPriority && tile.CanBeMarkedAsPriority() ) )
+					{
+						// Highlight tile. Also render extra highlight if moused-over.
+						//Instantiate<Sprite>(highlightSprite);
+					}
+				}
+			}
+
+			if ( Input.GetAxis("Fire1") > 0.0f )
 			{
 				// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
 				// If none was clicked on, cancel the action and open the toolbar again. If one was
@@ -65,7 +87,6 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Building a thing!");
 
-							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
 							if( theTileManager != null )
 							{
 								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
@@ -83,7 +104,6 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Digging a tile!");
 
-							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
 							if (theTileManager != null)
 							{
 								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
@@ -101,7 +121,6 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Filling in a tile!");
 
-							TileManager theTileManager = Core.theCore.GetComponent<TileManager>();
 							if (theTileManager != null)
 							{
 								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();

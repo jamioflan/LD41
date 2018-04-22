@@ -11,7 +11,12 @@ public class Metal : TileBase
         return TileBase.TileType.METAL;
     }
 
-    public override void Start()
+	public override bool CanBeBuiltOver() { return false; }
+	public override bool CanBeDug() { return true; }
+	public override bool CanBeFilledIn() { return false; }
+	public override bool CanBeMarkedAsPriority() { return true; }
+
+	public override void Start()
     {
         base.Start();
     }
