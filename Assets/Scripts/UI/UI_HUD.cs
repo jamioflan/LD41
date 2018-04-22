@@ -46,7 +46,7 @@ public class UI_HUD : MonoBehaviour
 		// Update the human suspicion amount
 		if (humanSuspicionMeter != null)
 		{
-			humanSuspicionMeter.value = 0.1f; // TODO: Get value!
+			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
 		}
 
 		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
