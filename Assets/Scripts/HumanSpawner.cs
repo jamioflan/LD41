@@ -10,6 +10,9 @@ public class HumanSpawner : MonoBehaviour
     public DrillTruck drillTruckPrefab;
     public float fTimeToNextDrillTruck = 0.0f;
 
+    public TunnelBore borePrefab;
+    public float fTimeToNextBore = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -41,6 +44,18 @@ public class HumanSpawner : MonoBehaviour
             human.iTargetX = Random.Range(0, TileManager.width);
             if (human.iTargetX == TileManager.width - 2)
                 human.iTargetX = TileManager.width / 2;
+        }
+
+        fTimeToNextBore -= Time.deltaTime;
+
+        if (fTimeToNextBore <= 0.0f)
+        {
+            fTimeToNextBore = Random.Range(10f, 20.0f);
+            TunnelBore human = Instantiate<TunnelBore>(borePrefab);
+            bool bFlip = Random.value > 0.5f;
+            human.bFlip = bFlip;
+            human.iDepth = Random.Range(3, TileManager.depth);
+            human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, -0.5f - human.iDepth, -3.0f);
         }
     }
 }

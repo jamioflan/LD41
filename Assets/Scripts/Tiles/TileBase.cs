@@ -49,6 +49,7 @@ abstract public class TileBase : MonoBehaviour {
         METAL = 10,
         GEMS = 11,
         TUBE_LINE = 12,
+        BONES = 13,
     }
 
     public void StoreResource(Resource resource)
@@ -114,9 +115,20 @@ abstract public class TileBase : MonoBehaviour {
         replacingTile.SetCoords(x, y);
         replacingTile.transform.SetParent(transform.parent);
 
-        {
-            GetComponentInParent<TileManager>().UpdateEdges(x, y);
-        }
+        // Stage on this list to avoid concurrent modification death!
+        List<Resource> stuffToMove = new List<Resource>();
+        foreach (Resource resource in clutteredResources)
+            stuffToMove.Add(resource);
+
+        foreach (Resource resource in tidyResources)
+            stuffToMove.Add(resource);
+
+        foreach(Resource resource in stuffToMove)
+            replacingTile.StoreResource(resource);
+
+        replacingTile.bWarning = bWarning;
+
+        GetComponentInParent<TileManager>().UpdateEdges(x, y);
 
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
@@ -152,6 +164,7 @@ abstract public class TileBase : MonoBehaviour {
             case TileType.FILLED:
             case TileType.GEMS:
             case TileType.METAL:
+            case TileType.BONES:
                 return false;
         }
         return true;
@@ -166,7 +179,7 @@ abstract public class TileBase : MonoBehaviour {
 	
 	public virtual void Update ()
     {
-        warningSprite.enabled = bWarning > 0;
+        warningSprite.enabled = IsLizardy() && bWarning > 0;
 
 		if (highlightSprite != null)
 		{

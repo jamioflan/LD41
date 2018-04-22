@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 	public int metal = 0;
 	public int gems = 0;
 	public int mushrooms = 0;
+	public int dinosaurBones = 0;
 	public int money = 0;
 
 	public int metalValue = 5;
@@ -31,6 +32,10 @@ public class Player : MonoBehaviour
 	void Update ()
 	{
         fHumanSuspicion -= 0.1f * Time.deltaTime;
+		if( fHumanSuspicion < 0.0f )
+		{
+			fHumanSuspicion = 0.0f;
+		}
         if(fHumanSuspicion >= 100.0f)
         {
             Core.theCore.Lose();
@@ -47,6 +52,8 @@ public class Player : MonoBehaviour
 		metal = 0;
 		gems = 0;
 		mushrooms = 0;
+		dinosaurBones = 0;
+		money = 0;
 		lizardsDisguisedAsHumans = 0;
 	}
 

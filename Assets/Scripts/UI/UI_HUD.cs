@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class UI_HUD : MonoBehaviour
 {
+	public static UI_HUD instance;
+
 	public Slider humanSuspicionMeter;
+	public Slider lizardInfiltrationMeter;
 	public GameObject toolbarGroup;
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
@@ -13,14 +16,21 @@ public class UI_HUD : MonoBehaviour
 	public Text numGems;
 	public Text numMushrooms;
 	public Text numMoney;
-	public Text numLizardsDisguisedAsHumans;
+	public Text numDinosaurBones;
+	public Text mouseOverElement;
+	public bool showMouseOver;
+	public string mouseOverText = "";
 
+	// Do not delete/re-order! Numbers used in GUI
 	public enum BUILD_ITEM
 	{
 		STORAGE = 0,
 		HATCHERY = 1,
 		NEST = 2,
 		TAILOR = 3,
+		TRAP = 4,
+		MUSHROOMFARM = 5,
+		TVROOM = 6,
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
@@ -39,7 +49,7 @@ public class UI_HUD : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-
+		instance = this;
 	}
 	
 	// Update is called once per frame
@@ -50,7 +60,11 @@ public class UI_HUD : MonoBehaviour
 		{
 			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
 		}
-		if( numMetal != null )
+		if (lizardInfiltrationMeter != null)
+		{
+			lizardInfiltrationMeter.value = Player.thePlayer.lizardsDisguisedAsHumans / 10.0f;
+		}
+		if ( numMetal != null )
 		{
 			numMetal.text = "" + Player.thePlayer.metal;
 		}
@@ -66,9 +80,21 @@ public class UI_HUD : MonoBehaviour
 		{
 			numMoney.text = "" + Player.thePlayer.money;
 		}
-		if( numLizardsDisguisedAsHumans != null)
+		if( numDinosaurBones != null )
 		{
-			numLizardsDisguisedAsHumans.text = "" + Player.thePlayer.lizardsDisguisedAsHumans;
+			numDinosaurBones.text = "" + Player.thePlayer.dinosaurBones;
+		}
+
+		// Update the mouse over text
+		if( mouseOverElement != null )
+		{
+			mouseOverElement.enabled = showMouseOver;
+			if (showMouseOver)
+			{
+				mouseOverElement.transform.position = Input.mousePosition;
+				Text text = mouseOverElement.GetComponent<Text>();
+				text.text = mouseOverText;
+			}
 		}
 
 		// Hide all highlights
@@ -410,27 +436,6 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
-	public void Shop_BuyDrillEquipment()
-	{
-		// Buy some drill equipment...
-
-		// Return to normal
-		if (toolbarGroup != null)
-		{
-			toolbarGroup.SetActive(true);
-		}
-
-		if (buildOptionsGroup != null)
-		{
-			buildOptionsGroup.SetActive(false);
-		}
-
-		if (shopOptionsGroup != null)
-		{
-			shopOptionsGroup.SetActive(false);
-		}
-	}
-
 	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost)
 	{
 		iMetalCost = 0;
@@ -456,6 +461,21 @@ public class UI_HUD : MonoBehaviour
 			{
 				iMetalCost = 0;
 				return TileBase.TileType.TAILOR;
+			}
+			case BUILD_ITEM.TRAP:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.TRAP;
+			}
+			case BUILD_ITEM.MUSHROOMFARM:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.FARM;
+			}
+			case BUILD_ITEM.TVROOM:
+			{
+				iMetalCost = 0;
+				return TileBase.TileType.TVROOM;
 			}
 			default:
 			{
