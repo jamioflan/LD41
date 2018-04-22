@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
 	public int metal = 0;
 	public int gems = 0;
 	public int mushrooms = 0;
+	public int money = 0;
+
+	public int metalValue = 5;
+	public int gemValue = 10;
+	public int mushroomValue = 2;
 
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
@@ -49,4 +54,25 @@ public class Player : MonoBehaviour
     {
         fHumanSuspicion += fSusp;
     }
+
+	public void SellMetal( int iNumToSell )
+	{
+		iNumToSell = Mathf.Clamp(iNumToSell, 0, metal);
+		metal -= iNumToSell;
+		money += iNumToSell * metalValue;
+	}
+
+	public void SellGems(int iNumToSell)
+	{
+		iNumToSell = Mathf.Clamp(iNumToSell, 0, gems);
+		gems -= iNumToSell;
+		money += iNumToSell * gemValue;
+	}
+
+	public void SellMushrooms(int iNumToSell)
+	{
+		iNumToSell = Mathf.Clamp(iNumToSell, 0, mushrooms);
+		mushrooms -= iNumToSell;
+		money += iNumToSell * mushroomValue;
+	}
 }

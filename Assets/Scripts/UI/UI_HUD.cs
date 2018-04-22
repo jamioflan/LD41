@@ -348,7 +348,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMetals()
 	{
-		// Sell some metal...
+		// Sell a metal
+		Player.thePlayer.SellMetals(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -369,7 +370,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellGems()
 	{
-		// Sell some gems...
+		// Sell a gem
+		Player.thePlayer.SellGems(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -390,7 +392,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMushrooms()
 	{
-		// Sell some mushrooms...
+		// Sell a mushroom
+		Player.thePlayer.SellMushrooms(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
