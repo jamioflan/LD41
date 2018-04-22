@@ -61,9 +61,13 @@ public class TileManager : MonoBehaviour {
     public Lizard lizardPrefab;
     public Dictionary<Lizard.Assignment, List<Lizard>> lizards = new Dictionary<Lizard.Assignment, List<Lizard>>();
 
+    public SpriteRenderer connectionPrefabLR;
+    public SpriteRenderer connectionPrefabUD;
+    public SpriteRenderer[,] connectionsLR = new SpriteRenderer[width - 1, depth];
+    public SpriteRenderer[,] connectionsUD = new SpriteRenderer[width, depth - 1];
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         // Set up lizard dict
         lizards.Add(Lizard.Assignment.HATCHERY, new List<Lizard>());
         lizards.Add(Lizard.Assignment.TRAP, new List<Lizard>());
@@ -77,6 +81,28 @@ public class TileManager : MonoBehaviour {
                 tiles[ii, jj] = Instantiate<TileBase>(prefabs[(int)TileBase.TileType.FILLED]);
                 tiles[ii, jj].SetCoords(ii, jj);
                 tiles[ii, jj].transform.SetParent(transform);
+            }
+        }
+
+        for(int i = 0; i < width - 1; i++)
+        {
+            for(int j = 0; j < depth; j++)
+            {
+                connectionsLR[i, j] = Instantiate<SpriteRenderer>(connectionPrefabLR);
+                connectionsLR[i, j].transform.SetParent(transform);
+                connectionsLR[i, j].transform.position = new Vector3(i + 1.0f - TileManager.width / 2, -0.5f - j, -2.1f);
+                connectionsLR[i, j].enabled = false;
+            }
+        }
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < depth - 1; j++)
+            {
+                connectionsUD[i, j] = Instantiate<SpriteRenderer>(connectionPrefabUD);
+                connectionsUD[i, j].transform.SetParent(transform);
+                connectionsUD[i, j].transform.position = new Vector3(i + 0.5f - TileManager.width / 2, -j - 1.0f, -2.1f);
+                connectionsUD[i, j].enabled = false;
             }
         }
 
@@ -196,6 +222,31 @@ public class TileManager : MonoBehaviour {
         return tiles[x, y];
     }
 
+    public void UpdateEdges(int x, int y)
+    {
+        if(tiles[x,y].IsLizardy())
+        {
+            if(x > 0)
+                connectionsLR[x - 1, y].enabled = tiles[x - 1, y].IsLizardy();
+            if(x < width - 1)
+                connectionsLR[x, y].enabled = tiles[x + 1, y].IsLizardy();
+            if (y > 0)
+                connectionsUD[x, y - 1].enabled = tiles[x, y - 1].IsLizardy();
+            if (y < depth - 1)
+                connectionsUD[x, y].enabled = tiles[x, y + 1].IsLizardy();
+        }
+        else
+        {
+            if(x > 0)
+                connectionsLR[x - 1, y].enabled = false;
+            if(x < width - 1)
+                connectionsLR[x, y].enabled = false;
+            if(y > 0)
+                connectionsUD[x, y - 1].enabled = false;
+            if(y < depth - 1)
+                connectionsUD[x, y].enabled = false;
+        }
+    }
 
     // Create a new tile
     public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false)

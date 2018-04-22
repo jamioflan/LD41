@@ -3692,6 +3692,10 @@ MonoBehaviour:
   hutTile: {fileID: 0}
   lizardPrefab: {fileID: 114301004083443652, guid: 66097e9de9be50f49917513d4fd64b4b,
     type: 2}
+  connectionPrefabLR: {fileID: 212770496532250102, guid: d3725c7b11b905a4ab74954282e2150a,
+    type: 2}
+  connectionPrefabUD: {fileID: 212792432781505200, guid: ed722d307b015f346b4f56d1ffd70f07,
+    type: 2}
 --- !u!114 &114877245867344290
 MonoBehaviour:
   m_ObjectHideFlags: 1

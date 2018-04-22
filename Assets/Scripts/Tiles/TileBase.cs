@@ -95,6 +95,11 @@ abstract public class TileBase : MonoBehaviour {
         GetComponentInParent<TileManager>().tiles[x, y] = replacingTile;
         replacingTile.SetCoords(x, y);
         replacingTile.transform.SetParent(transform.parent);
+
+        {
+            GetComponentInParent<TileManager>().UpdateEdges(x, y);
+        }
+
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
         Destroy();
