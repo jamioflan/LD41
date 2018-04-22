@@ -21,8 +21,6 @@ public class UI_HUD : MonoBehaviour
 		TAILOR = 3,
 	}
 
-	TileManager theTileManager;
-
 	// Whether we've selected an item to place, but haven't placed it yet
 	bool isBuildingAThing;
 	BUILD_ITEM thingToBuild;
@@ -39,7 +37,7 @@ public class UI_HUD : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		theTileManager = Core.theCore.GetComponent<TileManager>();
+
 	}
 	
 	// Update is called once per frame
@@ -58,7 +56,7 @@ public class UI_HUD : MonoBehaviour
 			{
 				for (int jj = 0; jj < TileManager.depth; ++jj)
 				{
-					TileBase tile = theTileManager.tiles[ii, jj];
+					TileBase tile = Core.theTM.tiles[ii, jj];
 					if( ( isBuildingAThing && tile.CanBeBuiltOver() ) ||
 						( isDiggingATile && tile.CanBeDug() ) ||
 						( isFillingInATile && tile.CanBeFilledIn() ) ||
@@ -72,22 +70,22 @@ public class UI_HUD : MonoBehaviour
 							TileBase tileOnLeft = null;
 							if (ii - 1 >= 0)
 							{
-								tileOnLeft = theTileManager.tiles[ii - 1, jj];
+								tileOnLeft = Core.theTM.tiles[ii - 1, jj];
 							}
 							TileBase tileOnRight = null;
 							if (ii + 1 < TileManager.width)
 							{
-								tileOnRight = theTileManager.tiles[ii + 1, jj];
+								tileOnRight = Core.theTM.tiles[ii + 1, jj];
 							}
 							TileBase tileAbove = null;
 							if (jj - 1 >= 0)
 							{
-								tileAbove = theTileManager.tiles[ii, jj - 1];
+								tileAbove = Core.theTM.tiles[ii, jj - 1];
 							}
 							TileBase tileBelow = null;
 							if (jj + 1 < TileManager.depth)
 							{
-								tileBelow = theTileManager.tiles[ii, jj + 1];
+								tileBelow = Core.theTM.tiles[ii, jj + 1];
 							}
 
 							if( (tileOnLeft == null || !tileOnLeft.IsLizardy()) &&
@@ -125,14 +123,11 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Building a thing!");
 
-							if( theTileManager != null )
+							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+							if( targetTile != null )
 							{
-								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-								if( targetTile != null )
-								{
-									TileBase.TileType eTileType = GetTileTypeToBuild();
-									theTileManager.RequestNewTile( targetTile.x, targetTile.y, eTileType);
-								}
+								TileBase.TileType eTileType = GetTileTypeToBuild();
+								Core.theTM.RequestNewTile( targetTile.x, targetTile.y, eTileType);
 							}
 						}
 					}
@@ -142,14 +137,11 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Digging a tile!");
 
-							if (theTileManager != null)
+							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+							if (targetTile != null)
 							{
-								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-								if (targetTile != null)
-								{
-									TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-									theTileManager.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-								}
+								TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+								Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
 							}
 						}
 					}
@@ -159,14 +151,11 @@ public class UI_HUD : MonoBehaviour
 						{
 							Debug.Log("Filling in a tile!");
 
-							if (theTileManager != null)
+							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+							if (targetTile != null)
 							{
-								TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-								if (targetTile != null)
-								{
-									TileBase.TileType eTileType = TileBase.TileType.FILLED;
-									theTileManager.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-								}
+								TileBase.TileType eTileType = TileBase.TileType.FILLED;
+								Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
 							}
 						}
 					}
