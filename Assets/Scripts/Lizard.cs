@@ -41,6 +41,7 @@ public class Lizard : Entity {
 
     public Anim idleAnim, walkAnim, climbAnim, interactAnim;
 
+    public Resource carrying;
 
     public void Destroy()
     {

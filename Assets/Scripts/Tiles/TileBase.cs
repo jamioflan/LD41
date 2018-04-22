@@ -12,6 +12,11 @@ abstract public class TileBase : MonoBehaviour {
     public int bWarning = 0; // Number of things intending to dig this tile
     public string printName = "";
 
+    public Resource[] tidyResources;
+    public List<Resource> clutteredResources = new List<Resource>();
+
+    public Transform[] tidyStorageSpots;
+
     public enum TileType {
         EMPTY = 0,
         FILLED = 1,
@@ -23,6 +28,35 @@ abstract public class TileBase : MonoBehaviour {
         TRAP = 7,
         FARM = 8,
         TVROOM = 9
+    }
+
+    public void StoreResource(Resource resource)
+    {
+        for(int i = 0; i < tidyStorageSpots.Length; i++)
+        {
+            if (tidyResources[i] == null)
+            {
+                tidyResources[i] = resource;
+                //resource.transform.SetParent()
+                return;
+            }
+        }
+
+        clutteredResources.Add(resource);
+    }
+
+    public void RemoveResource(Resource resource)
+    {
+        for (int i = 0; i < tidyStorageSpots.Length; i++)
+        {
+            if (tidyResources[i] == resource)
+            {
+                tidyResources[i] = null;
+                return;
+            }
+        }
+
+        clutteredResources.Remove(resource);
     }
 
     public abstract TileType Type();
@@ -45,6 +79,7 @@ abstract public class TileBase : MonoBehaviour {
     public virtual void Start ()
     {
         warningSprite.enabled = false;
+        tidyResources = new Resource[tidyStorageSpots.Length];
     }
 	
 	public virtual void Update ()
