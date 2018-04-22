@@ -133,6 +133,7 @@ public class Lizard : Entity {
                 if (Player.thePlayer.pendingWorkerTasks.Count != 0)
                 {
                     currentTask = Player.thePlayer.pendingWorkerTasks[0];
+                    currentTask.assignedLizard = this;
                     Player.thePlayer.pendingWorkerTasks.RemoveAt(0);
                     DoTask();
                     break;
