@@ -126,12 +126,12 @@ public class Core : MonoBehaviour
 			RequestState(CORE_STATE.PAUSE_MENU);
 		}
 
-		if( Input.GetAxis("Mouse ScrollWheel") > 0 )
+		if( Input.GetAxis("Mouse ScrollWheel") > 0.0f || Input.GetAxis("Scroll") > 0.0f)
 		{
 			float fNewY = Mathf.Min(Camera.main.transform.position.y + 1.0f, cameraMaxY);
 			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z );
 		}
-		else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+		else if (Input.GetAxis("Mouse ScrollWheel") < 0.0f || Input.GetAxis("Scroll") < 0.0f)
 		{
 			float fNewY = Mathf.Max(Camera.main.transform.position.y - 1.0f, cameraMinY);
 			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z);
