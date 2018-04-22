@@ -20,6 +20,8 @@ public class UI_HUD : MonoBehaviour
 	public Text mouseOverElement;
 	public bool showMouseOver;
 	public string mouseOverText = "";
+	public Image scrollPrompt;
+	float fScrollPromptTime = 0.0f;
 
 	// Do not delete/re-order! Numbers used in GUI
 	public enum BUILD_ITEM
@@ -95,6 +97,17 @@ public class UI_HUD : MonoBehaviour
 				Text text = mouseOverElement.GetComponent<Text>();
 				text.text = mouseOverText;
 			}
+		}
+
+		// Update the scroll prompt
+		if (scrollPrompt != null)
+		{
+			bool bShow = (Camera.main.transform.position.y > 0.0f);
+			scrollPrompt.enabled = bShow;
+
+			fScrollPromptTime += Time.deltaTime * 2.0f;
+			float scale = 1.0f + 0.1f * Mathf.Sin(fScrollPromptTime);
+			scrollPrompt.transform.localScale = new Vector3(scale, scale, scale);
 		}
 
 		// Hide all highlights
@@ -237,6 +250,7 @@ public class UI_HUD : MonoBehaviour
 		isDiggingATile = false;
 		isFillingInATile = false;
 		isMarkingATileAsPriority = false;
+		fScrollPromptTime = 0.0f;
 
 		if (toolbarGroup != null)
 		{
