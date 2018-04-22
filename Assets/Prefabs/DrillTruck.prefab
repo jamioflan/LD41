@@ -76,7 +76,7 @@ MonoBehaviour:
   iTargetX: 0
   iTargetDepth: 0
   fSpeed: 3
-  fDrillSpeed: 0.01
+  fDrillSpeed: 0.025
   fTimeUntilNextPhase: 0
   walkAnim: {fileID: 114069788546993796}
   unloadAnim: {fileID: 114625050364409458}

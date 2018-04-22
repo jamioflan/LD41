@@ -113,7 +113,14 @@ public class TileManager : MonoBehaviour {
         RequestNewTile(width - 2, 1, TileBase.TileType.STORAGE, true);
         RequestNewTile(width - 3, 1, TileBase.TileType.NEST, true);
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
+        {
+            int x = Random.Range(0, width), y = Random.Range(0, 7);
+            if (tiles[x, y].Type() == TileBase.TileType.FILLED)
+                RequestNewTile(x, y, TileBase.TileType.BONES, true);
+        }
+
+        for (int i = 0; i < 10; i++)
         {
             int x = Random.Range(0, width), y = Random.Range(0, 7);
             if (tiles[x, y].Type() == TileBase.TileType.FILLED)

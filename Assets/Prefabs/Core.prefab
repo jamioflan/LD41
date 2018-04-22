@@ -4087,6 +4087,7 @@ MonoBehaviour:
   - {fileID: 114304631461961328, guid: 7ec714c2d23846449bb9fe903848a464, type: 2}
   - {fileID: 114922117273839114, guid: 1828cd7a6dfd6b84fa29957862e3210c, type: 2}
   - {fileID: 114737607877457332, guid: d88679d3f939dd94dad666f1dd823bbd, type: 2}
+  - {fileID: 114333801238968142, guid: 7300bcf1cba64684ca48e9f26905338e, type: 2}
   hutTile: {fileID: 0}
   lizardPrefab: {fileID: 114301004083443652, guid: 66097e9de9be50f49917513d4fd64b4b,
     type: 2}

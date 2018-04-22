@@ -42,6 +42,7 @@ abstract public class TileBase : MonoBehaviour {
         METAL = 10,
         GEMS = 11,
         TUBE_LINE = 12,
+        BONES = 13,
     }
 
     public void StoreResource(Resource resource)
