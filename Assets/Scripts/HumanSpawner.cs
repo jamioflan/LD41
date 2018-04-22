@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HumanSpawner : MonoBehaviour
 {
+    public static HumanSpawner INSTANCE;
+
     public Human[] humanPrefabs;
     public float fTimeToNextHuman = 0.0f;
 
@@ -15,11 +17,18 @@ public class HumanSpawner : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        INSTANCE = this;
+
+    }
+
+    public void BonesFound()
+    {
+        fTimeToNextBore += 10.0f;
+        fTimeToNextDrillTruck += 20.0f;
+    }
+
+    // Update is called once per frame
+    void Update () {
         fTimeToNextHuman -= Time.deltaTime;
 
         if(fTimeToNextHuman <= 0.0f)

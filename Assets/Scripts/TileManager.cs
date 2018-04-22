@@ -185,8 +185,15 @@ public class TileManager : MonoBehaviour {
         {
             case TileBase.TileType.METAL:
             case TileBase.TileType.GEMS:
+                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
+                TextTicker.AddLine("The humans found resources and left");
+                return false;
+
             case TileBase.TileType.BONES:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
+                HumanSpawner.INSTANCE.BonesFound();
+                TextTicker.AddLine("The humans found some dinosaur bones");
+                    TextTicker.AddLine("Further digging will be delayed");
                 return false;
 
             case TileBase.TileType.FILLED:
@@ -197,6 +204,8 @@ public class TileManager : MonoBehaviour {
 
             case TileBase.TileType.EMPTY:
                 Player.thePlayer.AddSuspicion(10.0f);
+                TextTicker.AddLine("The humans discovered a lizard hole");
+                TextTicker.AddLine("Suspicion levels have increased");
                 return false;
 
             case TileBase.TileType.HUT:
@@ -207,16 +216,22 @@ public class TileManager : MonoBehaviour {
             case TileBase.TileType.TRAP:
                 RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(10.0f);
+                TextTicker.AddLine("A human discovered lizard habitation underground");
+                TextTicker.AddLine("No one really believed them, so the impact was minimal");
                 return false;
 
             case TileBase.TileType.HATCHERY:
                 RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(25.0f);
+                TextTicker.AddLine("The humans found a hatchery!");
+                TextTicker.AddLine("Humantown residents demand to know more");
                 return false;
 
             case TileBase.TileType.TAILOR:
                 RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(50.0f);
+                TextTicker.AddLine("The humans discovered a tailor!");
+                TextTicker.AddLine("The Humantown Herald is on our case!");
                 return false;           
 
         }
