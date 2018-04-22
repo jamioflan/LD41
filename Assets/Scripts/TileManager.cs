@@ -110,8 +110,8 @@ public class TileManager : MonoBehaviour {
 
 
         hutTile = RequestNewTile(width -2 , 0, TileBase.TileType.HUT, true) as Hut;
-        RequestNewTile(width - 3, 0, TileBase.TileType.STORAGE, true);
-        RequestNewTile(width - 4, 0, TileBase.TileType.NEST, true);
+        RequestNewTile(width - 2, 1, TileBase.TileType.STORAGE, true);
+        RequestNewTile(width - 3, 1, TileBase.TileType.NEST, true);
 
         for(int i = 0; i < 10; i++)
         {
@@ -169,7 +169,7 @@ public class TileManager : MonoBehaviour {
     // Return whether to continue digging
     public bool HumanDigTile(int x, int y)
     {
-        if (x < 0 || y < 0 || x >= width || y >= depth || !tiles[x, y].CanBeDug())
+        if (x < 0 || y < 0 || x >= width || y >= depth)
         {
             return false;
         }
@@ -178,7 +178,7 @@ public class TileManager : MonoBehaviour {
         {
             case TileBase.TileType.METAL:
             case TileBase.TileType.GEMS:
-                RequestNewTile(x, y, TileBase.TileType.FILLED);
+                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 return false;
 
             case TileBase.TileType.FILLED:
@@ -197,17 +197,17 @@ public class TileManager : MonoBehaviour {
             case TileBase.TileType.FARM:
             case TileBase.TileType.TVROOM:
             case TileBase.TileType.TRAP:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(10.0f);
                 return false;
 
             case TileBase.TileType.HATCHERY:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(25.0f);
                 return false;
 
             case TileBase.TileType.TAILOR:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY);
+                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
                 Player.thePlayer.AddSuspicion(50.0f);
                 return false;           
 

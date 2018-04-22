@@ -39,6 +39,8 @@ public class HumanSpawner : MonoBehaviour
             human.bFlip = bFlip;
             human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.625f, -3.0f);
             human.iTargetX = Random.Range(0, TileManager.width);
+            if (human.iTargetX == TileManager.width - 2)
+                human.iTargetX = TileManager.width / 2;
         }
     }
 }

@@ -30,12 +30,23 @@ public class Metal : TileBase
     {
         base.Destroy();
 
+
+
+    }
+
+    public override void Replace()
+    {
+        base.Replace();
+
+        if (replacingTile == null)
+            return;
+
         int num = Random.Range(0, 4);
         for (int i = 0; i < num; i++)
         {
             Resource metal = Instantiate<Resource>(metalPrefab);
             metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
+            replacingTile.StoreResource(metal);
         }
-
     }
 }

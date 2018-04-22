@@ -88,7 +88,7 @@ abstract public class TileBase : MonoBehaviour {
         return fBuildLeft < 0;
     }
 
-    public void Replace()
+    public virtual void Replace()
     {
         if (replacingTile == null)
             return;

@@ -14,6 +14,8 @@ public class Resource : MonoBehaviour
         NULL
     }
 
+    public Lizard reservee = null;
+
     public TileBase holder = null;
     public Lizard carriedBy = null;
 
