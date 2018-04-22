@@ -21,7 +21,9 @@ abstract public class TileBase : MonoBehaviour {
 	public bool bShouldBeHighlighted = false;
 
     static float fMaxBuildTime = 5.0f;
-    public float fBuildLeft = fMaxBuildTime;
+    float fBuildLeft = fMaxBuildTime;
+
+    public bool isConstructed;
 
     public Resource[] tidyResources;
     public List<Resource> clutteredResources = new List<Resource>();
@@ -54,7 +56,10 @@ abstract public class TileBase : MonoBehaviour {
 
     public void StoreResource(Resource resource)
     {
-        for(int i = 0; i < tidyStorageSpots.Length; i++)
+        resource.Drop();
+        if (isConstructed)
+            Core.theTM.AddToUnclaimed(resource);
+        for (int i = 0; i < tidyStorageSpots.Length; i++)
         {
             if (tidyResources[i] == null)
             {
@@ -67,7 +72,7 @@ abstract public class TileBase : MonoBehaviour {
 
         clutteredResources.Add(resource);
         resource.transform.SetParent(transform);
-        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);
+        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);    
     }
 
     public int NEmptyResourceSlots()
@@ -113,8 +118,11 @@ abstract public class TileBase : MonoBehaviour {
 
     virtual public bool IsPassable()
     {
-        return fBuildLeft < 0;
+        Debug.Log("IsPassable: " + isConstructed);
+        return isConstructed;
     }
+
+
 
     public virtual void Replace()
     {
@@ -146,6 +154,19 @@ abstract public class TileBase : MonoBehaviour {
             queuedTask.associatedTile = replacingTile;
     }
 
+    virtual protected void FinishConstruction()
+    {
+        if (isConstructed)
+            return;
+        isConstructed = true;
+        foreach (Resource res in tidyResources)
+            if (res != null)
+                Core.theTM.AddToUnclaimed(res);
+        foreach (Resource res in clutteredResources)
+            if (res != null)
+                Core.theTM.AddToUnclaimed(res);
+    }
+
     // Return true if building is done!
     public bool Build(Lizard by)
     {
@@ -157,7 +178,9 @@ abstract public class TileBase : MonoBehaviour {
         fBuildLeft -= Time.deltaTime;
         SetAlpha(Mathf.Min(1.0f, 0.3f + 0.7f * (1 - fBuildLeft / fMaxBuildTime)));
 
-        return fBuildLeft < 0;
+        if (fBuildLeft < 0)
+            FinishConstruction();
+        return isConstructed;
     }
 
     public void SetAlpha(float alpha)
@@ -181,6 +204,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public virtual void Start ()
     {
+
         warningSprite.enabled = false;
 		if (highlightSprite != null) { highlightSprite.enabled = false; }
 		tidyResources = new Resource[tidyStorageSpots.Length];

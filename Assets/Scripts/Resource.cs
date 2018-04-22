@@ -44,6 +44,7 @@ public class Resource : MonoBehaviour
             carriedBy.carrying = null;
             carriedBy = null;
         }
+        
     }
 
     public void PutInRoom(TileBase room)
@@ -62,14 +63,16 @@ public class Resource : MonoBehaviour
 
     public void Unclaim()
     {
-        Core.theTM.unclaimedResources[type].Add(this);
+        if (!isClaimed)
+            return;
+        Core.theTM.AddToUnclaimed(this);
         isClaimed = false;
         reservee = null;
     }
 
     public void Claim(Lizard lizzo)
     {
-        Core.theTM.unclaimedResources[type].Remove(this);
+        Core.theTM.RemoveFromUnclaimed(this);
         isClaimed = true;
         reservee = lizzo;
     }
@@ -77,8 +80,7 @@ public class Resource : MonoBehaviour
     private void Destroy()
     {
         Core.theTM.allResources.Remove(this);
-        if (Core.theTM.unclaimedResources[type].Contains(this))
-            Core.theTM.unclaimedResources[type].Remove(this);
+        Core.theTM.RemoveFromUnclaimed(this);
         Destroy(gameObject);
     }
 

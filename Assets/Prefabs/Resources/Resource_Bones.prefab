@@ -53,8 +53,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reservee: {fileID: 0}
+  type: 5
   holder: {fileID: 0}
   carriedBy: {fileID: 0}
+  isClaimed: 0
 --- !u!212 &212045351875152976
 SpriteRenderer:
   m_ObjectHideFlags: 1

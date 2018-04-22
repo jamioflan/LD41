@@ -40,6 +40,7 @@ public class TileManager : MonoBehaviour {
         unclaimedResources.Add(Resource.ResourceType.MUSHROOMS, new List<Resource>());
         unclaimedResources.Add(Resource.ResourceType.HUMAN_FOOD, new List<Resource>());
         unclaimedResources.Add(Resource.ResourceType.HUMAN_SKIN, new List<Resource>());
+        unclaimedResources.Add(Resource.ResourceType.BONES, new List<Resource>());
 
         for (int ii = 0; ii < width; ++ii)
         {
@@ -138,6 +139,7 @@ public class TileManager : MonoBehaviour {
             while (llist.Count != 0)
                 llist[0].Destroy();
         CreateLizard(hutTile.x, hutTile.y).lizardName = "Yvonne";
+        CreateLizard(hutTile.x, hutTile.y).lizardName = "Lizard McLizardFace";
 
     }
 
@@ -249,13 +251,13 @@ public class TileManager : MonoBehaviour {
         if (instant)
         {
             tiles[x, y].Replace();
-            tiles[x, y].fBuildLeft = -Time.deltaTime;
+            tiles[x, y].isConstructed = true;
         }
         else
         {
             Task task = new Task(Task.Type.BUILD);
             task.associatedTile = tiles[x, y];
-
+            newTile.isConstructed = false;
             Player.thePlayer.pendingWorkerTasks.Add(task);
 
         }
@@ -266,7 +268,30 @@ public class TileManager : MonoBehaviour {
     public void RegisterResource(Resource resource)
     {
         allResources.Add(resource);
+    }
+
+    public bool AddToUnclaimed(Resource resource)
+    {
+        if (unclaimedResources[resource.type].Contains(resource))
+        {
+            Debug.Log("Trying to add unclaimed resource!");
+            return false;
+        }
         unclaimedResources[resource.type].Add(resource);
+        Player.thePlayer.IncrementResourceCount(resource.type);
+        return true;
+    }
+
+    public bool RemoveFromUnclaimed(Resource resource)
+    {
+        if (!unclaimedResources[resource.type].Contains(resource))
+        {
+            Debug.Log("Trying to remove claimed resource!");
+            return false;
+        }
+        unclaimedResources[resource.type].Remove(resource);
+        Player.thePlayer.IncrementResourceCount(resource.type, -1);
+        return true;
     }
 
     public List<TileBase> GetTilesContaining(Resource.ResourceType type)
@@ -303,6 +328,8 @@ public class TileManager : MonoBehaviour {
     {
         TestTile del = delegate (TileBase tile)
         {
+            if (!tile.isConstructed)
+                return false;
             foreach (Resource res in tile.clutteredResources)
                 if (!res.isClaimed)
                     return true;

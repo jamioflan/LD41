@@ -33,7 +33,7 @@ public class Gems : TileBase
         if (replacingTile == null)
             return;
 
-        int num = Random.Range(0, 3);
+        int num = Random.Range(1, 3);
         for (int i = 0; i < num; i++)
         {
             Resource metal = Instantiate<Resource>(gemPrefab);

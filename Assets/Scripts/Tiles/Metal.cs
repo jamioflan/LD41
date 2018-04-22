@@ -46,7 +46,7 @@ public class Metal : TileBase
         if (replacingTile == null)
             return;
 
-        int num = Random.Range(0, 4);
+        int num = Random.Range(1, 4);
         for (int i = 0; i < num; i++)
         {
             Resource metal = Instantiate<Resource>(metalPrefab);
