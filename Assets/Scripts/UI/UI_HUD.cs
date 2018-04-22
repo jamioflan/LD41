@@ -51,16 +51,32 @@ public class UI_HUD : MonoBehaviour
 
 		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
 		{
+			// Get the tile that the mouse is over (if any!)
+			TileBase mousedOverTile = null;
+			bool bHasClicked = (Input.GetAxis("Fire1") > 0.0f);
+
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+			if (hit)
+			{
+				mousedOverTile = hit.collider.gameObject.GetComponent<TileBase>();
+
+				if( bHasClicked )
+				{
+					Debug.Log("Clicked on " + hit.collider.gameObject.name);
+				}
+			}
+
 			// Iterate through all tiles, check if they are valid for this action
 			for (int ii = 0; ii < TileManager.width; ++ii)
 			{
 				for (int jj = 0; jj < TileManager.depth; ++jj)
 				{
-					TileBase tile = Core.theTM.tiles[ii, jj];
-					if( ( isBuildingAThing && tile.CanBeBuiltOver() ) ||
-						( isDiggingATile && tile.CanBeDug() ) ||
-						( isFillingInATile && tile.CanBeFilledIn() ) ||
-						( isMarkingATileAsPriority && tile.CanBeMarkedAsPriority() ) )
+					TileBase thisTile = Core.theTM.tiles[ii, jj];
+					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() ) ||
+						( isDiggingATile && thisTile.CanBeDug() ) ||
+						( isFillingInATile && thisTile.CanBeFilledIn() ) ||
+						( isMarkingATileAsPriority && thisTile.CanBeMarkedAsPriority() ) )
 					{
 						bool bValid = true;
 
@@ -101,96 +117,121 @@ public class UI_HUD : MonoBehaviour
 						{
 							// Highlight tile. Also render extra highlight if moused-over.
 							//Instantiate<Sprite>(highlightSprite);
+
+							// If we clicked on this tile, do the thing!
+							if (mousedOverTile != null && mousedOverTile == thisTile && bHasClicked)
+							{
+								if (isBuildingAThing)
+								{
+									Debug.Log("Building a thing!");
+
+									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+									if (targetTile != null)
+									{
+										TileBase.TileType eTileType = GetTileTypeToBuild();
+										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+									}
+								}
+								else if (isDiggingATile)
+								{
+									Debug.Log("Digging a tile!");
+
+									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+									if (targetTile != null)
+									{
+										TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+									}
+								}
+								else if (isFillingInATile)
+								{
+									Debug.Log("Filling in a tile!");
+
+									TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+									if (targetTile != null)
+									{
+										TileBase.TileType eTileType = TileBase.TileType.FILLED;
+										Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+									}
+								}
+								else if (isMarkingATileAsPriority)
+								{
+									Debug.Log("Marking a tile as priority!");
+								}
+							}
 						}
 					}
 				}
 			}
 
-			if ( Input.GetAxis("Fire1") > 0.0f )
+			if( bHasClicked )
 			{
-				// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
-				// If none was clicked on, cancel the action and open the toolbar again. If one was
-				// clicked on, perform the required action for that tile (and open the toolbar again!).
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
-				if (hit)
-				{
-					Debug.Log("Hit " + hit.collider.gameObject.name);
-
-					if( isBuildingAThing )
-					{
-						if( hit.collider.gameObject.name == "Empty(Clone)" )
-						{
-							Debug.Log("Building a thing!");
-
-							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-							if( targetTile != null )
-							{
-								TileBase.TileType eTileType = GetTileTypeToBuild();
-								Core.theTM.RequestNewTile( targetTile.x, targetTile.y, eTileType);
-							}
-						}
-					}
-					else if( isDiggingATile )
-					{
-						if (hit.collider.gameObject.name == "Filled(Clone)")
-						{
-							Debug.Log("Digging a tile!");
-
-							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-							if (targetTile != null)
-							{
-								TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-								Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-							}
-						}
-					}
-					else if( isFillingInATile )
-					{
-						if (hit.collider.gameObject.name == "Empty(Clone)")
-						{
-							Debug.Log("Filling in a tile!");
-
-							TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-							if (targetTile != null)
-							{
-								TileBase.TileType eTileType = TileBase.TileType.FILLED;
-								Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-							}
-						}
-					}
-					else if( isMarkingATileAsPriority )
-					{
-						Debug.Log("Marking a tile as priority!");
-					}
-				}
-
-				// Return everything to the default state
-				isBuildingAThing = false;
-				isDiggingATile = false;
-				isFillingInATile = false;
-				isMarkingATileAsPriority = false;
-
-				if (toolbarGroup != null)
-				{
-					toolbarGroup.SetActive(true);
-				}
-
-				if (buildOptionsGroup != null)
-				{
-					buildOptionsGroup.SetActive(false);
-				}
-
-				if (shopOptionsGroup != null)
-				{
-					shopOptionsGroup.SetActive(false);
-				}
+				// When anything is clicked, return everything to the default state
+				Reset();
 			}
-			else
-			{
-				// Maybe render an image to show the tile you're hovering over. Could be different image
-				// per action/thing to build.
-			}
+
+			//if ( Input.GetAxis("Fire1") > 0.0f )
+			//{
+			//	// When the mouse is clicked, we should do a raycast to check what tile was clicked on.
+			//	// If none was clicked on, cancel the action and open the toolbar again. If one was
+			//	// clicked on, perform the required action for that tile (and open the toolbar again!).
+			//	Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			//	RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
+			//	if (hit)
+			//	{
+			//		Debug.Log("Hit " + hit.collider.gameObject.name);
+			//
+			//		if( isBuildingAThing )
+			//		{
+			//			if( hit.collider.gameObject.name == "Empty(Clone)" )
+			//			{
+			//				Debug.Log("Building a thing!");
+			//
+			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+			//				if( targetTile != null )
+			//				{
+			//					TileBase.TileType eTileType = GetTileTypeToBuild();
+			//					Core.theTM.RequestNewTile( targetTile.x, targetTile.y, eTileType);
+			//				}
+			//			}
+			//		}
+			//		else if( isDiggingATile )
+			//		{
+			//			if (hit.collider.gameObject.name == "Filled(Clone)")
+			//			{
+			//				Debug.Log("Digging a tile!");
+			//
+			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+			//				if (targetTile != null)
+			//				{
+			//					TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+			//					Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+			//				}
+			//			}
+			//		}
+			//		else if( isFillingInATile )
+			//		{
+			//			if (hit.collider.gameObject.name == "Empty(Clone)")
+			//			{
+			//				Debug.Log("Filling in a tile!");
+			//
+			//				TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
+			//				if (targetTile != null)
+			//				{
+			//					TileBase.TileType eTileType = TileBase.TileType.FILLED;
+			//					Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+			//				}
+			//			}
+			//		}
+			//		else if( isMarkingATileAsPriority )
+			//		{
+			//			Debug.Log("Marking a tile as priority!");
+			//		}
+			//	}
+			//
+			//	// Return everything to the default state
+			//	Reset();
+			//}
 		}
 	}
 
