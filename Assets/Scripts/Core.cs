@@ -52,6 +52,8 @@ public class Core : MonoBehaviour
 			theTileManager.Reset();
 		}
 
+		Camera.main.transform.position = new Vector3(0.0f, 1.0f, -10.0f);
+
 		// Reset all menus to default state
 		if (mainMenu != null)
 		{
