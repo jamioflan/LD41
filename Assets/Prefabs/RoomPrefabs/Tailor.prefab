@@ -112,6 +112,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212700720895177494}
   bWarning: 0
+  printName: Tailor
 --- !u!212 &212700720895177494
 SpriteRenderer:
   m_ObjectHideFlags: 1

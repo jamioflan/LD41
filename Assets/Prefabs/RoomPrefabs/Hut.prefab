@@ -142,6 +142,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212106827409848050}
   bWarning: 0
+  printName: Hut
 --- !u!212 &212106827409848050
 SpriteRenderer:
   m_ObjectHideFlags: 1

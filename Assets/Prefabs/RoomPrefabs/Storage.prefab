@@ -112,6 +112,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212289956234604854}
   bWarning: 0
+  printName: Storage Room
 --- !u!212 &212289956234604854
 SpriteRenderer:
   m_ObjectHideFlags: 1

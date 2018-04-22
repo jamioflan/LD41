@@ -141,6 +141,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212988565985607938}
   bWarning: 0
+  printName: Trap
 --- !u!212 &212851693867155816
 SpriteRenderer:
   m_ObjectHideFlags: 1

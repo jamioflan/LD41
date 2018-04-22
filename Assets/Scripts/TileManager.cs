@@ -52,7 +52,7 @@ struct PointHash : IEqualityComparer<Point>
 public class TileManager : MonoBehaviour {
 
     public static int width = 10;
-    public static int depth = 50;
+    public static int depth = 15;
 
     public TileBase[] prefabs;
 
@@ -118,13 +118,14 @@ public class TileManager : MonoBehaviour {
 
     public void HumanDigTile(int x, int y)
     {
-        
+
     }
 
     public TileBase GetTileBase(int x, int y)
     {
         return tiles[x, y];
     }
+
 
     // Create a new tile
     public TileBase RequestNewTile(int x, int y, TileBase.TileType type)

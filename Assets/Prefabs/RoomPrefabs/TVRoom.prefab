@@ -86,6 +86,7 @@ MonoBehaviour:
   y: 0
   warningSprite: {fileID: 212157333719089790}
   bWarning: 0
+  printName: TV Room
 --- !u!212 &212157333719089790
 SpriteRenderer:
   m_ObjectHideFlags: 1
