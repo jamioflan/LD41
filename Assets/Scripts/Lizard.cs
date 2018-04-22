@@ -6,7 +6,6 @@ public class Lizard : Entity {
     
     public enum Assignment
     {
-        NEST,
         HATCHERY,
         TRAP,
         TAILOR,
