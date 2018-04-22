@@ -120,6 +120,15 @@ public class Core : MonoBehaviour
 		{
 			RequestState(CORE_STATE.PAUSE_MENU);
 		}
+
+		if( Input.GetAxis("Mouse ScrollWheel") > 0 )
+		{
+			Camera.main.transform.position = Camera.main.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
+		}
+		else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+		{
+			Camera.main.transform.position = Camera.main.transform.position - new Vector3(0.0f, 1.0f, 0.0f);
+		}
 	}
 
 	void Exit_InGame()
