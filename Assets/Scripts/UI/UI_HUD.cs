@@ -349,7 +349,7 @@ public class UI_HUD : MonoBehaviour
 	public void Shop_SellMetals()
 	{
 		// Sell a metal
-		Player.thePlayer.SellMetals(1);
+		Player.thePlayer.SellMetal(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
