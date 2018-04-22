@@ -200,7 +200,6 @@ public class TileManager : MonoBehaviour {
     // Create a new tile
     public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false)
     {
-        Debug.Log("Requesting new tile");
         TileBase newTile = Instantiate<TileBase>(prefabs[(int)type]);
         newTile.SetCoords(-100, -100);
         tiles[x, y].replacingTile = newTile;
