@@ -5,6 +5,10 @@ using UnityEngine;
 public class Core : MonoBehaviour
 {
 	static public Core theCore;
+    public static TileManager theTM
+    {
+        get { return theCore.GetComponent<TileManager>(); }
+    }
 
 	public enum CORE_STATE
 	{

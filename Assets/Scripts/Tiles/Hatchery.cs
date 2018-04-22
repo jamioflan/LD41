@@ -8,14 +8,13 @@ public class Hatchery : TileBase {
     {
         return TileBase.TileType.HATCHERY;
     }
+    public override void Start()
+    {
+        base.Start();
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public override void Update()
+    {
+        base.Update();
+    }
 }

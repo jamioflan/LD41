@@ -9,15 +9,15 @@ public class Filled : TileBase {
         return TileBase.TileType.FILLED;
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public override void Start()
+    {
+        base.Start();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
 
     override public bool IsPassable()
     {

@@ -7,6 +7,10 @@ abstract public class TileBase : MonoBehaviour {
     public int x;
     public int y;
 
+    public SpriteRenderer warningSprite;
+    private float fWarningTime = 0.0f;
+    public int bWarning = 0; // Number of things intending to dig this tile
+
     public enum TileType {
         EMPTY = 0,
         FILLED = 1,
@@ -27,14 +31,35 @@ abstract public class TileBase : MonoBehaviour {
         return true;
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public bool IsLizardy()
+    {
+        switch(Type())
+        {
+            case TileType.FILLED:
+                return false;
+        }
+        return true;
+    }
+
+    public virtual void Start ()
+    {
+        warningSprite.enabled = false;
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public virtual void Update ()
+    {
+        warningSprite.enabled = bWarning > 0;
+
+        if (bWarning > 0)
+        {
+            fWarningTime += Time.deltaTime * 2.0f;
+
+            if(warningSprite != null)
+            {
+                float scale = 1.0f + 0.1f * Mathf.Sin(fWarningTime);
+                warningSprite.transform.localScale = new Vector3(scale, scale, scale);
+            }
+        }
 	}
 
     public virtual void Destroy()

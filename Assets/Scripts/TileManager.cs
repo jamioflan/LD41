@@ -115,6 +115,16 @@ public class TileManager : MonoBehaviour {
 
     }
 
+    public void HumanDigTile(int x, int y)
+    {
+        
+    }
+
+    public TileBase GetTileBase(int x, int y)
+    {
+        return tiles[x, y];
+    }
+
     // Create a new tile
     public TileBase RequestNewTile(int x, int y, TileBase.TileType type)
     {

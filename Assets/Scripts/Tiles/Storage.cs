@@ -8,16 +8,16 @@ public class Storage : TileBase {
     {
         return TileBase.TileType.STORAGE;
     }
-    
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
+    public override void Start()
+    {
+        base.Start();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
 
 
 }
