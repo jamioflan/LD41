@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UI_HUD : MonoBehaviour
 {
+	public static UI_HUD instance;
+
 	public Slider humanSuspicionMeter;
 	public Slider lizardInfiltrationMeter;
 	public GameObject toolbarGroup;
@@ -15,6 +17,9 @@ public class UI_HUD : MonoBehaviour
 	public Text numMushrooms;
 	public Text numMoney;
 	public Text numDinosaurBones;
+	public Text mouseOverElement;
+	public bool showMouseOver;
+	public string mouseOverText = "";
 
 	// Do not delete/re-order! Numbers used in GUI
 	public enum BUILD_ITEM
@@ -44,7 +49,7 @@ public class UI_HUD : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-
+		instance = this;
 	}
 	
 	// Update is called once per frame
@@ -78,6 +83,18 @@ public class UI_HUD : MonoBehaviour
 		if( numDinosaurBones != null )
 		{
 			numDinosaurBones.text = "" + Player.thePlayer.dinosaurBones;
+		}
+
+		// Update the mouse over text
+		if( mouseOverElement != null )
+		{
+			mouseOverElement.enabled = showMouseOver;
+			if (showMouseOver)
+			{
+				mouseOverElement.transform.position = Input.mousePosition;
+				Text text = mouseOverElement.GetComponent<Text>();
+				text.text = mouseOverText;
+			}
 		}
 
 		// Hide all highlights

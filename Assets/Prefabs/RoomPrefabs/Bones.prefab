@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 212343296781363802}
   - component: {fileID: 61583525713437196}
   - component: {fileID: 114333801238968142}
+  - component: {fileID: 114271953436067060}
   m_Layer: 0
   m_Name: Bones
   m_TagString: Untagged
@@ -127,6 +128,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.875, y: 0.875}
   m_EdgeRadius: 0
+--- !u!114 &114271953436067060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457413633681318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverText: Dinosaur Bones
 --- !u!114 &114333801238968142
 MonoBehaviour:
   m_ObjectHideFlags: 1
