@@ -15,7 +15,7 @@ public class TaskList {
             BUILD
         }
         public Type type;
-        public Resource.Type resourceType = Resource.Type.NULL;
+        public Resource.ResourceType resourceType = Resource.Type.NULL;
         float fTaskTime;
         Vector3 target;
         Task(Type type)
