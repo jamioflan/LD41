@@ -148,6 +148,29 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
+	public void Reset()
+	{
+		isBuildingAThing = false;
+		isDiggingATile = false;
+		isFillingInATile = false;
+		isMarkingATileAsPriority = false;
+
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+	}
+
 	public void BuildSomething_OnClick()
 	{
 		if( buildOptionsGroup != null )
