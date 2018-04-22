@@ -93,12 +93,22 @@ MonoBehaviour:
   currentAnim: {fileID: 114463626376255152}
   fAnimTime: 0
   bFlip: 0
+  assignment: 3
+  lizardName: 
+  currentTask:
+    assignedLizard: {fileID: 0}
+    associatedTile: {fileID: 0}
+    type: 0
   state: 0
   currentTile: {fileID: 0}
+  fSpeed: 1
+  fIdleTime: 0
   idleAnim: {fileID: 114463626376255152}
   walkAnim: {fileID: 114265320898909294}
   climbAnim: {fileID: 114296786931195936}
   interactAnim: {fileID: 114638337347098724}
+  claimed: {fileID: 0}
+  carrying: {fileID: 0}
 --- !u!114 &114463626376255152
 MonoBehaviour:
   m_ObjectHideFlags: 1
