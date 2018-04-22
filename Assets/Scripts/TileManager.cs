@@ -154,12 +154,14 @@ public class TileManager : MonoBehaviour {
             case TileBase.TileType.METAL:
             case TileBase.TileType.GEMS:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
+                tiles[x, y].PurgeItems();
                 TextTicker.AddLine("The humans found resources and left");
                 return false;
 
             case TileBase.TileType.BONES:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 HumanSpawner.INSTANCE.BonesFound();
+                tiles[x, y].PurgeItems();
                 TextTicker.AddLine("The humans found some dinosaur bones");
                     TextTicker.AddLine("Further digging will be delayed");
                 return false;

@@ -166,7 +166,6 @@ public class Path {
             // Now look at the first 'open' point
             if (open.Count == 0)
             {
-                Debug.Log("Failed to build path - open set is empty!");
                 return null;
             }
             var keyItr = open.Keys.GetEnumerator();

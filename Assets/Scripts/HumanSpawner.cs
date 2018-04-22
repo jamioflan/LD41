@@ -11,9 +11,11 @@ public class HumanSpawner : MonoBehaviour
 
     public DrillTruck drillTruckPrefab;
     public float fTimeToNextDrillTruck = 0.0f;
+    public DrillTruck[] trucks = new DrillTruck[TileManager.width];
 
     public TunnelBore borePrefab;
     public float fTimeToNextBore = 0.0f;
+    public TunnelBore[] bores = new TunnelBore[TileManager.depth];
 
 	// Use this for initialization
 	void Start () {
@@ -28,9 +30,9 @@ public class HumanSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         fTimeToNextHuman -= Time.deltaTime;
-
         if(fTimeToNextHuman <= 0.0f)
         {
             fTimeToNextHuman = Random.Range(0.5f, 1.0f);
@@ -42,7 +44,6 @@ public class HumanSpawner : MonoBehaviour
         }
 
         fTimeToNextDrillTruck -= Time.deltaTime;
-
         if (fTimeToNextDrillTruck <= 0.0f)
         {
             fTimeToNextDrillTruck = Random.Range(20f, 30.0f);
@@ -53,10 +54,18 @@ public class HumanSpawner : MonoBehaviour
             human.iTargetX = Random.Range(0, TileManager.width);
             if (human.iTargetX == TileManager.width - 2)
                 human.iTargetX = TileManager.width / 2;
+            if(trucks[human.iTargetX] != null)
+            {
+                fTimeToNextDrillTruck /= 3.0f;
+                Destroy(human.gameObject);
+            }
+            else
+            {
+                trucks[human.iTargetX] = human;
+            } 
         }
 
         fTimeToNextBore -= Time.deltaTime;
-
         if (fTimeToNextBore <= 0.0f)
         {
             fTimeToNextBore = Random.Range(45.0f, 60.0f);
@@ -65,6 +74,16 @@ public class HumanSpawner : MonoBehaviour
             human.bFlip = bFlip;
             human.iDepth = Random.Range(4, TileManager.depth);
             human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, -0.5f - human.iDepth, -3.0f);
+
+            if (bores[human.iDepth] != null)
+            {
+                fTimeToNextBore /= 3.0f;
+                Destroy(human.gameObject);
+            }
+            else
+            {
+                bores[human.iDepth] = human;
+            }
         }
     }
 }
