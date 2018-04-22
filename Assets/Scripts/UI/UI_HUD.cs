@@ -359,6 +359,10 @@ public class UI_HUD : MonoBehaviour
 
 		// Note down that the next click needs to do a thing
 		isMarkingATileAsPriority = true;
+		if (Core.theCore.markPriorityCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.markPriorityCursor, Core.theCore.markPriorityCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void BuildASpecificThing( int iThingIndex )
@@ -386,6 +390,11 @@ public class UI_HUD : MonoBehaviour
 
 		// Store which thing we'll be building
 		thingToBuild = (BUILD_ITEM)iThingIndex;
+
+		if (Core.theCore.buildCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.buildCursor, Core.theCore.buildCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void OpenTheShopOptions()

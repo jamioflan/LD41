@@ -2124,6 +2124,10 @@ MonoBehaviour:
   digCursorHotSpot: {x: 0, y: 0}
   fillInCursor: {fileID: 2800000, guid: f86ad9afd36894847af379faefa74817, type: 3}
   fillInCursorHotSpot: {x: 0, y: 0}
+  buildCursor: {fileID: 2800000, guid: a18046045d9aebc4386b1f21d0c1a96f, type: 3}
+  buildCursorHotSpot: {x: 0, y: 0}
+  markPriorityCursor: {fileID: 2800000, guid: 14d443898ebba3046bbd9b09d4fea284, type: 3}
+  markPriorityCursorHotSpot: {x: 0, y: 0}
 --- !u!114 &114149257512968362
 MonoBehaviour:
   m_ObjectHideFlags: 1
