@@ -185,6 +185,7 @@ public class TileManager : MonoBehaviour {
         {
             case TileBase.TileType.METAL:
             case TileBase.TileType.GEMS:
+            case TileBase.TileType.BONES:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 return false;
 

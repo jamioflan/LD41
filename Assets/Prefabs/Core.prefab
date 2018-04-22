@@ -1420,6 +1420,9 @@ MonoBehaviour:
   drillTruckPrefab: {fileID: 114195534909214186, guid: 17917b3558c53bc4e933da4735d0b1ab,
     type: 2}
   fTimeToNextDrillTruck: 0
+  borePrefab: {fileID: 114934694686424530, guid: ab590fff4c5c0a844bc24d28a559fa2f,
+    type: 2}
+  fTimeToNextBore: 0
 --- !u!114 &114028627084113048
 MonoBehaviour:
   m_ObjectHideFlags: 1

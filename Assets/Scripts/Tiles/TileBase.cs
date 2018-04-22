@@ -108,6 +108,7 @@ abstract public class TileBase : MonoBehaviour {
         foreach(Resource resource in stuffToMove)
             replacingTile.StoreResource(resource);
 
+        replacingTile.bWarning = bWarning;
 
         GetComponentInParent<TileManager>().UpdateEdges(x, y);
 
@@ -158,7 +159,7 @@ abstract public class TileBase : MonoBehaviour {
 	
 	public virtual void Update ()
     {
-        warningSprite.enabled = bWarning > 0;
+        warningSprite.enabled = IsLizardy() && bWarning > 0;
 
 		if (highlightSprite != null)
 		{
