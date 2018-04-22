@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ public class Nest : TileBase {
 	public override bool CanBeMarkedAsPriority() { return true; }
 
 	public override void Start()
-    {
+	{
         base.Start();
     }
 

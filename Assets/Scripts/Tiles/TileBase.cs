@@ -27,7 +27,10 @@ abstract public class TileBase : MonoBehaviour {
         TAILOR = 6,
         TRAP = 7,
         FARM = 8,
-        TVROOM = 9
+        TVROOM = 9,
+
+        METAL = 10,
+        GEMS = 11,
     }
 
     public void StoreResource(Resource resource)
@@ -37,12 +40,15 @@ abstract public class TileBase : MonoBehaviour {
             if (tidyResources[i] == null)
             {
                 tidyResources[i] = resource;
-                //resource.transform.SetParent()
+                resource.transform.SetParent(tidyStorageSpots[i]);
+                resource.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 return;
             }
         }
 
         clutteredResources.Add(resource);
+        resource.transform.SetParent(transform);
+        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);
     }
 
     public void RemoveResource(Resource resource)
@@ -76,6 +82,8 @@ abstract public class TileBase : MonoBehaviour {
         switch(Type())
         {
             case TileType.FILLED:
+            case TileType.GEMS:
+            case TileType.METAL:
                 return false;
         }
         return true;

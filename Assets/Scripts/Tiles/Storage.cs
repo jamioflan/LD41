@@ -15,7 +15,7 @@ public class Storage : TileBase {
 	public override bool CanBeMarkedAsPriority() { return true; }
 
 	public override void Start()
-    {
+	{
         base.Start();
     }
 
@@ -23,6 +23,4 @@ public class Storage : TileBase {
     {
         base.Update();
     }
-
-
 }
