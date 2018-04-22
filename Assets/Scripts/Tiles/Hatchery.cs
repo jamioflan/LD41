@@ -19,8 +19,33 @@ public class Hatchery : TileBase {
         base.Start();
     }
 
+
+    private float fGestationTimeRemaining = 1.0f;
+
     public override void Update()
     {
         base.Update();
+
+        if (x < 0 || y < 0)
+            return;
+
+        // Where's the foetus gonna gestate? Temporary code
+        fGestationTimeRemaining -= Time.deltaTime;
+        if (fGestationTimeRemaining <= 0.0f)
+        {
+            fGestationTimeRemaining = 1.0f;
+
+            SpawnLizard();
+        }
     }
+
+    private void SpawnLizard()
+    {
+        Lizard lizzie = Core.theTM.CreateLizard(x, y);
+
+        lizzie.lizardName = lizardNames[Random.Range(0, lizardNames.Length)];
+        TextTicker.AddLine(lizzie.lizardName + " has hatched");
+    }
+
+    public string[] lizardNames;
 }

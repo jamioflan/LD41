@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4081922048255632}
   - component: {fileID: 212379264987313746}
   - component: {fileID: 114793479220268058}
-  - component: {fileID: 114241016901037028}
   m_Layer: 0
   m_Name: Hut
   m_TagString: Untagged
@@ -71,6 +70,7 @@ GameObject:
   - component: {fileID: 4988283190486598}
   - component: {fileID: 212868207952818990}
   - component: {fileID: 61892675030186452}
+  - component: {fileID: 114732834565773478}
   m_Layer: 0
   m_Name: HutPic
   m_TagString: Untagged
@@ -158,18 +158,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
---- !u!114 &114241016901037028
+--- !u!114 &114732834565773478
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1242416851397864}
+  m_GameObject: {fileID: 1600537437434584}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a82ca26b44062d4b878e94d2a7e9960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseOverText: The shop
+  mouseOverText: The shop and access ladder
 --- !u!114 &114793479220268058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,6 +194,10 @@ MonoBehaviour:
   lizardsOnTile: []
   tidyStorageSpots: []
   replacingTile: {fileID: 0}
+  queuedTask:
+    assignedLizard: {fileID: 0}
+    associatedTile: {fileID: 0}
+    type: 0
 --- !u!212 &212106827409848050
 SpriteRenderer:
   m_ObjectHideFlags: 1
