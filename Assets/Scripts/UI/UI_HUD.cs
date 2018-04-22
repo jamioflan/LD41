@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UI_HUD : MonoBehaviour
 {
 	public Slider humanSuspicionMeter;
+	public Slider lizardInfiltrationMeter;
 	public GameObject toolbarGroup;
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
@@ -14,7 +15,6 @@ public class UI_HUD : MonoBehaviour
 	public Text numMushrooms;
 	public Text numMoney;
 	public Text numDinosaurBones;
-	public Text numLizardsDisguisedAsHumans;
 
 	// Do not delete/re-order! Numbers used in GUI
 	public enum BUILD_ITEM
@@ -55,7 +55,11 @@ public class UI_HUD : MonoBehaviour
 		{
 			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
 		}
-		if( numMetal != null )
+		if (lizardInfiltrationMeter != null)
+		{
+			lizardInfiltrationMeter.value = Player.thePlayer.lizardsDisguisedAsHumans / 10.0f;
+		}
+		if ( numMetal != null )
 		{
 			numMetal.text = "" + Player.thePlayer.metal;
 		}
@@ -74,10 +78,6 @@ public class UI_HUD : MonoBehaviour
 		if( numDinosaurBones != null )
 		{
 			numDinosaurBones.text = "" + Player.thePlayer.dinosaurBones;
-		}
-		if( numLizardsDisguisedAsHumans != null)
-		{
-			numLizardsDisguisedAsHumans.text = "" + Player.thePlayer.lizardsDisguisedAsHumans;
 		}
 
 		// Hide all highlights
