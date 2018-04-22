@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class TaskList {
-    public struct Task
+    public class Task
     {
         public enum Type
         {
@@ -15,7 +15,7 @@ public class TaskList {
             BUILD
         }
         public Type type;
-        public Resource.ResourceType resourceType = Resource.Type.NULL;
+        public Resource.ResourceType resourceType = Resource.ResourceType.NULL;
         float fTaskTime;
         Vector3 target;
         Task(Type type)
