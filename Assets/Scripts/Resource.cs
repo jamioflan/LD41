@@ -10,7 +10,8 @@ public class Resource : MonoBehaviour
         GEMS,
         MUSHROOMS,
         HUMAN_FOOD,
-        HUMAN_SKIN
+        HUMAN_SKIN,
+        NULL
     }
 
     public TileBase holder = null;

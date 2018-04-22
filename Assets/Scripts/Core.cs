@@ -51,6 +51,18 @@ public class Core : MonoBehaviour
 		{
 			theTileManager.Reset();
 		}
+
+		// Reset the HUD to default state
+		if (HUD != null)
+		{
+			HUD.SetActive(false);
+		}
+
+		UI_HUD HUDClass = GetComponent<UI_HUD>();
+		if (HUDClass != null)
+		{
+			HUDClass.Reset();
+		}
 	}
 
 	void Enter_Void() {}

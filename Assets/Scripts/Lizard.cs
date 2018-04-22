@@ -17,6 +17,8 @@ public class Lizard : Entity {
 
     public string name;
 
+    public Queue<Task> taskList = new Queue<Task>();
+
     public enum State
     {
         IDLE,

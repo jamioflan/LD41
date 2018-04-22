@@ -11,16 +11,6 @@ public class Player : MonoBehaviour
 	int mushrooms = 0;
 	int lizardsDisguisedAsHumans = 0;
 
-	[System.Serializable]
-	public struct Task
-	{
-		public string name;
-		public Sprite icon;
-		public int currentNumWorkers; // Can be changed by the user
-		public int maxNumWorkers; // How many are needed - changes according to how many of these tasks are active
-	}
-
-	public Task[] tasks;
 
 	// Use this for initialization
 	void Start ()
