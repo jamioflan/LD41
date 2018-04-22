@@ -497,4 +497,15 @@ public class UI_HUD : MonoBehaviour
 			}
 		}
 	}
+
+	public void ShowMouseOverText(string text)
+	{
+		showMouseOver = true;
+		mouseOverText = text;
+	}
+
+	public void HideMouseOverText()
+	{
+		showMouseOver = false;
+	}
 }
