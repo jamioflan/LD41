@@ -25,7 +25,7 @@ public class HumanSpawner : MonoBehaviour
             Human human = Instantiate<Human>(humanPrefabs[Random.Range(0, humanPrefabs.Length)]);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;
-            human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.5f, -3.0f);
+            human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.375f, -3.0f);
 
         }
 
@@ -37,8 +37,10 @@ public class HumanSpawner : MonoBehaviour
             DrillTruck human = Instantiate<DrillTruck>(drillTruckPrefab);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;
-            human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.75f, -3.0f);
+            human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.625f, -3.0f);
             human.iTargetX = Random.Range(0, TileManager.width);
+            if (human.iTargetX == TileManager.width - 2)
+                human.iTargetX = TileManager.width / 2;
         }
     }
 }

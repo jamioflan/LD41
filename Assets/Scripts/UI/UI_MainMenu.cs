@@ -20,7 +20,10 @@ public class UI_MainMenu : MonoBehaviour
 	{
 		if (Core.theCore != null)
 		{
-			Core.theCore.RequestState(Core.CORE_STATE.IN_GAME);
+			Core.theCore.RequestState(
+                
+                
+                Core.CORE_STATE.IN_GAME);
 		}
 	}
 

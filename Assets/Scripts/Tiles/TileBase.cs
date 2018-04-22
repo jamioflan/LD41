@@ -12,6 +12,9 @@ abstract public class TileBase : MonoBehaviour {
     public int bWarning = 0; // Number of things intending to dig this tile
     public string printName = "";
 
+	public SpriteRenderer highlightSprite;
+	public bool bShouldBeHighlighted = false;
+
     static float fMaxBuildTime = 5.0f;
     public float fBuildLeft = fMaxBuildTime;
 
@@ -85,13 +88,18 @@ abstract public class TileBase : MonoBehaviour {
         return fBuildLeft < 0;
     }
 
-    public void Replace()
+    public virtual void Replace()
     {
         if (replacingTile == null)
             return;
         GetComponentInParent<TileManager>().tiles[x, y] = replacingTile;
         replacingTile.SetCoords(x, y);
         replacingTile.transform.SetParent(transform.parent);
+
+        {
+            GetComponentInParent<TileManager>().UpdateEdges(x, y);
+        }
+
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
         Destroy();
@@ -132,12 +140,18 @@ abstract public class TileBase : MonoBehaviour {
     public virtual void Start ()
     {
         warningSprite.enabled = false;
-        tidyResources = new Resource[tidyStorageSpots.Length];
+		if (highlightSprite != null) { highlightSprite.enabled = false; }
+		tidyResources = new Resource[tidyStorageSpots.Length];
     }
 	
 	public virtual void Update ()
     {
         warningSprite.enabled = bWarning > 0;
+
+		if (highlightSprite != null)
+		{
+			highlightSprite.enabled = bShouldBeHighlighted;
+		}
 
         if (bWarning > 0)
         {

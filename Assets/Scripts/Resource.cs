@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Resource : MonoBehaviour
+
 {
     public enum ResourceType
     {
@@ -14,6 +15,7 @@ public class Resource : MonoBehaviour
         NULL
     }
 
+    public Lizard reservee = null;
     public ResourceType type;
     public TileBase holder = null;
     public Lizard carriedBy = null;
@@ -25,6 +27,7 @@ public class Resource : MonoBehaviour
 	void Update () {
 		
 	}
+
 
     public void Drop()
     {

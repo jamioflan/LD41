@@ -9,9 +9,11 @@ public class UI_HUD : MonoBehaviour
 	public GameObject toolbarGroup;
 	public GameObject buildOptionsGroup;
 	public GameObject shopOptionsGroup;
-
-	//public SpriteRenderer highlightSprite;
-	//Sprite[] activeHighlightSprites;
+	public Text numMetal;
+	public Text numGems;
+	public Text numMushrooms;
+	public Text numMoney;
+	public Text numLizardsDisguisedAsHumans;
 
 	public enum BUILD_ITEM
 	{
@@ -43,13 +45,43 @@ public class UI_HUD : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		// Update the human suspicion amount
+		// Update the counters
 		if (humanSuspicionMeter != null)
 		{
 			humanSuspicionMeter.value = Player.thePlayer.fHumanSuspicion;
 		}
+		if( numMetal != null )
+		{
+			numMetal.text = "" + Player.thePlayer.metal;
+		}
+		if (numGems != null)
+		{
+			numGems.text = "" + Player.thePlayer.gems;
+		}
+		if (numMushrooms != null)
+		{
+			numMushrooms.text = "" + Player.thePlayer.mushrooms;
+		}
+		if( numMoney != null )
+		{
+			numMoney.text = "" + Player.thePlayer.money;
+		}
+		if( numLizardsDisguisedAsHumans != null)
+		{
+			numLizardsDisguisedAsHumans.text = "" + Player.thePlayer.lizardsDisguisedAsHumans;
+		}
 
-		if( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
+		// Hide all highlights
+		for (int ii = 0; ii < TileManager.width; ++ii)
+		{
+			for (int jj = 0; jj < TileManager.depth; ++jj)
+			{
+				TileBase thisTile = Core.theTM.tiles[ii, jj];
+				thisTile.bShouldBeHighlighted = false;
+			}
+		}
+
+		if ( isBuildingAThing || isDiggingATile || isFillingInATile || isMarkingATileAsPriority )
 		{
 			// Get the tile that the mouse is over (if any!)
 			TileBase mousedOverTile = null;
@@ -73,6 +105,7 @@ public class UI_HUD : MonoBehaviour
 				for (int jj = 0; jj < TileManager.depth; ++jj)
 				{
 					TileBase thisTile = Core.theTM.tiles[ii, jj];
+
 					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() ) ||
 						( isDiggingATile && thisTile.CanBeDug() ) ||
 						( isFillingInATile && thisTile.CanBeFilledIn() ) ||
@@ -116,7 +149,7 @@ public class UI_HUD : MonoBehaviour
 						if (bValid)
 						{
 							// Highlight tile. Also render extra highlight if moused-over.
-							
+							thisTile.bShouldBeHighlighted = true;
 
 							// If we're mousing over this tile...
 							if (mousedOverTile != null && mousedOverTile == thisTile)
@@ -131,34 +164,27 @@ public class UI_HUD : MonoBehaviour
 									{
 										Debug.Log("Building a thing!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
+										int iMetalCost = 0;
+										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost );
+										if (iMetalCost <= Player.thePlayer.metal)
 										{
-											TileBase.TileType eTileType = GetTileTypeToBuild();
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
+											Player.thePlayer.metal -= iMetalCost;
+											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 										}
 									}
 									else if (isDiggingATile)
 									{
 										Debug.Log("Digging a tile!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
-										{
-											TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-										}
+										TileBase.TileType eTileType = TileBase.TileType.EMPTY;
+										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 									}
 									else if (isFillingInATile)
 									{
 										Debug.Log("Filling in a tile!");
 
-										TileBase targetTile = hit.collider.gameObject.GetComponent<TileBase>();
-										if (targetTile != null)
-										{
-											TileBase.TileType eTileType = TileBase.TileType.FILLED;
-											Core.theTM.RequestNewTile(targetTile.x, targetTile.y, eTileType);
-										}
+										TileBase.TileType eTileType = TileBase.TileType.FILLED;
+										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
 									}
 									else if (isMarkingATileAsPriority)
 									{
@@ -320,7 +346,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMetals()
 	{
-		// Sell some metal...
+		// Sell a metal
+		Player.thePlayer.SellMetal(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -341,7 +368,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellGems()
 	{
-		// Sell some gems...
+		// Sell a gem
+		Player.thePlayer.SellGems(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -362,7 +390,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMushrooms()
 	{
-		// Sell some mushrooms...
+		// Sell a mushroom
+		Player.thePlayer.SellMushrooms(1);
 
 		// Return to normal
 		if (toolbarGroup != null)
@@ -402,24 +431,30 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
-	TileBase.TileType GetTileTypeToBuild()
+	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost)
 	{
+		iMetalCost = 0;
+
 		switch( thingToBuild )
 		{
 			case BUILD_ITEM.STORAGE:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.STORAGE;
 			}
 			case BUILD_ITEM.HATCHERY:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.HATCHERY;
 			}
 			case BUILD_ITEM.NEST:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.NEST;
 			}
 			case BUILD_ITEM.TAILOR:
 			{
+				iMetalCost = 0;
 				return TileBase.TileType.TAILOR;
 			}
 			default:

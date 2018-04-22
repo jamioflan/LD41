@@ -26,16 +26,19 @@ public class Gems : TileBase
         base.Update();
     }
 
-    public override void Destroy()
+    public override void Replace()
     {
-        base.Destroy();
+        base.Replace();
 
-        int num = Random.Range(0, 4);
+        if (replacingTile == null)
+            return;
+
+        int num = Random.Range(0, 3);
         for (int i = 0; i < num; i++)
         {
-            Resource gem = Instantiate<Resource>(gemPrefab);
-            gem.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
+            Resource metal = Instantiate<Resource>(gemPrefab);
+            metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
+            replacingTile.StoreResource(metal);
         }
-
     }
 }
