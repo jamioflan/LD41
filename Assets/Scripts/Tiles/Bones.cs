@@ -41,5 +41,6 @@ public class Bones : TileBase
         Resource metal = Instantiate<Resource>(bonesPrefab);
         metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
         replacingTile.StoreResource(metal);
+        Core.theTM.RegisterResource(metal);
     }
 }

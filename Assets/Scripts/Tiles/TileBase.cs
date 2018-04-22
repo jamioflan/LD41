@@ -70,6 +70,15 @@ abstract public class TileBase : MonoBehaviour {
         resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);
     }
 
+    public int NEmptyResourceSlots()
+    {
+        int ret = 0;
+        foreach (Resource res in tidyResources)
+            if (res == null)
+                ret += 1;
+        return ret;
+    }
+
     public void RemoveResource(Resource resource)
     {
         for (int i = 0; i < tidyStorageSpots.Length; i++)
