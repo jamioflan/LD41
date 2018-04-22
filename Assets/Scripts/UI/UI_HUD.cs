@@ -64,8 +64,46 @@ public class UI_HUD : MonoBehaviour
 						( isFillingInATile && tile.CanBeFilledIn() ) ||
 						( isMarkingATileAsPriority && tile.CanBeMarkedAsPriority() ) )
 					{
-						// Highlight tile. Also render extra highlight if moused-over.
-						//Instantiate<Sprite>(highlightSprite);
+						bool bValid = true;
+
+						// If digging a tile, also need to check the tile is adjacent to some other lizardy tile.
+						if( isDiggingATile )
+						{
+							TileBase tileOnLeft = null;
+							if (ii - 1 >= 0)
+							{
+								tileOnLeft = theTileManager.tiles[ii - 1, jj];
+							}
+							TileBase tileOnRight = null;
+							if (ii + 1 < TileManager.width)
+							{
+								tileOnRight = theTileManager.tiles[ii + 1, jj];
+							}
+							TileBase tileAbove = null;
+							if (jj - 1 >= 0)
+							{
+								tileAbove = theTileManager.tiles[ii, jj - 1];
+							}
+							TileBase tileBelow = null;
+							if (jj + 1 < TileManager.depth)
+							{
+								tileBelow = theTileManager.tiles[ii, jj + 1];
+							}
+
+							if( (tileOnLeft == null || !tileOnLeft.IsLizardy()) &&
+								(tileOnRight == null || !tileOnRight.IsLizardy()) &&
+								(tileAbove == null || !tileAbove.IsLizardy()) &&
+								(tileBelow == null || !tileBelow.IsLizardy()) )
+							{
+								bValid = false;
+							}
+						}
+
+						if (bValid)
+						{
+							// Highlight tile. Also render extra highlight if moused-over.
+							//Instantiate<Sprite>(highlightSprite);
+						}
 					}
 				}
 			}
