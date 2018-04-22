@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Metal : TileBase
 {
+    public Resource metalPrefab;
+
     public override TileBase.TileType Type()
     {
         return TileBase.TileType.METAL;
@@ -17,5 +19,18 @@ public class Metal : TileBase
     public override void Update()
     {
         base.Update();
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+
+        int num = Random.Range(0, 4);
+        for (int i = 0; i < num; i++)
+        {
+            Resource metal = Instantiate<Resource>(metalPrefab);
+            metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
+        }
+
     }
 }

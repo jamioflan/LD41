@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Filled : TileBase {
+public class TubeLine : TileBase {
 
     override public TileBase.TileType Type()
     {
-        return TileBase.TileType.FILLED;
+        return TileBase.TileType.TUBE_LINE;
     }
 
     public override void Start()

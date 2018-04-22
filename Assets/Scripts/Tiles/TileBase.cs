@@ -17,6 +17,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public Transform[] tidyStorageSpots;
 
+    [System.Serializable]
     public enum TileType {
         EMPTY = 0,
         FILLED = 1,
@@ -31,6 +32,7 @@ abstract public class TileBase : MonoBehaviour {
 
         METAL = 10,
         GEMS = 11,
+        TUBE_LINE = 12,
     }
 
     public void StoreResource(Resource resource)
