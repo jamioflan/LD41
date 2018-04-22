@@ -27,6 +27,18 @@ public class Core : MonoBehaviour
 	public GameObject HUD;
 	public GameObject endGameMenu;
 
+	public Texture2D digCursor;
+	public Vector2 digCursorHotSpot = Vector2.zero;
+
+	public Texture2D fillInCursor;
+	public Vector2 fillInCursorHotSpot = Vector2.zero;
+
+	public Texture2D buildCursor;
+	public Vector2 buildCursorHotSpot = Vector2.zero;
+
+	public Texture2D markPriorityCursor;
+	public Vector2 markPriorityCursorHotSpot = Vector2.zero;
+
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
 
@@ -121,17 +133,24 @@ public class Core : MonoBehaviour
 
 	void Update_InGame()
 	{
-		if( !bWasEscPressed && bIsEscPressed )
+		if (!bWasEscPressed && bIsEscPressed)
 		{
-			RequestState(CORE_STATE.PAUSE_MENU);
+			if (UI_HUD.instance.isBuildingAThing || UI_HUD.instance.isDiggingATile || UI_HUD.instance.isFillingInATile || UI_HUD.instance.isMarkingATileAsPriority)
+			{
+				UI_HUD.instance.Reset();
+			}
+			else
+			{
+				RequestState(CORE_STATE.PAUSE_MENU);
+			}
 		}
 
-		if( Input.GetAxis("Mouse ScrollWheel") > 0 )
+		if( Input.GetAxis("Mouse ScrollWheel") > 0.0f || Input.GetAxis("Scroll") > 0.0f)
 		{
 			float fNewY = Mathf.Min(Camera.main.transform.position.y + 1.0f, cameraMaxY);
 			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z );
 		}
-		else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+		else if (Input.GetAxis("Mouse ScrollWheel") < 0.0f || Input.GetAxis("Scroll") < 0.0f)
 		{
 			float fNewY = Mathf.Max(Camera.main.transform.position.y - 1.0f, cameraMinY);
 			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z);

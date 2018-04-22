@@ -11,7 +11,8 @@ public class Task
         EAT,
         RELAX,
         WORK_ROOM,
-        BUILD
+        BUILD,
+        TIDY
     }
     public Lizard assignedLizard;
     public TileBase associatedTile;
@@ -23,6 +24,7 @@ public class Task
     {
         claimedResources.Add(resource);
         missingResources[resource.type] -= 1;
+        resource.Drop();
     }
     public Resource.ResourceType GetNextMissing()
     {

@@ -38,6 +38,7 @@ public class Lizard : Entity {
         IDLE,
         TRAVELLING_TO_TASK,
         RETRIEVING_RESOURCE,
+        RETURNING_RESOURCE,
         WORKING,
     }
 
@@ -101,8 +102,19 @@ public class Lizard : Entity {
         }
         if (reachedTarget)
         {
-            SetAnim(idleAnim);
-            targetSet = false;
+            if (currentPath.Count() == 0)
+            {
+                SetAnim(idleAnim);
+                targetSet = false;
+                return true;
+            }
+            else
+            {
+                var next = currentPath.Pop();
+                SetTile(mgr.GetTileBase(next.Key, next.Value));
+                SetTarget(GetTileCenter(mgr.GetTileBase(next.Key, next.Value)));
+                return false;
+            }
         }
         return reachedTarget;
     }
@@ -170,6 +182,29 @@ public class Lizard : Entity {
                     DoTask();
                     break;
                 }
+                var idlePath = Path.GetPath(currentTile.GetKVPair(), mgr.GetClutteredTiles());
+                if (idlePath != null)
+                {
+                    // Check to see if there are reachable storerooms
+                    TileManager.TestTile del = delegate (TileBase tile)
+                    {
+                        return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
+                    };
+                    var storeroomPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
+                    if (storeroomPath == null)
+                        break;
+                    SetState(State.RETRIEVING_RESOURCE);
+                    TileBase targetTile = mgr.GetTileBase(idlePath.endX, idlePath.endY);
+                    foreach (Resource res in targetTile.clutteredResources)
+                        if (!res.isClaimed)
+                        {
+                            Claim(res);
+                            break;
+                        }
+                    SetPath(idlePath);
+                    break;  
+                }
+                
                 fIdleTime -= Time.deltaTime;
                 if (!targetSet) {
                     if (fIdleTime < 0)
@@ -184,18 +219,7 @@ public class Lizard : Entity {
                 break;
             case State.TRAVELLING_TO_TASK:
                 if (Move())
-                {
-                    if (currentPath.Count() == 0)
-                    {
-                        SetState(State.WORKING);
-                    }
-                    else
-                    {
-                        var next = currentPath.Pop();
-                        SetTile(mgr.GetTileBase(next.Key, next.Value) );
-                        SetTarget(GetTileCenter(mgr.GetTileBase(next.Key, next.Value)) );
-                    }
-                }
+                    SetState(State.WORKING);
                 break;
             case State.WORKING:
                 switch (currentTask.type)
@@ -216,9 +240,68 @@ public class Lizard : Entity {
                         
                 }
                 break;
+            case State.RETRIEVING_RESOURCE:
+                if(Move() )
+                {
+                    if (currentTask == null)
+                    {
+                        // Find a storeroom with an empty slot
+                        TileManager.TestTile del = delegate (TileBase tile)
+                        {
+                            return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
+                        };
+                        var retrPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
+                        if (retrPath == null)
+                        {
+                            SetState(State.IDLE);
+                            break;
+                        }
+                        else
+                        {
+                            SetPath(retrPath);
+                        }
+                    }
+                    else
+                    {
+                        var retrPath = Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile);
+                        if (retrPath == null)
+                        {
+                            CannotReachTask();
+                        }
+                        else
+                        {
+                            SetPath(retrPath);
+                        }
+                    }
+
+                    claimed.GiveToLizard(this);
+                    SetState(State.RETURNING_RESOURCE);
+                }
+                break;
+            case State.RETURNING_RESOURCE:
+                if (Move() )
+                {
+                    if (currentTask == null)
+                    {
+                        Debug.Log("Calling StoreResource");
+                        currentTile.StoreResource(carrying);
+                        SetState(State.IDLE);
+                    }
+                    else
+                    {
+                        currentTask.AddResource(carrying);
+                        DoTask();
+                    }
+                }
+                break;
         }
 
 	}
+
+    public void CannotReachTask()
+    {
+        Debug.Log("Well, this is a problem");
+    }
 
     public void DoTask()
     {
@@ -226,7 +309,9 @@ public class Lizard : Entity {
         if (nextType == Resource.ResourceType.NULL)
         {
             SetState(State.TRAVELLING_TO_TASK);
-            currentPath = Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile.GetKVPair());
+
+            if (!SetPath(Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile.GetKVPair())))
+                CannotReachTask();
         }
         else
         {
@@ -234,11 +319,31 @@ public class Lizard : Entity {
             var kvs = new List<KeyValuePair<int, int>>();
             foreach (TileBase tile in mgr.GetTilesContaining(nextType))
                 kvs.Add(tile.GetKVPair());
-            currentPath = Path.GetPath(currentTile.GetKVPair(), kvs);
-            TileBase targetTile = mgr.GetTileBase(currentPath.endX, currentPath.endY);
-            Claim(targetTile.FindResource(nextType));
-            SetState(State.RETRIEVING_RESOURCE);
+            if (SetPath(Path.GetPath(currentTile.GetKVPair(), kvs)))
+            {
+                TileBase targetTile = mgr.GetTileBase(currentPath.endX, currentPath.endY);
+                Claim(targetTile.FindResource(nextType));
+                SetState(State.RETRIEVING_RESOURCE);
+            }
+            else
+            {
+                CannotReachTask();
+            }
         } 
+    }
+
+    public bool SetPath(Path path)
+    {
+        if (path == null)
+        {
+            targetSet = false;
+            return false;
+        }
+        currentPath = path;
+        var next = currentPath.Pop();
+        SetTile(mgr.GetTileBase(next.Key, next.Value));
+        SetTarget(GetTileCenter(mgr.GetTileBase(next.Key, next.Value)));
+        return true;
     }
 
     public void FinishTask()
@@ -254,6 +359,7 @@ public class Lizard : Entity {
             claimed.Unclaim();
         }
         claimed = resource;
+        resource.Claim(this);
     }
 
     public void Take(Resource resource)
@@ -263,11 +369,13 @@ public class Lizard : Entity {
         if (claimed != resource && claimed != null)
             claimed.Unclaim();
         claimed = null;
+        carrying = resource;
     }
 
     public void SetTile(TileBase tile)
     {
-        currentTile.lizardsOnTile.Remove(this);
+        if (currentTile != null)
+            currentTile.lizardsOnTile.Remove(this);
         if (tile != null)
             tile.lizardsOnTile.Add(this);
         currentTile = tile;

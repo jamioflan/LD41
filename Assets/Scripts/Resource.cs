@@ -12,6 +12,7 @@ public class Resource : MonoBehaviour
         MUSHROOMS,
         HUMAN_FOOD,
         HUMAN_SKIN,
+        BONES, 
         NULL
     }
 
@@ -19,6 +20,8 @@ public class Resource : MonoBehaviour
     public ResourceType type;
     public TileBase holder = null;
     public Lizard carriedBy = null;
+
+    public bool isClaimed = false;
 
 	void Start () {
 		
@@ -59,8 +62,24 @@ public class Resource : MonoBehaviour
 
     public void Unclaim()
     {
-        Debug.Log("Update resource counts!");
+        Core.theTM.unclaimedResources[type].Add(this);
+        isClaimed = false;
         reservee = null;
+    }
+
+    public void Claim(Lizard lizzo)
+    {
+        Core.theTM.unclaimedResources[type].Remove(this);
+        isClaimed = true;
+        reservee = lizzo;
+    }
+
+    private void Destroy()
+    {
+        Core.theTM.allResources.Remove(this);
+        if (Core.theTM.unclaimedResources[type].Contains(this))
+            Core.theTM.unclaimedResources[type].Remove(this);
+        Destroy(gameObject);
     }
 
 }

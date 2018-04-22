@@ -96,13 +96,28 @@ public class Path {
         return p;
     }
 
+    public static Path GetPath(KeyValuePair<int, int> from, TileBase to)
+    {
+        return GetPath(from, to.GetKVPair());
+    }
+
     public static Path GetPath(KeyValuePair<int, int> from, KeyValuePair<int, int> to)
     {
         return GetPath(from, new List<KeyValuePair<int, int>>() { to });
     }
 
+    public static Path GetPath(KeyValuePair<int, int> from, List<TileBase> to)
+    {
+        var kvList = new List<KeyValuePair<int, int>>();
+        foreach (TileBase tile in to)
+            kvList.Add(tile.GetKVPair());
+        return GetPath(from, kvList);
+    }
+
     public static Path GetPath(KeyValuePair<int, int> from, List<KeyValuePair<int, int>> to)
     {
+        if (to.Count == 0)
+            return null;
         Path path = new Path();
         if (to.Contains(from) )
         {

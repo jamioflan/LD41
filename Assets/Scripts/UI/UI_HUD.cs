@@ -36,17 +36,17 @@ public class UI_HUD : MonoBehaviour
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
-	bool isBuildingAThing;
+	public bool isBuildingAThing;
 	BUILD_ITEM thingToBuild;
 
 	// Whether we've chosen to dig a tile, but haven't chosen which yet
-	bool isDiggingATile;
+	public bool isDiggingATile;
 
 	// Whether we've chosen to fill in a tile, but haven't chosen which yet
-	bool isFillingInATile;
+	public bool isFillingInATile;
 
 	// Whether we've chosen to mark a tile as priority, but haven't chosen which yet
-	bool isMarkingATileAsPriority;
+	public bool isMarkingATileAsPriority;
 
 	// Use this for initialization
 	void Start ()
@@ -251,6 +251,7 @@ public class UI_HUD : MonoBehaviour
 		isFillingInATile = false;
 		isMarkingATileAsPriority = false;
 		fScrollPromptTime = 0.0f;
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 
 		if (toolbarGroup != null)
 		{
@@ -283,6 +284,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void DigSomething_OnClick()
 	{
+		showMouseOver = false;
+
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
@@ -300,10 +303,16 @@ public class UI_HUD : MonoBehaviour
 		}
 
 		isDiggingATile = true;
+		if (Core.theCore.digCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.digCursor, Core.theCore.digCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void FillSomethingIn_OnClick()
 	{
+		showMouseOver = false;
+
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
@@ -322,10 +331,16 @@ public class UI_HUD : MonoBehaviour
 
 		// Note down that the next click needs to do a thing
 		isFillingInATile = true;
+		if (Core.theCore.fillInCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.fillInCursor, Core.theCore.fillInCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void MarkSomethingAsPriority()
 	{
+		showMouseOver = false;
+
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
@@ -344,10 +359,16 @@ public class UI_HUD : MonoBehaviour
 
 		// Note down that the next click needs to do a thing
 		isMarkingATileAsPriority = true;
+		if (Core.theCore.markPriorityCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.markPriorityCursor, Core.theCore.markPriorityCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void BuildASpecificThing( int iThingIndex )
 	{
+		showMouseOver = false;
+
 		if (buildOptionsGroup != null)
 		{
 			buildOptionsGroup.SetActive(false);
@@ -369,6 +390,11 @@ public class UI_HUD : MonoBehaviour
 
 		// Store which thing we'll be building
 		thingToBuild = (BUILD_ITEM)iThingIndex;
+
+		if (Core.theCore.buildCursor != null)
+		{
+			Cursor.SetCursor(Core.theCore.buildCursor, Core.theCore.buildCursorHotSpot, CursorMode.Auto);
+		}
 	}
 
 	public void OpenTheShopOptions()
@@ -386,6 +412,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMetals()
 	{
+		showMouseOver = false;
+
 		// Sell a metal
 		Player.thePlayer.SellMetal(1);
 
@@ -408,6 +436,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellGems()
 	{
+		showMouseOver = false;
+
 		// Sell a gem
 		Player.thePlayer.SellGems(1);
 
@@ -430,6 +460,8 @@ public class UI_HUD : MonoBehaviour
 
 	public void Shop_SellMushrooms()
 	{
+		showMouseOver = false;
+
 		// Sell a mushroom
 		Player.thePlayer.SellMushrooms(1);
 
@@ -496,5 +528,16 @@ public class UI_HUD : MonoBehaviour
 				return TileBase.TileType.FILLED;
 			}
 		}
+	}
+
+	public void ShowMouseOverText(string text)
+	{
+		showMouseOver = true;
+		mouseOverText = text;
+	}
+
+	public void HideMouseOverText()
+	{
+		showMouseOver = false;
 	}
 }
