@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
 	int metal = 0;
 	int gems = 0;
 	int mushrooms = 0;
-	int lizardsDisguisedAsHumans = 0;
-
+	public int lizardsDisguisedAsHumans = 0;
+    public float fHumanSuspicion = 0.0f;
 
 	// Use this for initialization
 	void Start ()
@@ -21,7 +21,16 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		
+        fHumanSuspicion -= 0.1f * Time.deltaTime;
+        if(fHumanSuspicion >= 100.0f)
+        {
+            Core.theCore.Lose();
+        }
+
+        if(lizardsDisguisedAsHumans >= 10)
+        {
+            Core.theCore.Win();
+        }
 	}
 
 	public void Reset()
@@ -31,4 +40,9 @@ public class Player : MonoBehaviour
 		mushrooms = 0;
 		lizardsDisguisedAsHumans = 0;
 	}
+
+    public void AddSuspicion(float fSusp)
+    {
+        fHumanSuspicion += fSusp;
+    }
 }

@@ -319,4 +319,18 @@ public class Core : MonoBehaviour
 
 		bWasEscPressed = bIsEscPressed;
 	}
+
+    public void Win()
+    {
+        // TODO: Reeeeeebecccccccca! 
+        //
+        // Plis
+    }
+
+    public void Lose()
+    {
+        // TODO: Reeeeeebecccccccca! 
+        //
+        // Plis
+    }
 }
