@@ -73,6 +73,9 @@ public class UI_HUD : MonoBehaviour
 				for (int jj = 0; jj < TileManager.depth; ++jj)
 				{
 					TileBase thisTile = Core.theTM.tiles[ii, jj];
+
+					thisTile.bShouldBeHighlighted = false;
+
 					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() ) ||
 						( isDiggingATile && thisTile.CanBeDug() ) ||
 						( isFillingInATile && thisTile.CanBeFilledIn() ) ||
@@ -116,7 +119,7 @@ public class UI_HUD : MonoBehaviour
 						if (bValid)
 						{
 							// Highlight tile. Also render extra highlight if moused-over.
-							
+							thisTile.bShouldBeHighlighted = true;
 
 							// If we're mousing over this tile...
 							if (mousedOverTile != null && mousedOverTile == thisTile)
