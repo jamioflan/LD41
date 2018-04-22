@@ -63,7 +63,7 @@ public class HumanSpawner : MonoBehaviour
             TunnelBore human = Instantiate<TunnelBore>(borePrefab);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;
-            human.iDepth = Random.Range(3, TileManager.depth);
+            human.iDepth = Random.Range(4, TileManager.depth);
             human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, -0.5f - human.iDepth, -3.0f);
         }
     }
