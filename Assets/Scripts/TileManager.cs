@@ -313,4 +313,12 @@ public class TileManager : MonoBehaviour {
         return GetTiles(del);
     }
 
+	public int GetNumTilesOfType( TileBase.TileType eType )
+	{
+		TileManager.TestTile del = delegate (TileBase tile)
+		{
+			return tile.Type() == eType;
+		};
+		return GetTiles(del).Count;
+	}
 }
