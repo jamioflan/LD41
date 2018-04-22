@@ -22,6 +22,7 @@ public class Lizard : Entity {
 
     float fSpeed = 1.0f;
 
+    public Anim idleAnim, walkAnim, climbAnim, interactAnim;
 
 
     public void Destroy()
@@ -29,6 +30,21 @@ public class Lizard : Entity {
         int idx = mgr.lizards.IndexOf(this);
         mgr.lizards.RemoveAt(idx);
         Destroy(gameObject);
+    }
+
+    private void SetState(State newState)
+    {
+        state = newState;
+
+        switch(newState)
+        {
+            case State.IDLE:
+                SetAnim(idleAnim);
+                break;
+            case State.TRAVELLING_TO_TASK:
+                SetAnim(walkAnim);
+                break;
+        }
     }
 
 	// Use this for initialization
@@ -58,7 +74,7 @@ public class Lizard : Entity {
             case State.TRAVELLING_TO_TASK:
                 if (currentPath.Count == 0)           
                 {
-                    state = State.IDLE;
+                    SetState(State.IDLE);
                     break;
                 } 
                 var next = currentPath[0];

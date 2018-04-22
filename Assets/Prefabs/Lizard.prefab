@@ -22,6 +22,9 @@ GameObject:
   - component: {fileID: 212226887228417306}
   - component: {fileID: 114301004083443652}
   - component: {fileID: 114463626376255152}
+  - component: {fileID: 114265320898909294}
+  - component: {fileID: 114296786931195936}
+  - component: {fileID: 114638337347098724}
   m_Layer: 0
   m_Name: Lizard
   m_TagString: Untagged
@@ -42,6 +45,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114265320898909294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543955680772896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6817d900441db44aa2629adafc48d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300008, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300010, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300012, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300014, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  fTimePerFrame: 1
+--- !u!114 &114296786931195936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543955680772896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6817d900441db44aa2629adafc48d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300016, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300018, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300020, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300022, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  fTimePerFrame: 1
 --- !u!114 &114301004083443652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,6 +95,10 @@ MonoBehaviour:
   bFlip: 0
   state: 0
   currentTile: {fileID: 0}
+  idleAnim: {fileID: 114463626376255152}
+  walkAnim: {fileID: 114265320898909294}
+  climbAnim: {fileID: 114296786931195936}
+  interactAnim: {fileID: 114638337347098724}
 --- !u!114 &114463626376255152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -74,6 +115,23 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300004, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300006, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  fTimePerFrame: 1
+--- !u!114 &114638337347098724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543955680772896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6817d900441db44aa2629adafc48d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300024, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300026, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300028, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
+  - {fileID: 21300030, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   fTimePerFrame: 1
 --- !u!212 &212226887228417306
 SpriteRenderer:
