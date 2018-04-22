@@ -5116,8 +5116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651e8d5ac6e34284bb4880cb5221b1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  humanSuspicionMeter: {fileID: 114877245867344290}
-  lizardInfiltrationMeter: {fileID: 0}
+  humanSuspicionMeter: {fileID: 114723300905694478}
+  lizardInfiltrationMeter: {fileID: 114877245867344290}
   toolbarGroup: {fileID: 1492371060570874}
   buildOptionsGroup: {fileID: 1331358040863242}
   shopOptionsGroup: {fileID: 1850632388673446}
