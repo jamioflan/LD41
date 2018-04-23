@@ -25,20 +25,23 @@ public class Hatchery : TileBase {
     }
 
 	private Task[] breedTasks = new Task[2];
-	public float[] fBreedProgress = new float[2];
+	public float fBreedProgress = 0.0f;
 
 	public bool Breed(Lizard breeder)
 	{
-		for (int i = 0; i < 2; i++)
+		int numLizardsBreeding = 0;
+		foreach(Lizard liz in lizardsOnTile)
 		{
-			if (breeder.currentTask == breedTasks[i])
-			{
-				fBreedProgress[i] += Time.deltaTime;
+			if (liz != null && liz.currentTask != null && liz.currentTask.associatedTile == this)
+				numLizardsBreeding++;
+		}
+		if(numLizardsBreeding >= 2)
+		{
+			fBreedProgress += Time.deltaTime * 0.5f;
 
-				SetTaskCompletion(Mathf.Min(fBreedProgress[0], fBreedProgress[1]) / fBREED_TIME);
+			SetTaskCompletion(fBreedProgress / fBREED_TIME);
 
-				return IsDone();
-			}
+			return IsDone();
 		}
 		return false;
 	}
@@ -46,7 +49,7 @@ public class Hatchery : TileBase {
 
     public bool IsDone()
 	{
-		return fBreedProgress[0] > fBREED_TIME && fBreedProgress[1] > fBREED_TIME;
+		return fBreedProgress > fBREED_TIME;
 	}
 
 	public override void Update()
@@ -69,8 +72,7 @@ public class Hatchery : TileBase {
 
 		if (IsDone())
 		{
-			fBreedProgress[0] = 0.0f;
-			fBreedProgress[1] = 0.0f;
+			fBreedProgress = 0.0f;
 
 			// Check capacity
 			int capacity = Core.theTM.GetNumTilesOfType(TileType.NEST) * Nest.lizardCapacity;
@@ -97,7 +99,7 @@ public class Hatchery : TileBase {
         Lizard lizzie = Core.theTM.CreateLizard(x, y);
 
         lizzie.lizardName = lizardNames[Random.Range(0, lizardNames.Length)];
-        TextTicker.AddLine(lizzie.lizardName + " has hatched");
+        TextTicker.AddLine("<color=pink>" + lizzie.lizardName + " has hatched</color>");
     }
 
     public string[] lizardNames;

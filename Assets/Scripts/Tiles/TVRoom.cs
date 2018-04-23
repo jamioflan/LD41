@@ -52,6 +52,6 @@ public class TVRoom : TileBase {
 
 	public void IncrementTVBill(float fAmount)
 	{
-		fTVBill += fAmount;
+		fTVBill += 5.0f * fAmount;
 	}
 }
