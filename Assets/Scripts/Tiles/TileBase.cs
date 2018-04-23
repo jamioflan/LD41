@@ -311,7 +311,12 @@ abstract public class TileBase : MonoBehaviour {
     public virtual void Destroy()
     {
         while (lizardsOnTile.Count != 0)
+        {
             lizardsOnTile[0].SetTile(null);
+        }
+        if (queuedTask != null)
+            queuedTask.Finish();
+        
 		Destroy(gameObject);
     }
 

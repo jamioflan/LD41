@@ -100,5 +100,13 @@ public class Hatchery : TileBase {
         TextTicker.AddLine(lizzie.lizardName + " has hatched");
     }
 
+    public override void Destroy()
+    {
+        base.Destroy();
+        foreach (Task task in breedTasks)
+            task.Finish();
+        
+    }
+
     public string[] lizardNames;
 }
