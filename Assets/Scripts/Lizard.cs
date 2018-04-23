@@ -315,7 +315,7 @@ public class Lizard : Entity {
 						// Check to see if there are reachable storerooms
 						TileManager.TestTile del = delegate (TileBase tile)
 						{
-							return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
+							return tile.isConstructed && tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
 						};
 						//Debug.Log("Calling GetPath to check for a store room");
 						var storeroomPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
