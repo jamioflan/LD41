@@ -106,9 +106,9 @@ public class TileManager : MonoBehaviour {
 
 		// ------------------
 		// DEBUG CODE
-		for(int i = 0; i < 6; i++)
-		Instantiate<Resource>(humanSkinPrefab).PutInRoom(hutTile);
-			RequestNewTile(width - 5, 2, TileBase.TileType.TAILOR, true);
+		//for(int i = 0; i < 6; i++)
+		//Instantiate<Resource>(humanSkinPrefab).PutInRoom(hutTile);
+		//	RequestNewTile(width - 5, 2, TileBase.TileType.TAILOR, true);
 		// ---------------
 
 		for (int i = 0; i < 6; i++)
@@ -315,7 +315,7 @@ public class TileManager : MonoBehaviour {
     {
         if (unclaimedResources[resource.type].Contains(resource))
         {
-            Debug.Log("Trying to add unclaimed resource!");
+            //Debug.Log("Trying to add unclaimed resource!");
             return false;
         }
         unclaimedResources[resource.type].Add(resource);
@@ -327,7 +327,7 @@ public class TileManager : MonoBehaviour {
     {
         if (!unclaimedResources[resource.type].Contains(resource))
         {
-            Debug.Log("Trying to remove claimed resource!");
+            //Debug.Log("Trying to remove claimed resource!");
             return false;
         }
         unclaimedResources[resource.type].Remove(resource);

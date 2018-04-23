@@ -7106,6 +7106,18 @@ MonoBehaviour:
   - {fileID: 114923918581804874}
   - {fileID: 114231483193358066}
   - {fileID: 114769252949971194}
+  hints:
+  - Make sure to assign lizards to roles on the right
+  - Build traps to get human skins
+  - Tailors require human skins from traps
+  - For a quick food/happiness boost, buy human food
+  - Make sure you give your lizards a TV
+  - Make sure you have enough $ to pay your TV bill
+  - Humans become most suspicious when finding Tailors
+  - Hatcheries are more suspicious than other tiles
+  - If your lizards lack entertainment, they might escape
+  - Use dinosaur bones to block human drills
+  fTimeToNextHint: 15
 --- !u!114 &114751066216804024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8219,7 +8231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.73313147, g: 0.88235295, b: 0.7403353, a: 0.578}
+  m_Color: {r: 0.97794116, g: 0.97794116, b: 0.97794116, a: 0.791}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9644,7 +9656,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224733465509144462}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9993,7 +10005,7 @@ RectTransform:
   - {fileID: 224643682212718534}
   - {fileID: 224846368503908252}
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10317,7 +10329,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10345,11 +10357,11 @@ RectTransform:
   - {fileID: 224241765826848116}
   - {fileID: 224012180010909408}
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -619, y: 946}
+  m_AnchoredPosition: {x: -326, y: 124}
   m_SizeDelta: {x: 600, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224385830681853338
@@ -10440,13 +10452,13 @@ RectTransform:
   - {fileID: 224722815931105824}
   - {fileID: 224218513233162694}
   - {fileID: 224787701439040548}
-  m_Father: {fileID: 224733465509144462}
-  m_RootOrder: 10
+  m_Father: {fileID: 224940166548455660}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 344, y: -190.25}
-  m_SizeDelta: {x: 670.2, y: 43.8}
+  m_AnchoredPosition: {x: -275, y: -80}
+  m_SizeDelta: {x: 500, y: 43.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224433874962363504
 RectTransform:
@@ -10704,7 +10716,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21, y: 58}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 444.5, y: 39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224526322726106764
@@ -10932,8 +10944,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -381.3, y: -90}
-  m_SizeDelta: {x: 670.2, y: 43.8}
+  m_AnchoredPosition: {x: 275, y: -80}
+  m_SizeDelta: {x: 500, y: 43.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224600263508135218
 RectTransform:
@@ -10946,7 +10958,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224940166548455660}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11173,7 +11185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29, y: 63}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 444.5, y: 39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224730402848505952
@@ -11214,7 +11226,6 @@ RectTransform:
   - {fileID: 224672498883575900}
   - {fileID: 224763479505988596}
   - {fileID: 224867559297366974}
-  - {fileID: 224430213058889904}
   - {fileID: 224059398451462530}
   m_Father: {fileID: 224940166548455660}
   m_RootOrder: 3
@@ -11644,6 +11655,7 @@ RectTransform:
   - {fileID: 224277678079681520}
   - {fileID: 224733465509144462}
   - {fileID: 224588864107116354}
+  - {fileID: 224430213058889904}
   - {fileID: 224385279171648722}
   - {fileID: 224383155057551248}
   - {fileID: 224600263508135218}

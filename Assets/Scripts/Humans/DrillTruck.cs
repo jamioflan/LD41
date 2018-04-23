@@ -96,7 +96,7 @@ public class DrillTruck : Entity
 							iTargetDepth = i + 1;
 						}
 
-                        tb.bWarning++;
+                        tb.bWarning = true;
                         if (tb.IsLizardy())
                         {
                             TextTicker.AddLine("Warning: Humans are about to drill into our " + tb.printName);
@@ -161,7 +161,7 @@ public class DrillTruck : Entity
         for (int i = 0; i < iTargetDepth; i++)
         {
             TileBase tb = Core.theTM.GetTileBase(iTargetX, i);
-            tb.bWarning--;
+            tb.bWarning = false;
         }
 
         for (int i = 0; i < drills.Count; i++)

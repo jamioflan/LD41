@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
 	public string firstLizard = "Boris";
 
+	public float fTimeToNextRandomEvent = 60.0f;
+
 	public int metal = 0;
 	public int gems = 0;
 	public int mushrooms = 0;
@@ -75,6 +77,66 @@ public class Player : MonoBehaviour
         {
             Core.theCore.Win();
         }
+
+		fTimeToNextRandomEvent -= Time.deltaTime;
+		if(fTimeToNextRandomEvent <= 0.0f)
+		{
+			fTimeToNextRandomEvent = Random.Range(30.0f, 120.0f);
+			List<Lizard> list = GetAllLizards();
+			int pick1 = Random.Range(0, list.Count);
+			int pick2 = Random.Range(0, list.Count - 1);
+			if (pick2 == pick1)
+				pick2 = list.Count - 1;
+			switch (Random.Range(0, 5))
+			{
+				case 0:
+					TextTicker.AddLine("<color=purple>" + list[pick1].lizardName + " and " + list[pick2].lizardName + " had a fight</color>");
+					TextTicker.AddLine("<color=purple>They are both upset by this</color>");
+					list[pick1].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = Mathf.Clamp(list[pick1].afNeeds[(int)Lizard.Need.ENTERTAINMENT] - 0.5f, 0.2f, 1.0f);
+					list[pick2].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = Mathf.Clamp(list[pick2].afNeeds[(int)Lizard.Need.ENTERTAINMENT] - 0.5f, 0.2f, 1.0f);
+					break;
+				case 1:
+					TextTicker.AddLine("<color=purple>" + list[pick1].lizardName + " found an extra tin of human food</color>");
+					TextTicker.AddLine("<color=purple>They are now full of tasty food and are feeling happy</color>");
+					list[pick1].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = 1.0f;
+					list[pick1].afNeeds[(int)Lizard.Need.HUMAN_FOOD] = 1.0f;
+					break;
+				case 2:
+					string newName = Random.Range(0, 2) == 0 ? "Steve" : "Loretta";
+					TextTicker.AddLine("<color=purple>" + list[pick1].lizardName + " has decided to change their name to " + newName + "</color>");
+					list[pick1].lizardName = newName;
+					list[pick1].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = 1.0f;
+					break;
+				case 3:
+					TextTicker.AddLine("<color=purple>" + list[pick1].lizardName + " has the munchies</color>");
+					list[pick1].afNeeds[(int)Lizard.Need.FOOD] = 0.1f;
+					break;
+				case 4:
+					TextTicker.AddLine("<color=purple>" + list[pick1].lizardName + " and " + list[pick2].lizardName + " had a romantic moment</color>");
+					TextTicker.AddLine("<color=purple>They're both in a great mood</color>");
+					list[pick1].afNeeds[(int)Lizard.Need.FOOD] = 1.0f;
+					list[pick1].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = 1.0f;
+					list[pick1].afNeeds[(int)Lizard.Need.HUMAN_FOOD] = 1.0f;
+					list[pick2].afNeeds[(int)Lizard.Need.FOOD] = 1.0f;
+					list[pick2].afNeeds[(int)Lizard.Need.ENTERTAINMENT] = 1.0f;
+					list[pick2].afNeeds[(int)Lizard.Need.HUMAN_FOOD] = 1.0f;
+					break;
+			}
+		}
+	}
+
+	public List<Lizard> GetAllLizards()
+	{
+		List<Lizard> list = new List<Lizard>();
+
+		foreach (List<Lizard> lizList in Core.theTM.lizards.Values)
+		{
+			foreach (Lizard lizard in lizList)
+			{
+				list.Add(lizard);
+			}
+		}
+		return list;
 	}
 
 	public void Reset()

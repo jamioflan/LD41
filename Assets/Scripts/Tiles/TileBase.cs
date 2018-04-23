@@ -14,7 +14,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public SpriteRenderer warningSprite;
     private float fWarningTime = 0.0f;
-    public int bWarning = 0; // Number of things intending to dig this tile
+    public bool bWarning = false; // Number of things intending to dig this tile
     public string printName = "";
 
 	public SpriteRenderer taskbar, taskbarFill;
@@ -258,14 +258,14 @@ abstract public class TileBase : MonoBehaviour {
 	
 	public virtual void Update ()
     {
-        warningSprite.enabled = IsLizardy() && bWarning > 0;
+        warningSprite.enabled = IsLizardy() && bWarning;
 
 		if (highlightSprite != null)
 		{
 			highlightSprite.enabled = bShouldBeHighlighted;
 		}
 
-        if (bWarning > 0)
+        if (bWarning)
         {
             fWarningTime += Time.deltaTime * 2.0f;
 
