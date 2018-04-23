@@ -378,9 +378,13 @@ public class Lizard : Entity {
             carrying.Drop();
         if (claimed != resource && claimed != null)
             claimed.Unclaim();
+
         claimed = null;
         carrying = resource;
-    }
+		carrying.transform.SetParent(transform);
+		carrying.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+
+	}
 
     public void SetTile(TileBase tile)
     {

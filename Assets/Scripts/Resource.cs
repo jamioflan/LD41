@@ -44,6 +44,8 @@ public class Resource : MonoBehaviour
             carriedBy.carrying = null;
             carriedBy = null;
         }
+
+		transform.SetParent(null);
     }
 
     public void PutInRoom(TileBase room)
