@@ -24,8 +24,11 @@ public class Lizard : Entity {
         HATCHERY,
         TRAP,
         TAILOR,
-        WORKER
-    }
+        WORKER,
+		FARMER,
+
+		NUM_ASSIGNMENTS
+	}
 
     public Assignment assignment = Assignment.WORKER;
 
@@ -176,9 +179,9 @@ public class Lizard : Entity {
         switch (state)
         {
             case State.IDLE:
-                if (Player.thePlayer.pendingWorkerTasks.Count != 0)
+                if (Player.thePlayer.pendingTasks[(int)assignment].Count != 0)
                 {
-                    foreach (Task task in Player.thePlayer.pendingWorkerTasks)
+                    foreach (Task task in Player.thePlayer.pendingTasks[(int)assignment])
                     { 
                         // Check to see if this lizard can reach the task
                         if (Path.GetPath(currentTile.GetKVPair(), task.associatedTile) != null) 
@@ -190,9 +193,10 @@ public class Lizard : Entity {
                     if (currentTask != null)
                     {
                         currentTask.assignedLizard = this;
-                        Player.thePlayer.pendingWorkerTasks.Remove(currentTask);
+                        Player.thePlayer.pendingTasks[(int)assignment].Remove(currentTask);
                         DoTask();
                     }
+
                     break;
                 }
                 //Debug.Log("Calling GetPath to find dropped resources!");
@@ -340,7 +344,7 @@ public class Lizard : Entity {
     {
         // Need to give up on this task
         currentTask.assignedLizard = null;
-        Player.thePlayer.pendingWorkerTasks.Add(currentTask);
+        Player.thePlayer.pendingTasks[(int)assignment].Add(currentTask);
         currentTask = null;
         SetState(State.IDLE);
     }

@@ -35,6 +35,10 @@ abstract public class TileBase : MonoBehaviour {
 
     public Task queuedTask = null;
 
+	public virtual Lizard.Assignment GetAss() { return Lizard.Assignment.WORKER; }
+	public virtual int GetNumAss() { return 0; }
+
+
     [System.Serializable]
     public enum TileType {
         EMPTY = 0,
@@ -141,8 +145,14 @@ abstract public class TileBase : MonoBehaviour {
         replacingTile.SetCoords(x, y);
         replacingTile.transform.SetParent(transform.parent);
 
-        // Stage on this list to avoid concurrent modification death!
-        List<Resource> stuffToMove = new List<Resource>();
+		if (Core.theCore != null)
+		{
+			Core.theTM.AddAssignmnets(GetAss(), -GetNumAss());
+			Core.theTM.AddAssignmnets(replacingTile.GetAss(), replacingTile.GetNumAss());
+		}
+
+		// Stage on this list to avoid concurrent modification death!
+		List<Resource> stuffToMove = new List<Resource>();
         foreach (Resource resource in clutteredResources)
             stuffToMove.Add(resource);
 

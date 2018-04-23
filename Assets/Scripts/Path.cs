@@ -98,6 +98,10 @@ public class Path {
 
     public static Path GetPath(KeyValuePair<int, int> from, TileBase to)
     {
+		if(to == null)
+		{
+			Debug.Assert(false, "Heck");
+		}
         return GetPath(from, to.GetKVPair());
     }
 

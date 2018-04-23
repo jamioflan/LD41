@@ -17,6 +17,9 @@ public class UI_HUD : MonoBehaviour
 	public Text numMushrooms;
 	public Text numMoney;
 	public Text numDinosaurBones;
+
+	public Text numBreeders, numFarmers, numTailors, numMisc, numTrappers;
+
 	public Text mouseOverElement;
 	public bool showMouseOver;
 	public string mouseOverText = "";
@@ -87,8 +90,15 @@ public class UI_HUD : MonoBehaviour
 			numDinosaurBones.text = "" + Player.thePlayer.dinosaurBones;
 		}
 
+		numBreeders.text = Core.theTM.GetNumBreeders() + "/" + Core.theTM.GetMaxNumBreeders();
+		numFarmers.text = Core.theTM.GetNumFarmers() + "/" + Core.theTM.GetMaxNumFarmers();
+		numTrappers.text = Core.theTM.GetNumTrappers() + "/" + Core.theTM.GetMaxNumTrappers();
+		numTailors.text = Core.theTM.GetNumTailors() + "/" + Core.theTM.GetMaxNumTailors();
+		numMisc.text = Core.theTM.GetNumMisc() + "";
+
+
 		// Update the mouse over text
-		if( mouseOverElement != null )
+		if ( mouseOverElement != null )
 		{
 			mouseOverElement.enabled = showMouseOver;
 			if (showMouseOver)
@@ -540,4 +550,14 @@ public class UI_HUD : MonoBehaviour
 	{
 		showMouseOver = false;
 	}
+
+	public void IncBreeders()	{ Core.theTM.IncBreeders(); }
+	public void DecBreeders()	{ Core.theTM.DecBreeders(); }
+	public void IncFarmers()	{ Core.theTM.IncFarmers(); }
+	public void DecFarmers()	{ Core.theTM.DecFarmers(); }
+	public void IncTrappers()	{ Core.theTM.IncTrappers(); }
+	public void DecTrappers()	{ Core.theTM.DecTrappers(); }
+	public void IncTailors()	{ Core.theTM.IncTailors(); }
+	public void DecTailors()	{ Core.theTM.DecTailors(); }
+
 }
