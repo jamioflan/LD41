@@ -38,7 +38,7 @@ public class Gems : TileBase
         {
             Resource metal = Instantiate<Resource>(gemPrefab);
             metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
-            replacingTile.StoreResource(metal);
+            metal.PutInRoom(replacingTile);
             Core.theTM.RegisterResource(metal);
         }
     }

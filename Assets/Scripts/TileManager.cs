@@ -138,10 +138,12 @@ public class TileManager : MonoBehaviour {
         foreach (List<Lizard> llist in lizards.Values)
             while (llist.Count != 0)
                 llist[0].Destroy();
-        CreateLizard(hutTile.x, hutTile.y).lizardName = "Yvonne";
-        CreateLizard(hutTile.x, hutTile.y).lizardName = "Lizard McLizardFace";
 
-    }
+        CreateLizard(hutTile.x, hutTile.y).lizardName = "Luke";
+		//CreateLizard(hutTile.x, hutTile.y).lizardName = "Izzy";
+		//CreateLizard(hutTile.x, hutTile.y).lizardName = "Zapp";
+	}
+
 
     // Return whether to continue digging
     public bool HumanDigTile(int x, int y)
@@ -214,6 +216,8 @@ public class TileManager : MonoBehaviour {
 
     public TileBase GetTileBase(int x, int y)
     {
+        if (x < 0 || x >= width || y < 0 || y >= depth)
+            return null;
         return tiles[x, y];
     }
 
@@ -303,13 +307,15 @@ public class TileManager : MonoBehaviour {
         {
             foreach (List<Resource> resList in unclaimedResources.Values)
                 foreach (Resource res in resList)
-                    if (!ret.Contains(res.holder))
-                        ret.Add(res.holder);
+                    if (res.holder != null)
+                        if (!ret.Contains(res.holder))
+                            ret.Add(res.holder);
         }
         else
             foreach (Resource res in unclaimedResources[type])
-                if (!ret.Contains(res.holder))
-                    ret.Add(res.holder);
+                if (res.holder != null)
+                    if (!ret.Contains(res.holder))
+                        ret.Add(res.holder);
         return ret;
     }
 

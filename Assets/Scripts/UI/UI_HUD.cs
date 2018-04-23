@@ -207,7 +207,7 @@ public class UI_HUD : MonoBehaviour
 										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost );
 										if (iMetalCost <= Player.thePlayer.metal)
 										{
-											Player.thePlayer.metal -= iMetalCost;
+											//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
 											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost);
 										}
 									}

@@ -104,7 +104,7 @@ abstract public class TileBase : MonoBehaviour {
             if (r.type == type)
                 return r;
         foreach (Resource r in tidyResources)
-            if (r.type == type)
+            if (r != null && r.type == type)
                 return r;
         return null;
     }
@@ -128,7 +128,6 @@ abstract public class TileBase : MonoBehaviour {
 
     virtual public bool IsPassable()
     {
-        Debug.Log("IsPassable: " + isConstructed);
         return isConstructed;
     }
 
@@ -150,8 +149,8 @@ abstract public class TileBase : MonoBehaviour {
         foreach (Resource resource in tidyResources)
             stuffToMove.Add(resource);
 
-        foreach(Resource resource in stuffToMove)
-            replacingTile.StoreResource(resource);
+        foreach (Resource resource in stuffToMove)
+            resource.PutInRoom(replacingTile);
 
         replacingTile.bWarning = bWarning;
 
@@ -240,6 +239,37 @@ abstract public class TileBase : MonoBehaviour {
             }
         }
 	}
+
+    private TileManager.TestTile alwaysTrue = delegate (TileBase tile)
+    {
+        return true;
+    };
+
+    public List<TileBase> GetAdjacentTiles()
+    {
+        return GetAdjacentTiles(alwaysTrue);
+    }
+
+    public List<TileBase> GetAdjacentTiles(TileManager.TestTile del)
+    {
+        var adjacentTiles = new List<TileBase>();
+        TileBase testTile;
+        testTile = Core.theTM.GetTileBase(x - 1, y);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x + 1, y);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x, y - 1);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x, y + 1);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+
+
+        return adjacentTiles;
+    }
 
     public virtual void Destroy()
     {

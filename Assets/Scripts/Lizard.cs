@@ -122,6 +122,7 @@ public class Lizard : Entity {
 
     private void SetState(State newState)
     {
+        Debug.Log("Switching state to " + newState);
         state = newState;
         switch(newState)
         {
@@ -177,10 +178,21 @@ public class Lizard : Entity {
             case State.IDLE:
                 if (Player.thePlayer.pendingWorkerTasks.Count != 0)
                 {
-                    currentTask = Player.thePlayer.pendingWorkerTasks[0];
-                    currentTask.assignedLizard = this;
-                    Player.thePlayer.pendingWorkerTasks.RemoveAt(0);
-                    DoTask();
+                    foreach (Task task in Player.thePlayer.pendingWorkerTasks)
+                    { 
+                        // Check to see if this lizard can reach the task
+                        if (Path.GetPath(currentTile.GetKVPair(), task.associatedTile) != null) 
+                        {
+                            currentTask = task;
+                            break;
+                        }
+                    }
+                    if (currentTask != null)
+                    {
+                        currentTask.assignedLizard = this;
+                        Player.thePlayer.pendingWorkerTasks.Remove(currentTask);
+                        DoTask();
+                    }
                     break;
                 }
                 //Debug.Log("Calling GetPath to find dropped resources!");
@@ -210,7 +222,12 @@ public class Lizard : Entity {
                 
                 fIdleTime -= Time.deltaTime;
                 if (!targetSet) {
-                    if (fIdleTime < 0)
+                    if (!currentTile.IsPassable())
+                    {
+                        TileManager.TestTile del = delegate (TileBase tile) { return tile.IsLizardy(); };
+                        SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del)));
+                    }
+                    else if (fIdleTime < 0)
                         SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f) );
 
                 }
@@ -232,9 +249,23 @@ public class Lizard : Entity {
                         if (currentTile.Build(this) )
                         {
                             FinishTask();
+                            if (currentTile.Type() == TileBase.TileType.FILLED)
+                            {
+                                
+                            }
                             SetState(State.IDLE);
                         }
                         break;
+					case Task.Type.BREED:
+						if(currentTile is Hatchery)
+						{
+							if((currentTile as Hatchery).Breed(this))
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
                     case Task.Type.EAT:
                     case Task.Type.RELAX:
                     case Task.Type.WORK_ROOM:
@@ -290,7 +321,8 @@ public class Lizard : Entity {
                     if (currentTask == null)
                     {
                         Debug.Log("Calling StoreResource");
-                        currentTile.StoreResource(carrying);
+                        carrying.PutInRoom(currentTile);
+
                         SetState(State.IDLE);
                     }
                     else
@@ -306,8 +338,11 @@ public class Lizard : Entity {
 
     public void CannotReachTask()
     {
-        //TODO
-        Debug.LogError("Well, this is a problem");
+        // Need to give up on this task
+        currentTask.assignedLizard = null;
+        Player.thePlayer.pendingWorkerTasks.Add(currentTask);
+        currentTask = null;
+        SetState(State.IDLE);
     }
 
     public void DoTask()
@@ -326,7 +361,10 @@ public class Lizard : Entity {
             // Get the next resource
             var kvs = new List<KeyValuePair<int, int>>();
             foreach (TileBase tile in mgr.GetTilesContaining(nextType))
+            {
+                Debug.Log(tile);
                 kvs.Add(tile.GetKVPair());
+            }
             Debug.Log("Calling GetPath to retrieve resource for task");
             if (SetPath(Path.GetPath(currentTile.GetKVPair(), kvs)))
             {
@@ -380,9 +418,13 @@ public class Lizard : Entity {
             claimed.Unclaim();
             Core.theTM.RemoveFromUnclaimed(resource);
         }
+
         claimed = null;
         carrying = resource;
-    }
+		carrying.transform.SetParent(transform);
+		carrying.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
+
+	}
 
     public void SetTile(TileBase tile)
     {

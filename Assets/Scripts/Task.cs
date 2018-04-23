@@ -12,7 +12,9 @@ public class Task
         RELAX,
         WORK_ROOM,
         BUILD,
-        TIDY
+        TIDY,
+
+		BREED,
     }
     public Lizard assignedLizard;
     public TileBase associatedTile;
@@ -29,7 +31,7 @@ public class Task
     public Resource.ResourceType GetNextMissing()
     {
         foreach (KeyValuePair<Resource.ResourceType, int> kv in missingResources)
-            if (kv.Value < 0)
+            if (kv.Value > 0)
                 return kv.Key;
         return Resource.ResourceType.NULL;
     }

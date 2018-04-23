@@ -128,9 +128,9 @@ public class Path {
         var open = new SortedDictionary<int, Point>();
         var closed = new SortedDictionary<int, Point>();
 
-        Debug.Log("GetPath called for ");
-        foreach (KeyValuePair<int, int> t in to)
-            Debug.Log("  (" + t.Key + ", " + t.Value + ")");
+        //Debug.Log("GetPath called for ");
+        //foreach (KeyValuePair<int, int> t in to)
+            //Debug.Log("  (" + t.Key + ", " + t.Value + ")");
 
         Point current = GetPoint(from.Key, from.Value, -1, to);
         KeyValuePair<int, int> chosenTarget = new KeyValuePair<int, int>();
@@ -149,7 +149,7 @@ public class Path {
             };
             foreach (Point p in next)
             {
-                Debug.Log("Consider Point: (" + p.x + ", " + p.y + "), travelCost: " + p.travelCost + ", manhattanCost: " + p.manhattanCost + ", isAccessible: "+p.isAccessible);
+                //Debug.Log("Consider Point: (" + p.x + ", " + p.y + "), travelCost: " + p.travelCost + ", manhattanCost: " + p.manhattanCost + ", isAccessible: "+p.isAccessible);
                 if (!considered.Add(p))
                     // Returns false if it was already there
                     continue;
