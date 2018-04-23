@@ -177,6 +177,9 @@ public class Lizard : Entity {
 		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
         afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
 
+		for (int i = 0; i < 3; i++)
+			afNeeds[i] = Mathf.Clamp(afNeeds[i], 0.0f, 1.0f);
+
         if (!bWasInDangerOfStarving && AmInDangerOfStarving())
 		{
 			TextTicker.AddLine("<color=orange>" + lizardName + " is starving. Get them some food</color>");
