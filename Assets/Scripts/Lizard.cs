@@ -228,6 +228,7 @@ public class Lizard : Entity {
                 switch (currentTask.type)
                 {
                     case Task.Type.BUILD:
+                        currentTask.UseResources();
                         if (currentTile.Build(this) )
                         {
                             FinishTask();

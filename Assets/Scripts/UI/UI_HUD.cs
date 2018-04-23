@@ -208,7 +208,7 @@ public class UI_HUD : MonoBehaviour
 										if (iMetalCost <= Player.thePlayer.metal)
 										{
 											Player.thePlayer.metal -= iMetalCost;
-											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
+											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost);
 										}
 									}
 									else if (isDiggingATile)
@@ -495,7 +495,7 @@ public class UI_HUD : MonoBehaviour
 			}
 			case BUILD_ITEM.HATCHERY:
 			{
-				iMetalCost = 0;
+				iMetalCost = 2;
 				return TileBase.TileType.HATCHERY;
 			}
 			case BUILD_ITEM.NEST:

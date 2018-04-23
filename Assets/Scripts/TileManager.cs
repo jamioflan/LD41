@@ -244,7 +244,7 @@ public class TileManager : MonoBehaviour {
     }
 
     // Create a new tile
-    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false)
+    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false, int iMetalCost = 0)
     {
         TileBase newTile = Instantiate<TileBase>(prefabs[(int)type]);
         newTile.SetCoords(-100, -100);
@@ -257,7 +257,7 @@ public class TileManager : MonoBehaviour {
         }
         else
         {
-            Task task = new Task(Task.Type.BUILD);
+            Task task = new Task(Task.Type.BUILD, new Dictionary<Resource.ResourceType, int>() { { Resource.ResourceType.METAL, iMetalCost } });
             task.associatedTile = tiles[x, y];
             newTile.isConstructed = false;
             Player.thePlayer.pendingWorkerTasks.Add(task);

@@ -29,7 +29,7 @@ public class Task
     public Resource.ResourceType GetNextMissing()
     {
         foreach (KeyValuePair<Resource.ResourceType, int> kv in missingResources)
-            if (kv.Value <= 0)
+            if (kv.Value < 0)
                 return kv.Key;
         return Resource.ResourceType.NULL;
     }
@@ -43,6 +43,15 @@ public class Task
         missingResources = new Dictionary<Resource.ResourceType, int>();
         foreach (KeyValuePair<Resource.ResourceType, int> kv in required)
             missingResources.Add(kv.Key, kv.Value);
+    }
+
+    public void UseResources()
+    {
+        while (claimedResources.Count != 0)
+        {
+            claimedResources[0].Destroy();
+            claimedResources.RemoveAt(0);
+        }
     }
 
     public void Finish()

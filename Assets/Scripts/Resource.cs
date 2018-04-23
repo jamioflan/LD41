@@ -77,10 +77,11 @@ public class Resource : MonoBehaviour
         reservee = lizzo;
     }
 
-    private void Destroy()
+    public void Destroy()
     {
         Core.theTM.allResources.Remove(this);
-        Core.theTM.RemoveFromUnclaimed(this);
+        if (!isClaimed)
+            Core.theTM.RemoveFromUnclaimed(this);
         Destroy(gameObject);
     }
 
