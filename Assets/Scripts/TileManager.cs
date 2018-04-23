@@ -396,6 +396,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
 			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.HATCHERY;
 			lizards[Lizard.Assignment.HATCHERY].Add(liz);
 		}
@@ -407,6 +408,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
 			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.FARMER;
 			lizards[Lizard.Assignment.FARMER].Add(liz);
 		}
@@ -418,6 +420,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
 			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.TRAP;
 			lizards[Lizard.Assignment.TRAP].Add(liz);
 		}
@@ -429,6 +432,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
 			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.TAILOR;
 			lizards[Lizard.Assignment.TAILOR].Add(liz);
 		}
@@ -440,6 +444,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.HATCHERY][0];
 			lizards[Lizard.Assignment.HATCHERY].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.WORKER;
 			lizards[Lizard.Assignment.WORKER].Add(liz);
 		}
@@ -450,6 +455,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.FARMER][0];
 			lizards[Lizard.Assignment.FARMER].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.WORKER;
 			lizards[Lizard.Assignment.WORKER].Add(liz);
 		}
@@ -460,6 +466,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.TRAP][0];
 			lizards[Lizard.Assignment.TRAP].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.WORKER;
 			lizards[Lizard.Assignment.WORKER].Add(liz);
 		}
@@ -470,6 +477,7 @@ public class TileManager : MonoBehaviour {
 		{
 			Lizard liz = lizards[Lizard.Assignment.TAILOR][0];
 			lizards[Lizard.Assignment.TAILOR].RemoveAt(0);
+			liz.AbandonTask();
 			liz.assignment = Lizard.Assignment.WORKER;
 			lizards[Lizard.Assignment.WORKER].Add(liz);
 		}

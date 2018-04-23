@@ -508,7 +508,7 @@ public class Lizard : Entity {
 					}
                     else
                     {
-                        Debug.Log("Calling GetPath to go to the target tile");
+                       // Debug.Log("Calling GetPath to go to the target tile");
                         var tilePath = Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile);
                         if (tilePath == null)
                         {
