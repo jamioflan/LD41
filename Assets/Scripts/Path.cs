@@ -100,7 +100,7 @@ public class Path {
     {
 		if(to == null)
 		{
-			Debug.Assert(false, "Heck");
+			return null;
 		}
         return GetPath(from, to.GetKVPair());
     }
