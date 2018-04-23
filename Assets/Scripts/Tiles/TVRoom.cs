@@ -22,5 +22,35 @@ public class TVRoom : TileBase {
     public override void Update()
     {
         base.Update();
+
+		fTimeUntilNextTVBill -= Time.deltaTime;
+		if(fTimeUntilNextTVBill <= 0.0f)
+		{
+			fTimeUntilNextTVBill = 120.0f;
+			if(fTVBill >= 1.0f)
+			{
+				int iBill = Mathf.FloorToInt(fTVBill);
+				if(iBill <= Player.thePlayer.money)
+				{
+					Player.thePlayer.money -= iBill;
+					TextTicker.AddLine("<color=green>You paid your TV bill of $" + iBill + "</color>");
+				}
+				else
+				{
+					Player.thePlayer.AddSuspicion((iBill - Player.thePlayer.money) * 2.0f);
+					Player.thePlayer.money = 0;
+					TextTicker.AddLine("<color=red>You failed to pay your TV bill of $" + iBill + "</color>");
+					TextTicker.AddLine("<color=red>Human suspicion has increased</color>");
+				}
+			}
+		}
     }
+
+	public float fTimeUntilNextTVBill = 120.0f;
+	public static float fTVBill = 0.0f;
+
+	public void IncrementTVBill(float fAmount)
+	{
+		fTVBill += fAmount;
+	}
 }

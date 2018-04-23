@@ -62,7 +62,11 @@ public class Task
 
     public void Finish()
     {
+		if (associatedTile != null)
+		{
+			associatedTile.SetTaskActive(false);
+			associatedTile.queuedTask = null;
+		}
         assignedLizard.currentTask = null;
-        associatedTile.queuedTask = null;
     }
 }

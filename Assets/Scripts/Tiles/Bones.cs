@@ -30,8 +30,13 @@ public class Bones : TileBase
     {
         base.Destroy();
     }
+	override public bool IsPassable()
+	{
+		return false;
+	}
 
-    public override void Replace()
+
+	public override void Replace()
     {
         base.Replace();
 

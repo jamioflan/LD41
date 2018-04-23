@@ -12,6 +12,7 @@ public class Hatchery : TileBase {
 	public override Lizard.Assignment GetAss() { return Lizard.Assignment.HATCHERY; }
 	public override int GetNumAss() { return 2; }
 
+	public static readonly float fBREED_TIME = 45.0f;
 
 	public override bool CanBeBuiltOver() { return false; }
 	public override bool CanBeDug() { return false; }
@@ -26,8 +27,6 @@ public class Hatchery : TileBase {
 	private Task[] breedTasks = new Task[2];
 	public float[] fBreedProgress = new float[2];
 
-    private float fGestationTimeRemaining = 1.0f;
-
 	public bool Breed(Lizard breeder)
 	{
 		for (int i = 0; i < 2; i++)
@@ -35,6 +34,9 @@ public class Hatchery : TileBase {
 			if (breeder.currentTask == breedTasks[i])
 			{
 				fBreedProgress[i] += Time.deltaTime;
+
+				SetTaskCompletion(Mathf.Min(fBreedProgress[0], fBreedProgress[1]) / fBREED_TIME);
+
 				return IsDone();
 			}
 		}
@@ -43,7 +45,7 @@ public class Hatchery : TileBase {
 
 	public bool IsDone()
 	{
-		return fBreedProgress[0] > 10.0f && fBreedProgress[1] > 10.0f;
+		return fBreedProgress[0] > fBREED_TIME && fBreedProgress[1] > fBREED_TIME;
 	}
 
 	public override void Update()

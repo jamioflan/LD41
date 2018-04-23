@@ -19,7 +19,9 @@ public class TileManager : MonoBehaviour {
     public Dictionary<Lizard.Assignment, List<Lizard>> lizards = new Dictionary<Lizard.Assignment, List<Lizard>>();
 	public int[] maxAssigned = new int[(int)Lizard.Assignment.NUM_ASSIGNMENTS] { 0, 0, 0, 0, 0 };
 
-    public SpriteRenderer connectionPrefabLR;
+	public Resource foodPrefab;
+
+	public SpriteRenderer connectionPrefabLR;
     public SpriteRenderer connectionPrefabUD;
     public SpriteRenderer[,] connectionsLR = new SpriteRenderer[width - 1, depth];
     public SpriteRenderer[,] connectionsUD = new SpriteRenderer[width, depth - 1];
@@ -96,10 +98,12 @@ public class TileManager : MonoBehaviour {
 
 
         hutTile = RequestNewTile(width -2 , 0, TileBase.TileType.HUT, true) as Hut;
+		for(int i = 0; i > 6; i++)
+			hutTile.StoreResource(Instantiate < Resource > (foodPrefab));
         RequestNewTile(width - 2, 1, TileBase.TileType.STORAGE, true);
         RequestNewTile(width - 3, 1, TileBase.TileType.NEST, true);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 6; i++)
         {
             int x = Random.Range(0, width), y = Random.Range(0, 7);
             if (tiles[x, y].Type() == TileBase.TileType.FILLED)
@@ -181,11 +185,11 @@ public class TileManager : MonoBehaviour {
                 return false;
 
             case TileBase.TileType.BONES:
-                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
+                //RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 HumanSpawner.INSTANCE.BonesFound();
-                tiles[x, y].PurgeItems();
+                //tiles[x, y].PurgeItems();
                 TextTicker.AddLine("The humans found some dinosaur bones");
-                    TextTicker.AddLine("Further digging will be delayed");
+                TextTicker.AddLine("Further digging will be delayed");
                 return false;
 
             case TileBase.TileType.FILLED:
@@ -266,7 +270,7 @@ public class TileManager : MonoBehaviour {
     }
 
     // Create a new tile
-    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false, int iMetalCost = 0)
+    public TileBase RequestNewTile(int x, int y, TileBase.TileType type, bool instant = false, int iMetalCost = 0, Resource.ResourceType resource = Resource.ResourceType.METAL)
     {
         TileBase newTile = Instantiate<TileBase>(prefabs[(int)type]);
         newTile.SetCoords(-100, -100);
@@ -279,7 +283,7 @@ public class TileManager : MonoBehaviour {
         }
         else
         {
-            Task task = new Task(Task.Type.BUILD, new Dictionary<Resource.ResourceType, int>() { { Resource.ResourceType.METAL, iMetalCost } });
+            Task task = new Task(Task.Type.BUILD, new Dictionary<Resource.ResourceType, int>() { { resource, iMetalCost } });
             task.associatedTile = tiles[x, y];
             newTile.isConstructed = false;
             Player.thePlayer.pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);

@@ -18,7 +18,8 @@ public class UI_HUD : MonoBehaviour
 	public Text numMoney;
 	public Text numDinosaurBones;
 
-	public Text numBreeders, numFarmers, numTailors, numMisc, numTrappers;
+	public Text numBreeders, numFarmers, numTailors, numMisc, numTrappers,
+		nextTVBill;
 
 	public Text mouseOverElement;
 	public bool showMouseOver;
@@ -36,6 +37,7 @@ public class UI_HUD : MonoBehaviour
 		TRAP = 4,
 		MUSHROOMFARM = 5,
 		TVROOM = 6,
+		BONES = 7,
 	}
 
 	// Whether we've selected an item to place, but haven't placed it yet
@@ -96,6 +98,7 @@ public class UI_HUD : MonoBehaviour
 		numTailors.text = Core.theTM.GetNumTailors() + "/" + Core.theTM.GetMaxNumTailors();
 		numMisc.text = Core.theTM.GetNumMisc() + "";
 
+		nextTVBill.text = "Next TV Bill: $" + Mathf.FloorToInt(TVRoom.fTVBill);
 
 		// Update the mouse over text
 		if ( mouseOverElement != null )
@@ -214,12 +217,33 @@ public class UI_HUD : MonoBehaviour
 										Debug.Log("Building a thing!");
 
 										int iMetalCost = 0;
-										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost );
-										if (iMetalCost <= Player.thePlayer.metal)
+										Resource.ResourceType type = Resource.ResourceType.METAL;
+										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost, out type );
+										switch(type)
 										{
-											//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
-											Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost);
+											case Resource.ResourceType.METAL:
+												if (iMetalCost <= Player.thePlayer.metal)
+												{
+													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
+													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+												}
+												break;
+											case Resource.ResourceType.GEMS:
+												if (iMetalCost <= Player.thePlayer.gems)
+												{
+													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
+													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+												}
+												break;
+											case Resource.ResourceType.BONES:
+												if (iMetalCost <= Player.thePlayer.dinosaurBones)
+												{
+													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
+													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+												}
+												break;
 										}
+										
 									}
 									else if (isDiggingATile)
 									{
@@ -492,7 +516,31 @@ public class UI_HUD : MonoBehaviour
 		}
 	}
 
-	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost)
+	public void Shop_BuyHumanFood()
+	{
+		showMouseOver = false;
+
+		// Sell a mushroom
+		Player.thePlayer.BuyHumanFood(1);
+
+		// Return to normal
+		if (toolbarGroup != null)
+		{
+			toolbarGroup.SetActive(true);
+		}
+
+		if (buildOptionsGroup != null)
+		{
+			buildOptionsGroup.SetActive(false);
+		}
+
+		if (shopOptionsGroup != null)
+		{
+			shopOptionsGroup.SetActive(false);
+		}
+	}
+
+	TileBase.TileType GetTileTypeAndCostToBuild(out int iMetalCost, out Resource.ResourceType resourceType)
 	{
 		iMetalCost = 0;
 
@@ -500,41 +548,55 @@ public class UI_HUD : MonoBehaviour
 		{
 			case BUILD_ITEM.STORAGE:
 			{
-				iMetalCost = 0;
+				iMetalCost = 1;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.STORAGE;
 			}
 			case BUILD_ITEM.HATCHERY:
 			{
-				iMetalCost = 2;
+				iMetalCost = 3;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.HATCHERY;
 			}
 			case BUILD_ITEM.NEST:
 			{
-				iMetalCost = 0;
+				iMetalCost = 1;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.NEST;
 			}
 			case BUILD_ITEM.TAILOR:
 			{
-				iMetalCost = 0;
+				iMetalCost = 5;
+				resourceType = Resource.ResourceType.GEMS;
 				return TileBase.TileType.TAILOR;
 			}
 			case BUILD_ITEM.TRAP:
 			{
-				iMetalCost = 0;
+				iMetalCost = 5;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.TRAP;
 			}
 			case BUILD_ITEM.MUSHROOMFARM:
 			{
-				iMetalCost = 0;
+				iMetalCost = 1;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.FARM;
 			}
 			case BUILD_ITEM.TVROOM:
 			{
-				iMetalCost = 0;
+				iMetalCost = 7;
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.TVROOM;
+			}
+			case BUILD_ITEM.BONES:
+			{
+				iMetalCost = 1;
+				resourceType = Resource.ResourceType.BONES;
+				return TileBase.TileType.BONES;
 			}
 			default:
 			{
+				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.FILLED;
 			}
 		}

@@ -125,7 +125,7 @@ public class Lizard : Entity {
 
     private void SetState(State newState)
     {
-        Debug.Log("Switching state to " + newState);
+        //Debug.Log("Switching state to " + newState);
         state = newState;
         switch(newState)
         {
@@ -161,12 +161,30 @@ public class Lizard : Entity {
 	// Update is called once per frame
 	public override void Update () {
         base.Update();
-        for (int i = 0; i < (int)Need.NUM_NEEDS; i++)
-            afNeeds[i] -= 0.01f * Time.deltaTime;
+		bool bWasInDangerOfStarving = AmInDangerOfStarving();
+		bool bWasInDangerOfBreaking = AmInDangerOfBreaking();
 
-        if(ShouldDie())
+		afNeeds[(int)Need.FOOD] -= 0.005f * Time.deltaTime;
+		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
+		afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
+
+		if(!bWasInDangerOfStarving && AmInDangerOfStarving())
+		{
+			TextTicker.AddLine(lizardName + " is starving. Get them some food");
+			if (state != State.IDLE)
+				SetState(State.IDLE);
+		}
+		if (!bWasInDangerOfBreaking && AmInDangerOfBreaking())
+		{
+			TextTicker.AddLine(lizardName + " is going mad. Get them some TV or fancy human food");
+			if (state != State.IDLE)
+				SetState(State.IDLE);
+		}
+
+		if (ShouldDie())
         {
             TextTicker.AddLine(lizardName + " died of starvation");
+			Core.theTM.lizards[assignment].Remove(this);
             Destroy(gameObject);
         }
 
@@ -179,71 +197,141 @@ public class Lizard : Entity {
         switch (state)
         {
             case State.IDLE:
-                if (Player.thePlayer.pendingTasks[(int)assignment].Count != 0)
-                {
-                    foreach (Task task in Player.thePlayer.pendingTasks[(int)assignment])
-                    { 
-                        // Check to see if this lizard can reach the task
-                        if (Path.GetPath(currentTile.GetKVPair(), task.associatedTile) != null) 
-                        {
-                            currentTask = task;
-                            break;
-                        }
-                    }
-                    if (currentTask != null)
-                    {
-                        currentTask.assignedLizard = this;
-                        Player.thePlayer.pendingTasks[(int)assignment].Remove(currentTask);
-                        DoTask();
-                    }
+				if (ShouldEat())
+				{
+					// Check to see if there are reachable storerooms
+					TileManager.TestTile del = delegate (TileBase tile)
+					{
+						return tile.FindResource(Resource.ResourceType.MUSHROOMS) != null || tile.FindResource(Resource.ResourceType.HUMAN_FOOD) != null;
+					};
 
-                    break;
-                }
-                //Debug.Log("Calling GetPath to find dropped resources!");
-                var clutterPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetClutteredTiles());
-                if (clutterPath != null)
-                {
-                    // Check to see if there are reachable storerooms
-                    TileManager.TestTile del = delegate (TileBase tile)
-                    {
-                        return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
-                    };
-                    Debug.Log("Calling GetPath to check for a store room");
-                    var storeroomPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
-                    if (storeroomPath == null)
-                        break;
-                    SetState(State.RETRIEVING_RESOURCE);
-                    TileBase targetTile = mgr.GetTileBase(clutterPath.endX, clutterPath.endY);
-                    foreach (Resource res in targetTile.clutteredResources)
-                        if (!res.isClaimed)
-                        {
-                            Claim(res);
-                            break;
-                        }
-                    SetPath(clutterPath);
-                    break;  
-                }
-                
-                fIdleTime -= Time.deltaTime;
-                if (!targetSet) {
-                    if (!currentTile.IsPassable())
-                    {
-                        TileManager.TestTile del = delegate (TileBase tile) { return tile.IsLizardy(); };
-                        SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del)));
-                    }
-                    else if (fIdleTime < 0)
-                        SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f) );
+					var pathToFoods = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
+					if (pathToFoods != null)
+					{
+						TileBase targetTile = mgr.GetTileBase(pathToFoods.endX, pathToFoods.endY);
+						foreach (Resource res in targetTile.clutteredResources)
+						{
+							if (!res.isClaimed && (res.type == Resource.ResourceType.MUSHROOMS || res.type == Resource.ResourceType.HUMAN_FOOD))
+							{
+								Claim(res);
+								break;
+							}
+						}
+						if (claimed == null)
+						{
+							foreach (Resource res in targetTile.tidyResources)
+							{
+								if (res != null && !res.isClaimed && (res.type == Resource.ResourceType.MUSHROOMS || res.type == Resource.ResourceType.HUMAN_FOOD))
+								{
+									Claim(res);
+									break;
+								}
+							}
+						}
 
-                }
-                else if (Move())
-                {
-                    // Set a cooldown timer
-                    fIdleTime = Random.Range(1.0f, 5.0f);
-                }
+						if (claimed != null)
+						{
+							SetState(State.RETRIEVING_RESOURCE);
+							currentTask = new Task(Task.Type.EAT);
+							SetPath(pathToFoods);
+							break;
+						}
+					}
+				}
+				if (ShouldFindEntertainment())
+				{
+					// Check to see if there are reachable storerooms
+					TileManager.TestTile del = delegate (TileBase tile)
+					{
+						return tile.Type() == TileBase.TileType.TVROOM;
+					};
+
+					var pathToTV = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
+					if (pathToTV != null)
+					{
+						TileBase targetTile = mgr.GetTileBase(pathToTV.endX, pathToTV.endY);
+
+						SetState(State.TRAVELLING_TO_TASK);
+						currentTask = new Task(Task.Type.RELAX);
+						currentTask.associatedTile = targetTile;
+
+						SetPath(pathToTV);
+						break;
+					}
+				}
+				if (!AmInDangerOfStarving() && !AmInDangerOfBreaking())
+				{
+					if (Player.thePlayer.pendingTasks[(int)assignment].Count != 0)
+					{
+						foreach (Task task in Player.thePlayer.pendingTasks[(int)assignment])
+						{
+							// Check to see if this lizard can reach the task
+							if (Path.GetPath(currentTile.GetKVPair(), task.associatedTile) != null)
+							{
+								currentTask = task;
+								break;
+							}
+						}
+						if (currentTask != null)
+						{
+							currentTask.assignedLizard = this;
+							Player.thePlayer.pendingTasks[(int)assignment].Remove(currentTask);
+							DoTask();
+						}
+
+						break;
+					}
+					//Debug.Log("Calling GetPath to find dropped resources!");
+					var clutterPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetClutteredTiles());
+					if (clutterPath != null)
+					{
+						// Check to see if there are reachable storerooms
+						TileManager.TestTile del = delegate (TileBase tile)
+						{
+							return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
+						};
+						Debug.Log("Calling GetPath to check for a store room");
+						var storeroomPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
+						if (storeroomPath == null)
+							break;
+						SetState(State.RETRIEVING_RESOURCE);
+						TileBase targetTile = mgr.GetTileBase(clutterPath.endX, clutterPath.endY);
+						foreach (Resource res in targetTile.clutteredResources)
+							if (!res.isClaimed)
+							{
+								Claim(res);
+								break;
+							}
+						SetPath(clutterPath);
+						break;
+					}
+
+					fIdleTime -= Time.deltaTime;
+					if (!targetSet)
+					{
+						if (!currentTile.IsPassable())
+						{
+							TileManager.TestTile del = delegate (TileBase tile) { return tile.IsLizardy(); };
+							SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del)));
+						}
+						else if (fIdleTime < 0)
+							SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f));
+
+					}
+					else if (Move())
+					{
+						// Set a cooldown timer
+						fIdleTime = Random.Range(1.0f, 5.0f);
+					}
+				}
                 break;
             case State.TRAVELLING_TO_TASK:
-                if (Move())
-                    SetState(State.WORKING);
+				if (Move())
+				{
+					if(currentTask.associatedTile != null)
+						currentTask.associatedTile.SetTaskActive(true);
+					SetState(State.WORKING);
+				}
                 break;
             case State.WORKING:
                 switch (currentTask.type)
@@ -270,18 +358,60 @@ public class Lizard : Entity {
                             }
                         }
                         break;
+					case Task.Type.FARM:
+						if(currentTile is MushroomFarm)
+						{
+							if((currentTile as MushroomFarm).Farm())
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
+					case Task.Type.TRAP:
+						if (currentTile is Trap)
+						{
+							if ((currentTile as Trap).Farm())
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
+					case Task.Type.TAILOR:
+						if (currentTile is Tailor)
+						{
+							if ((currentTile as Tailor).Farm())
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
+					case Task.Type.RELAX:
+						if(currentTile is TVRoom)
+						{
+							afNeeds[(int)Need.ENTERTAINMENT] += 0.1f * Time.deltaTime;
+							(currentTile as TVRoom).IncrementTVBill(0.1f * Time.deltaTime);
+							if(afNeeds[(int)Need.ENTERTAINMENT] > 0.9f)
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
                     case Task.Type.SELL_RESOURCE:
                         currentTask.UseResources();
                         int value = 0;
                         foreach (KeyValuePair<Resource.ResourceType, int> count in currentTask.requiredResources)
                             value += Player.thePlayer.GetValue(count.Key) * count.Value;
                         Player.thePlayer.money += value;
+						FinishTask();
                         // Maybe put in some animation stuff in time? James?
                         // e.g. transport the resource up to the actual hut
                         SetState(State.IDLE);
                         break;
                     case Task.Type.EAT:
-                    case Task.Type.RELAX:
                     case Task.Type.WORK_ROOM:
                         FinishTask();
                         break;
@@ -310,6 +440,22 @@ public class Lizard : Entity {
                             SetPath(storePath);
                         }
                     }
+					else if(currentTask.associatedTile == null)
+					{
+						// No tile. Must be a self task
+						switch(currentTask.type)
+						{
+							case Task.Type.EAT:
+								claimed.GiveToLizard(this);
+								Consume(carrying);
+								break;
+							default:
+								Debug.Assert(false, "This task should have an associated tile");
+								break;
+						}
+						SetState(State.IDLE);
+						return;
+					}
                     else
                     {
                         Debug.Log("Calling GetPath to go to the target tile");
@@ -333,7 +479,7 @@ public class Lizard : Entity {
                 {
                     if (currentTask == null)
                     {
-                        Debug.Log("Calling StoreResource");
+                        //Debug.Log("Calling StoreResource");
                         carrying.PutInRoom(currentTile);
 
                         SetState(State.IDLE);
@@ -365,7 +511,7 @@ public class Lizard : Entity {
         {
             SetState(State.TRAVELLING_TO_TASK);
 
-            Debug.Log("Calling GetPath to travel to task");
+            //Debug.Log("Calling GetPath to travel to task");
             if (!SetPath(Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile.GetKVPair())))
                 CannotReachTask();
         }
@@ -375,10 +521,10 @@ public class Lizard : Entity {
             var kvs = new List<KeyValuePair<int, int>>();
             foreach (TileBase tile in mgr.GetTilesContaining(nextType))
             {
-                Debug.Log(tile);
+                //Debug.Log(tile);
                 kvs.Add(tile.GetKVPair());
             }
-            Debug.Log("Calling GetPath to retrieve resource for task");
+            //Debug.Log("Calling GetPath to retrieve resource for task");
             if (SetPath(Path.GetPath(currentTile.GetKVPair(), kvs)))
             {
                 TileBase targetTile = mgr.GetTileBase(currentPath.endX, currentPath.endY);
@@ -451,7 +597,10 @@ public class Lizard : Entity {
     public bool ShouldDie() { return afNeeds[(int)Need.FOOD] <= 0.0f; }
     public bool ShouldGoMad() { return afNeeds[(int)Need.HUMAN_FOOD] + afNeeds[(int)Need.ENTERTAINMENT] <= 0.0f; }
 
-    public bool AmInDangerOfStarving()
+	public bool ShouldEat() { return afNeeds[(int)Need.FOOD] <= 0.5f; }
+	public bool ShouldFindEntertainment() { return afNeeds[(int)Need.HUMAN_FOOD] + afNeeds[(int)Need.ENTERTAINMENT] <= 0.5f; }
+
+	public bool AmInDangerOfStarving()
     {
         return afNeeds[(int)Need.FOOD] < 0.25f;
     }
@@ -470,10 +619,16 @@ public class Lizard : Entity {
                 break;
             case Resource.ResourceType.HUMAN_FOOD:
                 afNeeds[(int)Need.HUMAN_FOOD] += 0.5f;
-                break;
+				afNeeds[(int)Need.FOOD] += 0.5f;
+				break;
             default:
                 TextTicker.AddLine("Should you really be eating that, " + lizardName + "?");
                 break;
         }
+		resource.Drop();
+		Destroy(resource.gameObject);
+		SetState(State.IDLE);
+		claimed = null;
+		currentTask = null;
     }
 }

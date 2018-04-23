@@ -17,6 +17,8 @@ abstract public class TileBase : MonoBehaviour {
     public int bWarning = 0; // Number of things intending to dig this tile
     public string printName = "";
 
+	public SpriteRenderer taskbar, taskbarFill;
+
 	public SpriteRenderer highlightSprite;
 	public bool bShouldBeHighlighted = false;
 
@@ -130,6 +132,18 @@ abstract public class TileBase : MonoBehaviour {
 	public abstract bool CanBeFilledIn();
 	public abstract bool CanBeMarkedAsPriority();
 
+	public void SetTaskActive(bool b)
+	{
+		taskbar.gameObject.SetActive(b);
+		SetTaskCompletion(0.0f);
+	}
+
+	public void SetTaskCompletion(float f)
+	{
+		taskbarFill.transform.localScale = new Vector3(f, 1.0f, 1.0f);
+		taskbarFill.transform.localPosition = new Vector3(-6.5f / 32.0f + f * 0.5f * 13.0f / 32.0f, 0.0f, -0.1f);
+	}
+
     virtual public bool IsPassable()
     {
         return isConstructed;
@@ -163,6 +177,7 @@ abstract public class TileBase : MonoBehaviour {
             resource.PutInRoom(replacingTile);
 
         replacingTile.bWarning = bWarning;
+		replacingTile.SetTaskActive(taskbar.gameObject.activeSelf);
 
         GetComponentInParent<TileManager>().UpdateEdges(x, y);
 
@@ -175,6 +190,7 @@ abstract public class TileBase : MonoBehaviour {
 
     virtual protected void FinishConstruction()
     {
+		SetTaskActive(false);
         if (isConstructed)
             return;
         isConstructed = true;
@@ -196,6 +212,8 @@ abstract public class TileBase : MonoBehaviour {
         }
         fBuildLeft -= Time.deltaTime;
         SetAlpha(Mathf.Min(1.0f, 0.3f + 0.7f * (1 - fBuildLeft / fMaxBuildTime)));
+
+		SetTaskCompletion(1.0f - fBuildLeft / fMaxBuildTime);
 
         if (fBuildLeft < 0)
             FinishConstruction();
@@ -223,8 +241,9 @@ abstract public class TileBase : MonoBehaviour {
 
     public virtual void Start ()
     {
+		SetTaskActive(false);
 
-        warningSprite.enabled = false;
+		warningSprite.enabled = false;
 		if (highlightSprite != null) { highlightSprite.enabled = false; }
 		tidyResources = new Resource[tidyStorageSpots.Length];
     }

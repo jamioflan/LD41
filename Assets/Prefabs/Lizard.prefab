@@ -187,7 +187,7 @@ MonoBehaviour:
   - {fileID: 21300010, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300012, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300014, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
-  fTimePerFrame: 1
+  fTimePerFrame: 0.2
 --- !u!114 &114296786931195936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
   - {fileID: 21300018, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300020, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300022, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
-  fTimePerFrame: 1
+  fTimePerFrame: 0.2
 --- !u!114 &114301004083443652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,7 +270,7 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300004, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300006, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
-  fTimePerFrame: 1
+  fTimePerFrame: 0.2
 --- !u!114 &114638337347098724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,7 +287,7 @@ MonoBehaviour:
   - {fileID: 21300026, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300028, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
   - {fileID: 21300030, guid: 5bd903d63eab3d74e99fc0f95feea0f9, type: 3}
-  fTimePerFrame: 1
+  fTimePerFrame: 0.2
 --- !u!212 &212226887228417306
 SpriteRenderer:
   m_ObjectHideFlags: 1

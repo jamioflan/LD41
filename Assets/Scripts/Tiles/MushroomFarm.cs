@@ -9,12 +9,18 @@ public class MushroomFarm : TileBase {
         return TileBase.TileType.FARM;
     }
 
+	public override Lizard.Assignment GetAss() { return Lizard.Assignment.FARMER; }
+	public override int GetNumAss() { return 1; }
+
 	public override bool CanBeBuiltOver() { return false; }
 	public override bool CanBeDug() { return false; }
 	public override bool CanBeFilledIn() { return true; }
 	public override bool CanBeMarkedAsPriority() { return true; }
 
 	public float fFarmProgress = 0.0f;
+
+	public static readonly float fMUSHROOM_HARVEST_TIME = 25.0f;
+
 	private Task task = null;
 
 	public Resource mushroomPrefab;
@@ -36,9 +42,11 @@ public class MushroomFarm : TileBase {
 			Player.thePlayer.pendingTasks[(int)Lizard.Assignment.FARMER].Add(task);
 		}
 
-		if(fFarmProgress >= 10.0f)
+		if(fFarmProgress >= fMUSHROOM_HARVEST_TIME)
 		{
-			int num = Random.Range(3, 5);
+			int num = 1;
+			if (Random.Range(0, 100) > 90)
+				num += 2;
 			for (int i = 0; i < num; i++)
 			{
 				Resource mushy = Instantiate<Resource>(mushroomPrefab);
@@ -56,6 +64,8 @@ public class MushroomFarm : TileBase {
 	{
 		fFarmProgress += Time.deltaTime;
 
-		return fFarmProgress >= 10.0f;
+		SetTaskCompletion(fFarmProgress / fMUSHROOM_HARVEST_TIME);
+
+		return fFarmProgress >= fMUSHROOM_HARVEST_TIME;
 	}
 }

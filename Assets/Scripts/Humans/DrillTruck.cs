@@ -90,6 +90,12 @@ public class DrillTruck : Entity
                     {
                         TileBase tb = Core.theTM.GetTileBase(iTargetX, i);
 
+						if(!tb.IsLizardy() && tb.Type() != TileBase.TileType.FILLED)
+						{
+							// Something solid is in the way
+							iTargetDepth = i + 1;
+						}
+
                         tb.bWarning++;
                         if (tb.IsLizardy())
                         {

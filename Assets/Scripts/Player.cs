@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
 	public static Player thePlayer;
 
+	private static readonly int HUMANFOOD_BUY_PRICE = 3;
+
 	public int metal = 0;
 	public int gems = 0;
 	public int mushrooms = 0;
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
 
 	public int metalValue = 5;
 	public int gemValue = 10;
-	public int mushroomValue = 2;
+	public int mushroomValue = 1;
     public int GetValue(Resource.ResourceType type)
     {
         switch (type)
@@ -34,6 +36,8 @@ public class Player : MonoBehaviour
 
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
+
+	public Resource humanFoodPrefab;
 
 	public List<Task>[] pendingTasks = new List<Task>[(int)Lizard.Assignment.NUM_ASSIGNMENTS];
    
@@ -115,9 +119,23 @@ public class Player : MonoBehaviour
         }
 	}
 
-    public void IncrementResourceCount(Resource.ResourceType type, int amount = 1)
+	public void BuyHumanFood(int iNumToBuy)
+	{
+		iNumToBuy = Mathf.Clamp(iNumToBuy, 0, money / HUMANFOOD_BUY_PRICE);
+		for (int ii = 0; ii < iNumToBuy; ++ii)
+		{
+			money -= HUMANFOOD_BUY_PRICE;
+			Resource food = Instantiate<Resource>(humanFoodPrefab);
+			food.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
+			food.PutInRoom(Core.theTM.hutTile);
+			Core.theTM.RegisterResource(food);
+		}
+	}
+
+
+	public void IncrementResourceCount(Resource.ResourceType type, int amount = 1)
     {
-        Debug.Log("IncrementResourceCount(" + type + ", " + amount + ")");
+        //Debug.Log("IncrementResourceCount(" + type + ", " + amount + ")");
         switch (type)
         {
             case Resource.ResourceType.METAL:
