@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Core : MonoBehaviour
 {
@@ -49,7 +50,11 @@ public class Core : MonoBehaviour
 
 	bool bIsSuccess = false;
 
-	public void RequestState(CORE_STATE eState) { eRequestedState = eState; }
+	public void RequestState(CORE_STATE eState)
+	{
+		eRequestedState = eState;
+		
+	}
 
 	public void SetIsSuccess(bool bSuccess) { bIsSuccess = bSuccess; }
 
@@ -106,6 +111,9 @@ public class Core : MonoBehaviour
 	void Enter_StartMenu()
 	{
 		Time.timeScale = 0.0f;
+
+		if(eCurrentState != CORE_STATE.VOID)
+			SceneManager.LoadScene("JamessSceneIsTheBestScene");
 
 		Reset();
 	}

@@ -177,6 +177,10 @@ public class Lizard : Entity {
 		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
         afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
 
+        for (int i = 0; i < 3; i++)
+            afNeeds[i] = Mathf.Clamp(afNeeds[i], 0.0f, 1.0f);
+
+
         if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
         {
             if (!bWasInDangerOfStarving && AmInDangerOfStarving())
@@ -332,10 +336,16 @@ public class Lizard : Entity {
 					fIdleTime -= Time.deltaTime;
 					if (!targetSet)
 					{
-						if (!currentTile.IsPassable())
+						if (!currentTile.IsLizardy())
 						{
 							TileManager.TestTile del = delegate (TileBase tile) { return tile.IsLizardy(); };
-							SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del)));
+							if (!SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del))))
+                            {
+                                AbandonTask();
+                                TextTicker.AddLine("<color=red>" + lizardName + " was crushed</color>");
+                                Core.theTM.lizards[assignment].Remove(this);
+                                Destroy();
+                            }
 						}
 						else if (fIdleTime < 0)
 							SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f));

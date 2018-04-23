@@ -104,10 +104,10 @@ abstract public class TileBase : MonoBehaviour {
     public Resource FindResource(Resource.ResourceType type)
     {
         foreach (Resource r in clutteredResources)
-            if (r.type == type)
+            if (r.type == type && !r.isClaimed)
                 return r;
         foreach (Resource r in tidyResources)
-            if (r != null && r.type == type)
+            if (r != null && r.type == type && !r.isClaimed)
                 return r;
         return null;
     }

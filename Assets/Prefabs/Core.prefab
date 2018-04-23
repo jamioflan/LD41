@@ -7774,6 +7774,8 @@ MonoBehaviour:
   maxAssigned: 0000000000000000000000000000000000000000
   foodPrefab: {fileID: 114663128572053042, guid: f9b183b0533cff441a4cf3f218d9968c,
     type: 2}
+  humanSkinPrefab: {fileID: 114663128572053042, guid: 5b4864f337c27bd4085c727e60c9e10a,
+    type: 2}
   connectionPrefabLR: {fileID: 212770496532250102, guid: d3725c7b11b905a4ab74954282e2150a,
     type: 2}
   connectionPrefabUD: {fileID: 212792432781505200, guid: ed722d307b015f346b4f56d1ffd70f07,
@@ -7819,9 +7821,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 3
   m_WholeNumbers: 1
-  m_Value: 6
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
