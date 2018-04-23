@@ -250,30 +250,39 @@ public class Lizard : Entity {
                 {
                     case Task.Type.BUILD:
                         currentTask.UseResources();
-                        if (currentTile.Build(this) )
+                        if (currentTile.Build(this))
                         {
                             FinishTask();
                             if (currentTile.Type() == TileBase.TileType.FILLED)
                             {
-                                
+
                             }
                             SetState(State.IDLE);
                         }
                         break;
-					case Task.Type.BREED:
-						if(currentTile is Hatchery)
-						{
-							if((currentTile as Hatchery).Breed(this))
-							{
-								FinishTask();
-								SetState(State.IDLE);
-							}
-						}
-						break;
+                    case Task.Type.BREED:
+                        if (currentTile is Hatchery)
+                        {
+                            if ((currentTile as Hatchery).Breed(this))
+                            {
+                                FinishTask();
+                                SetState(State.IDLE);
+                            }
+                        }
+                        break;
+                    case Task.Type.SELL_RESOURCE:
+                        currentTask.UseResources();
+                        int value = 0;
+                        foreach (KeyValuePair<Resource.ResourceType, int> count in currentTask.requiredResources)
+                            value += Player.thePlayer.GetValue(count.Key) * count.Value;
+                        Player.thePlayer.money += value;
+                        // Maybe put in some animation stuff in time? James?
+                        // e.g. transport the resource up to the actual hut
+                        SetState(State.IDLE);
+                        break;
                     case Task.Type.EAT:
                     case Task.Type.RELAX:
                     case Task.Type.WORK_ROOM:
-                    case Task.Type.FETCH_RESOURCE:
                         FinishTask();
                         break;
                         

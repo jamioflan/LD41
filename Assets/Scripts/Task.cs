@@ -7,7 +7,7 @@ public class Task
 { 
     public enum Type
     {
-        FETCH_RESOURCE,
+        SELL_RESOURCE,
         EAT,
         RELAX,
         WORK_ROOM,
@@ -19,7 +19,7 @@ public class Task
     public Lizard assignedLizard;
     public TileBase associatedTile;
     public Type type;
-    Dictionary<Resource.ResourceType, int> requiredResources; // The resources needed to carry out this task
+    public Dictionary<Resource.ResourceType, int> requiredResources; // The resources needed to carry out this task
     List<Resource> claimedResources; // The resources claimed by this task (these sit on the associated tile)
     Dictionary<Resource.ResourceType, int> missingResources; // The resources left over
     public void AddResource(Resource resource)
