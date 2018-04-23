@@ -43,7 +43,8 @@ public class Hatchery : TileBase {
 		return false;
 	}
 
-	public bool IsDone()
+
+    public bool IsDone()
 	{
 		return fBreedProgress[0] > fBREED_TIME && fBreedProgress[1] > fBREED_TIME;
 	}
