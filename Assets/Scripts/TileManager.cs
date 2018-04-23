@@ -19,7 +19,7 @@ public class TileManager : MonoBehaviour {
     public Dictionary<Lizard.Assignment, List<Lizard>> lizards = new Dictionary<Lizard.Assignment, List<Lizard>>();
 	public int[] maxAssigned = new int[(int)Lizard.Assignment.NUM_ASSIGNMENTS] { 0, 0, 0, 0, 0 };
 
-	public Resource foodPrefab;
+	public Resource foodPrefab, humanSkinPrefab;
 
 	public SpriteRenderer connectionPrefabLR;
     public SpriteRenderer connectionPrefabUD;
@@ -104,7 +104,14 @@ public class TileManager : MonoBehaviour {
         RequestNewTile(width - 6, 1, TileBase.TileType.STORAGE, true);
         RequestNewTile(width - 5, 1, TileBase.TileType.FARM, true);
 
-        for (int i = 0; i < 6; i++)
+		// ------------------
+		// DEBUG CODE
+		for(int i = 0; i < 6; i++)
+		Instantiate<Resource>(humanSkinPrefab).PutInRoom(hutTile);
+			RequestNewTile(width - 5, 2, TileBase.TileType.TAILOR, true);
+		// ---------------
+
+		for (int i = 0; i < 6; i++)
         {
             int x = Random.Range(0, width), y = Random.Range(0, 7);
             if (tiles[x, y].Type() == TileBase.TileType.FILLED)
@@ -178,7 +185,10 @@ public class TileManager : MonoBehaviour {
             return false;
         }
 
-        switch(tiles[x,y].Type())
+		Player.thePlayer.PurgeTasks(x, y);
+
+
+		switch (tiles[x,y].Type())
         {
             case TileBase.TileType.METAL:
             case TileBase.TileType.GEMS:
