@@ -21,6 +21,11 @@ public class UI_HUD : MonoBehaviour
 	public Text numBreeders, numFarmers, numTailors, numMisc, numTrappers,
 		nextTVBill;
 
+	public Sprite fillSprite;
+
+	public List<Plans> plans = new List<Plans>();
+	public Plans plansPrefab;
+
 	public Text mouseOverElement;
 	public bool showMouseOver;
 	public string mouseOverText = "";
@@ -158,12 +163,17 @@ public class UI_HUD : MonoBehaviour
 				{
 					TileBase thisTile = Core.theTM.tiles[ii, jj];
 
-					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() ) ||
-						( isDiggingATile && thisTile.CanBeDug() ) ||
-						( isFillingInATile && thisTile.CanBeFilledIn() ) ||
-						( isMarkingATileAsPriority && thisTile.CanBeMarkedAsPriority() ) )
+					if( ( isBuildingAThing && thisTile.CanBeBuiltOver() && thisTile.isConstructed && thisTile.replacingTile == null) ||
+						( isDiggingATile && thisTile.CanBeDug() && thisTile.replacingTile == null ) ||
+						( isFillingInATile && thisTile.CanBeFilledIn() && thisTile.isConstructed ) ||
+						( isMarkingATileAsPriority && thisTile.replacingTile != null && !thisTile.replacingTile.isConstructed) )
 					{
 						bool bValid = true;
+
+						if(isBuildingAThing && thingToBuild == BUILD_ITEM.TRAP && thisTile.y > 0)
+						{
+							bValid = false;
+						}
 
 						// If digging a tile, also need to check the tile is adjacent to some other lizardy tile.
 						if( isDiggingATile )
@@ -189,10 +199,10 @@ public class UI_HUD : MonoBehaviour
 								tileBelow = Core.theTM.tiles[ii, jj + 1];
 							}
 
-							if( (tileOnLeft == null || !tileOnLeft.IsLizardy()) &&
-								(tileOnRight == null || !tileOnRight.IsLizardy()) &&
-								(tileAbove == null || !tileAbove.IsLizardy()) &&
-								(tileBelow == null || !tileBelow.IsLizardy()) )
+							if( (tileOnLeft == null  || !tileOnLeft.IsLizardy()  || !tileOnLeft.isConstructed) &&
+								(tileOnRight == null || !tileOnRight.IsLizardy() || !tileOnRight.isConstructed) &&
+								(tileAbove == null   || !tileAbove.IsLizardy()   || !tileAbove.isConstructed) &&
+								(tileBelow == null   || !tileBelow.IsLizardy()   || !tileBelow.isConstructed) )
 							{
 								bValid = false;
 							}
@@ -214,54 +224,88 @@ public class UI_HUD : MonoBehaviour
 								{
 									if (isBuildingAThing)
 									{
-										Debug.Log("Building a thing!");
+										//Debug.Log("Building a thing!");
 
 										int iMetalCost = 0;
 										Resource.ResourceType type = Resource.ResourceType.METAL;
 										TileBase.TileType eTileType = GetTileTypeAndCostToBuild( out iMetalCost, out type );
-										switch(type)
+										TileBase newTile = null;
+
+										switch (type)
 										{
 											case Resource.ResourceType.METAL:
 												if (iMetalCost <= Player.thePlayer.metal)
 												{
 													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
-													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+													newTile = Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
 												}
 												break;
 											case Resource.ResourceType.GEMS:
 												if (iMetalCost <= Player.thePlayer.gems)
 												{
 													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
-													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+													newTile = Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
 												}
 												break;
 											case Resource.ResourceType.BONES:
 												if (iMetalCost <= Player.thePlayer.dinosaurBones)
 												{
 													//Player.thePlayer.metal -= iMetalCost; This gets done by lizards now!
-													Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
+													newTile = Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType, false, iMetalCost, type);
 												}
 												break;
 										}
-										
+
+										if (newTile != null)
+										{
+											Plans p = Instantiate<Plans>(plansPrefab);
+											p.x = thisTile.x;
+											p.y = thisTile.y;
+											p.sprite = newTile.GetComponent<SpriteRenderer>().sprite;
+											p.InitSprites();
+											plans.Add(p);
+										}
+										else
+										{
+											TextTicker.AddLine("You can't build that. You need more " + (type == Resource.ResourceType.METAL ? "Metal" : (type == Resource.ResourceType.BONES ? "Bones" : "Gems")));
+										}
 									}
 									else if (isDiggingATile)
 									{
-										Debug.Log("Digging a tile!");
+										//Debug.Log("Digging a tile!");
 
 										TileBase.TileType eTileType = TileBase.TileType.EMPTY;
-										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
+										TileBase newTile = Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
+
+										Plans p = Instantiate<Plans>(plansPrefab);
+										p.x = thisTile.x;
+										p.y = thisTile.y;
+										p.sprite = newTile.GetComponent<SpriteRenderer>().sprite;
+										p.InitSprites();
+										plans.Add(p);
 									}
 									else if (isFillingInATile)
 									{
-										Debug.Log("Filling in a tile!");
+										//Debug.Log("Filling in a tile!");
 
 										TileBase.TileType eTileType = TileBase.TileType.FILLED;
 										Core.theTM.RequestNewTile(thisTile.x, thisTile.y, eTileType);
+
+										Plans p = Instantiate<Plans>(plansPrefab);
+										p.x = thisTile.x;
+										p.y = thisTile.y;
+										p.sprite = fillSprite;
+										p.InitSprites();
+										plans.Add(p);
 									}
 									else if (isMarkingATileAsPriority)
 									{
-										Debug.Log("Marking a tile as priority!");
+										//Debug.Log("Marking a tile as priority!");
+
+										if(thisTile.replacingTile != null)
+										{
+											thisTile.CancelBuild();
+										}
 									}
 								}
 							}
@@ -464,7 +508,7 @@ public class UI_HUD : MonoBehaviour
 
 		if (shopOptionsGroup != null)
 		{
-			shopOptionsGroup.SetActive(false);
+			//shopOptionsGroup.SetActive(false);
 		}
 	}
 
@@ -488,7 +532,7 @@ public class UI_HUD : MonoBehaviour
 
 		if (shopOptionsGroup != null)
 		{
-			shopOptionsGroup.SetActive(false);
+			//shopOptionsGroup.SetActive(false);
 		}
 	}
 
@@ -512,7 +556,7 @@ public class UI_HUD : MonoBehaviour
 
 		if (shopOptionsGroup != null)
 		{
-			shopOptionsGroup.SetActive(false);
+			//shopOptionsGroup.SetActive(false);
 		}
 	}
 
@@ -536,7 +580,7 @@ public class UI_HUD : MonoBehaviour
 
 		if (shopOptionsGroup != null)
 		{
-			shopOptionsGroup.SetActive(false);
+			//shopOptionsGroup.SetActive(false);
 		}
 	}
 
@@ -622,4 +666,16 @@ public class UI_HUD : MonoBehaviour
 	public void IncTailors()	{ Core.theTM.IncTailors(); }
 	public void DecTailors()	{ Core.theTM.DecTailors(); }
 
+	public void PlansFinished(int x, int y)
+	{
+		for(int i = 0; i < plans.Count; i++)
+		{
+			Plans p = plans[i];
+			if (p.x == x && p.y == y)
+			{
+				plans.RemoveAt(i);
+				Destroy(p.gameObject);
+			}
+		}
+	}
 }

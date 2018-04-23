@@ -42,6 +42,7 @@ public class TVRoom : TileBase {
 					TextTicker.AddLine("<color=red>You failed to pay your TV bill of $" + iBill + "</color>");
 					TextTicker.AddLine("<color=red>Human suspicion has increased</color>");
 				}
+				fTVBill = 0.0f;
 			}
 		}
     }

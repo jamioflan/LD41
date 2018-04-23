@@ -67,6 +67,7 @@ public class TileManager : MonoBehaviour {
             for (int jj = 0; jj < depth; ++jj)
             {
                 tiles[ii, jj] = Instantiate<TileBase>(prefabs[(int)TileBase.TileType.FILLED]);
+				tiles[ii, jj].isConstructed = true;
                 tiles[ii, jj].SetCoords(ii, jj);
                 tiles[ii, jj].transform.SetParent(transform);
             }
@@ -97,11 +98,11 @@ public class TileManager : MonoBehaviour {
         Debug.Log("Create starting city");
 
 
-        hutTile = RequestNewTile(width -2 , 0, TileBase.TileType.HUT, true) as Hut;
-		for(int i = 0; i > 6; i++)
-			hutTile.StoreResource(Instantiate < Resource > (foodPrefab));
-        RequestNewTile(width - 2, 1, TileBase.TileType.STORAGE, true);
-        RequestNewTile(width - 3, 1, TileBase.TileType.NEST, true);
+        hutTile = RequestNewTile(width - 6 , 0, TileBase.TileType.HUT, true) as Hut;
+		for(int i = 0; i < 6; i++)
+			Instantiate < Resource > (foodPrefab).PutInRoom(hutTile);
+        RequestNewTile(width - 6, 1, TileBase.TileType.STORAGE, true);
+        RequestNewTile(width - 5, 1, TileBase.TileType.NEST, true);
 
         for (int i = 0; i < 6; i++)
         {
@@ -123,13 +124,13 @@ public class TileManager : MonoBehaviour {
                 RequestNewTile(x, y, TileBase.TileType.GEMS, true);
         }
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 40; i++)
         {
             int x = Random.Range(0, width), y = Random.Range(8, depth);
             if (tiles[x, y].Type() == TileBase.TileType.FILLED)
                 RequestNewTile(x, y, TileBase.TileType.METAL, true);
         }
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 16; i++)
         {
             int x = Random.Range(0, width), y = Random.Range(8, depth);
             if (tiles[x, y].Type() == TileBase.TileType.FILLED)
@@ -189,7 +190,7 @@ public class TileManager : MonoBehaviour {
                 HumanSpawner.INSTANCE.BonesFound();
                 //tiles[x, y].PurgeItems();
                 TextTicker.AddLine("The humans found some dinosaur bones");
-                TextTicker.AddLine("Further digging will be delayed");
+                TextTicker.AddLine("They will stop digging for now");
                 return false;
 
             case TileBase.TileType.FILLED:
@@ -199,7 +200,8 @@ public class TileManager : MonoBehaviour {
                 return false;
 
             case TileBase.TileType.EMPTY:
-                Player.thePlayer.AddSuspicion(10.0f);
+				RequestNewTile(x, y, TileBase.TileType.FILLED, true);
+				Player.thePlayer.AddSuspicion(10.0f);
                 TextTicker.AddLine("The humans discovered a lizard hole");
                 TextTicker.AddLine("Suspicion levels have increased");
                 return false;
@@ -210,21 +212,21 @@ public class TileManager : MonoBehaviour {
             case TileBase.TileType.FARM:
             case TileBase.TileType.TVROOM:
             case TileBase.TileType.TRAP:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
+                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(10.0f);
                 TextTicker.AddLine("A human discovered lizard habitation underground");
                 TextTicker.AddLine("No one really believed them, so the impact was minimal");
                 return false;
 
             case TileBase.TileType.HATCHERY:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
+                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(25.0f);
                 TextTicker.AddLine("The humans found a hatchery!");
                 TextTicker.AddLine("Humantown residents demand to know more");
                 return false;
 
             case TileBase.TileType.TAILOR:
-                RequestNewTile(x, y, TileBase.TileType.EMPTY, true);
+                RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(50.0f);
                 TextTicker.AddLine("The humans discovered a tailor!");
                 TextTicker.AddLine("The Humantown Herald is on our case!");
@@ -287,11 +289,9 @@ public class TileManager : MonoBehaviour {
             task.associatedTile = tiles[x, y];
             newTile.isConstructed = false;
             Player.thePlayer.pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);
-
-
         }
 
-        return tiles[x, y];
+        return newTile;
     }
 
     public void RegisterResource(Resource resource)

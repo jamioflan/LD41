@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
 	private static readonly int HUMANFOOD_BUY_PRICE = 3;
 
+	public string firstLizard = "Boris";
+
 	public int metal = 0;
 	public int gems = 0;
 	public int mushrooms = 0;
@@ -78,6 +80,35 @@ public class Player : MonoBehaviour
 		dinosaurBones = 0;
 		money = 0;
 		lizardsDisguisedAsHumans = 0;
+	}
+
+	public void PurgeTasks(int x, int y)
+	{
+		foreach (List<Lizard> lizList in Core.theTM.lizards.Values)
+		{
+			foreach (Lizard lizard in lizList)
+			{
+				if (lizard.currentTask != null
+					&& lizard.currentTask.associatedTile != null
+					&& lizard.currentTask.associatedTile.x == x
+					&& lizard.currentTask.associatedTile.y == y)
+				{
+					lizard.FinishTask();
+					lizard.SetState(Lizard.State.IDLE);
+				}
+			}
+		}
+		for (int i = 0; i < pendingTasks.Length; i++)
+		{
+			for (int j = 0; j < pendingTasks[i].Count; j++)
+			{
+				if (pendingTasks[i][j].associatedTile != null
+					&& pendingTasks[i][j].associatedTile.x == x
+					&& pendingTasks[i][j].associatedTile.y == y)
+					pendingTasks[i].RemoveAt(j);
+				return;
+			}
+		}
 	}
 
     public void AddSuspicion(float fSusp)

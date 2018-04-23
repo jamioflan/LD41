@@ -62,9 +62,6 @@ abstract public class TileBase : MonoBehaviour {
 
     public void StoreResource(Resource resource)
     {
-        resource.Drop();
-        if (isConstructed)
-            Core.theTM.AddToUnclaimed(resource);
         for (int i = 0; i < tidyStorageSpots.Length; i++)
         {
             if (tidyResources[i] == null)
@@ -149,9 +146,7 @@ abstract public class TileBase : MonoBehaviour {
         return isConstructed;
     }
 
-
-
-    public virtual void Replace()
+	public virtual void Replace()
     {
         if (replacingTile == null)
             return;
@@ -173,8 +168,11 @@ abstract public class TileBase : MonoBehaviour {
         foreach (Resource resource in tidyResources)
             stuffToMove.Add(resource);
 
-        foreach (Resource resource in stuffToMove)
-            resource.PutInRoom(replacingTile);
+		foreach (Resource resource in stuffToMove)
+		{
+			if(resource != null)
+				resource.PutInRoom(replacingTile);
+		}
 
         replacingTile.bWarning = bWarning;
 		replacingTile.SetTaskActive(taskbar.gameObject.activeSelf);
@@ -188,7 +186,15 @@ abstract public class TileBase : MonoBehaviour {
             queuedTask.associatedTile = replacingTile;
     }
 
-    virtual protected void FinishConstruction()
+	public void CancelBuild()
+	{
+		replacingTile.Destroy();
+		replacingTile = null;
+		UI_HUD.instance.PlansFinished(x, y);
+		Player.thePlayer.PurgeTasks(x, y);
+	}
+
+	virtual protected void FinishConstruction()
     {
 		SetTaskActive(false);
         if (isConstructed)

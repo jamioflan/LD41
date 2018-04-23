@@ -36,6 +36,8 @@ public class Lizard : Entity {
 
     public Task currentTask;
 
+	public AudioClip eatingClip;
+
     public enum State
     {
         IDLE,
@@ -123,7 +125,7 @@ public class Lizard : Entity {
     }
 
 
-    private void SetState(State newState)
+    public void SetState(State newState)
     {
         //Debug.Log("Switching state to " + newState);
         state = newState;
@@ -213,7 +215,7 @@ public class Lizard : Entity {
 						{
 							if (!res.isClaimed && (res.type == Resource.ResourceType.MUSHROOMS || res.type == Resource.ResourceType.HUMAN_FOOD))
 							{
-								Claim(res);
+								res.Claim(this);
 								break;
 							}
 						}
@@ -223,7 +225,7 @@ public class Lizard : Entity {
 							{
 								if (res != null && !res.isClaimed && (res.type == Resource.ResourceType.MUSHROOMS || res.type == Resource.ResourceType.HUMAN_FOOD))
 								{
-									Claim(res);
+									res.Claim(this);
 									break;
 								}
 							}
@@ -254,6 +256,7 @@ public class Lizard : Entity {
 						SetState(State.TRAVELLING_TO_TASK);
 						currentTask = new Task(Task.Type.RELAX);
 						currentTask.associatedTile = targetTile;
+						currentTask.assignedLizard = this;
 
 						SetPath(pathToTV);
 						break;
@@ -299,7 +302,7 @@ public class Lizard : Entity {
 						foreach (Resource res in targetTile.clutteredResources)
 							if (!res.isClaimed)
 							{
-								Claim(res);
+								res.Claim(this);
 								break;
 							}
 						SetPath(clutterPath);
@@ -341,7 +344,9 @@ public class Lizard : Entity {
                         if (currentTile.Build(this))
                         {
                             FinishTask();
-                            if (currentTile.Type() == TileBase.TileType.FILLED)
+							UI_HUD.instance.PlansFinished(currentTile.x, currentTile.y);
+
+							if (currentTile.Type() == TileBase.TileType.FILLED)
                             {
 
                             }
@@ -392,7 +397,7 @@ public class Lizard : Entity {
 						if(currentTile is TVRoom)
 						{
 							afNeeds[(int)Need.ENTERTAINMENT] += 0.1f * Time.deltaTime;
-							(currentTile as TVRoom).IncrementTVBill(0.1f * Time.deltaTime);
+							(currentTile as TVRoom).IncrementTVBill(0.3f * Time.deltaTime);
 							if(afNeeds[(int)Need.ENTERTAINMENT] > 0.9f)
 							{
 								FinishTask();
@@ -446,8 +451,7 @@ public class Lizard : Entity {
 						switch(currentTask.type)
 						{
 							case Task.Type.EAT:
-								claimed.GiveToLizard(this);
-								Consume(carrying);
+								Consume(claimed);
 								break;
 							default:
 								Debug.Assert(false, "This task should have an associated tile");
@@ -470,8 +474,16 @@ public class Lizard : Entity {
                         }
                     }
 
-                    claimed.GiveToLizard(this);
-                    SetState(State.RETURNING_RESOURCE);
+					if (claimed != null)
+					{
+						claimed.GiveToLizard(this);
+						SetState(State.RETURNING_RESOURCE);
+					}
+					else
+					{
+						// Someone nicked it!
+						SetState(State.IDLE);
+					}
                 }
                 break;
             case State.RETURNING_RESOURCE:
@@ -528,7 +540,7 @@ public class Lizard : Entity {
             if (SetPath(Path.GetPath(currentTile.GetKVPair(), kvs)))
             {
                 TileBase targetTile = mgr.GetTileBase(currentPath.endX, currentPath.endY);
-                Claim(targetTile.FindResource(nextType));
+				targetTile.FindResource(nextType).Claim(this);
                 SetState(State.RETRIEVING_RESOURCE);
             }
             else
@@ -556,34 +568,6 @@ public class Lizard : Entity {
     {
         currentTask.Finish();
     }
-
-    public void Claim(Resource resource)
-    {
-        resource.reservee = this;
-        if (claimed != null)
-        {
-            claimed.Unclaim();
-        }
-        claimed = resource;
-        resource.Claim(this);
-    }
-
-    public void Take(Resource resource)
-    {
-        if (carrying != null)
-            carrying.Drop();
-        if (claimed != resource && claimed != null)
-        {
-            claimed.Unclaim();
-            Core.theTM.RemoveFromUnclaimed(resource);
-        }
-
-        claimed = null;
-        carrying = resource;
-		carrying.transform.SetParent(transform);
-		carrying.transform.localPosition = new Vector3(0.0f, 0.0f, -0.1f);
-
-	}
 
     public void SetTile(TileBase tile)
     {
@@ -625,10 +609,13 @@ public class Lizard : Entity {
                 TextTicker.AddLine("Should you really be eating that, " + lizardName + "?");
                 break;
         }
-		resource.Drop();
-		Destroy(resource.gameObject);
+
+		GetComponent<AudioSource>().clip = eatingClip;
+		GetComponent<AudioSource>().Play();
+		fDelay = Random.Range(fMinDelay, fMaxDelay);
+
+		resource.Destroy();
 		SetState(State.IDLE);
-		claimed = null;
 		currentTask = null;
     }
 }

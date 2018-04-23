@@ -17,12 +17,14 @@ public class Trap : TileBase {
 	public override Lizard.Assignment GetAss() { return Lizard.Assignment.TRAP; }
 	public override int GetNumAss() { return 1; }
 
-	private static readonly float fTRAP_TIME = 30.0f;
+	private static readonly float fTRAP_TIME = 60.0f;
 
 	public float fFarmProgress = 0.0f;
 	private Task task = null;
 
 	public Resource skinPrefab;
+
+	public string[] humanNames;
 
 	public override void Start()
     {
@@ -50,6 +52,13 @@ public class Trap : TileBase {
 				skin.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
 				skin.PutInRoom(this);
 				Core.theTM.RegisterResource(skin);
+
+				GetComponent<AudioSource>().Play();
+
+				TextTicker.AddLine("You trapped and skinned a human named " + humanNames[Random.Range(0, humanNames.Length)]);
+				TextTicker.AddLine("Their family is worried and suspicion has been raised");
+
+				Player.thePlayer.AddSuspicion(5.0f);
 			}
 
 			fFarmProgress = 0.0f;

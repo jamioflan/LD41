@@ -48,6 +48,9 @@ public class Tailor : TileBase {
 			{
 				TextTicker.AddLine(lizardToSend.lizardName + " has donned human skin");
 				TextTicker.AddLine("They will now inflitrate Humanstown");
+				GetComponent<AudioSource>().Play();
+				if (Player.thePlayer.lizardsDisguisedAsHumans == 0)
+					Player.thePlayer.firstLizard = lizardToSend.lizardName;
 				Player.thePlayer.lizardsDisguisedAsHumans++;
 				Core.theTM.lizards[lizardToSend.assignment].Remove(lizardToSend);
 				Destroy(lizardToSend.gameObject);

@@ -113,6 +113,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!82 &520595250 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82692651659272596, guid: 564df3dd3eda3ff4a9e93ae788690e6e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1982256482}
 --- !u!1001 &956930419
 Prefab:
   m_ObjectHideFlags: 0
@@ -152,6 +157,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114146180618286234, guid: c8b95fb354e438f4b8c82020a7dba1a0,
+        type: 2}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 520595250}
     - target: {fileID: 224098820357339588, guid: c8b95fb354e438f4b8c82020a7dba1a0,
         type: 2}
       propertyPath: m_AnchorMax.x

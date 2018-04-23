@@ -42,6 +42,8 @@ public class Core : MonoBehaviour
 	CORE_STATE eCurrentState = CORE_STATE.VOID;
 	CORE_STATE eRequestedState = CORE_STATE.VOID;
 
+	public AudioSource music;
+
 	bool bWasEscPressed = false;
 	bool bIsEscPressed = false;
 
@@ -155,6 +157,8 @@ public class Core : MonoBehaviour
 			float fNewY = Mathf.Max(Camera.main.transform.position.y - 1.0f, cameraMinY);
 			Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, fNewY, Camera.main.transform.position.z);
 		}
+
+		music.pitch = 1.0f + 0.5f * (Player.thePlayer.fHumanSuspicion / 100.0f);
 	}
 
 	void Exit_InGame()
@@ -221,7 +225,7 @@ public class Core : MonoBehaviour
 	}
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
 		theCore = this;
 		RequestState(CORE_STATE.START_MENU);

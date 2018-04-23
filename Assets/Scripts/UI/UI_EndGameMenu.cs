@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class UI_EndGameMenu : MonoBehaviour
 {
 	public Text successFailText;
+	public Sprite success, fail;
+	public Image newspaper;
+
 
 	// Use this for initialization
 	void Start ()
@@ -23,7 +26,8 @@ public class UI_EndGameMenu : MonoBehaviour
 	{
 		if( successFailText != null )
 		{
-			successFailText.text = bIsSuccess ? "Congratulations!" : "You were discovered!";
+			successFailText.text = bIsSuccess ? "Mayor " + Player.thePlayer.firstLizard + " sworn in amongst pledges to cease drilling activity in the area" : "Lizardpeople found living under Humantown";
+			newspaper.sprite = bIsSuccess ? success : fail;
 		}
 	}
 

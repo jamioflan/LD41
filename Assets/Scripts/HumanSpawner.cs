@@ -25,8 +25,8 @@ public class HumanSpawner : MonoBehaviour
 
     public void BonesFound()
     {
-        fTimeToNextBore += 10.0f;
-        fTimeToNextDrillTruck += 20.0f;
+        //fTimeToNextBore += 5.0f;
+        //fTimeToNextDrillTruck += 5.0f;
     }
 
     // Update is called once per frame
@@ -52,8 +52,8 @@ public class HumanSpawner : MonoBehaviour
             human.bFlip = bFlip;
             human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, 0.625f, -3.0f);
             human.iTargetX = Random.Range(0, TileManager.width);
-            if (human.iTargetX == TileManager.width - 2)
-                human.iTargetX = TileManager.width / 2;
+            if (human.iTargetX == TileManager.width - 6)
+                human.iTargetX = TileManager.width - 5;
             if(trucks[human.iTargetX] != null)
             {
                 fTimeToNextDrillTruck /= 3.0f;
@@ -68,11 +68,13 @@ public class HumanSpawner : MonoBehaviour
         fTimeToNextBore -= Time.deltaTime;
         if (fTimeToNextBore <= 0.0f)
         {
-            fTimeToNextBore = Random.Range(45.0f, 60.0f);
+            fTimeToNextBore = Random.Range(35.0f, 45.0f);
             TunnelBore human = Instantiate<TunnelBore>(borePrefab);
             bool bFlip = Random.value > 0.5f;
             human.bFlip = bFlip;
             human.iDepth = Random.Range(4, TileManager.depth);
+			if (Random.Range(0, 10) < 2)
+				human.iDepth -= 2;
             human.transform.position = new Vector3(bFlip ? 8.0f : -8.0f, -0.5f - human.iDepth, -3.0f);
 
             if (bores[human.iDepth] != null)
