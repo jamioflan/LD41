@@ -19,23 +19,52 @@ public class Hatchery : TileBase {
         base.Start();
     }
 
+	private Task[] breedTasks = new Task[2];
+	private float[] fBreedProgress = new float[2];
 
     private float fGestationTimeRemaining = 1.0f;
 
-    public override void Update()
+	public bool Breed(Lizard breeder)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (breeder.currentTask == breedTasks[i])
+			{
+				fBreedProgress[i] += Time.deltaTime;
+				return IsDone();
+			}
+		}
+		return false;
+	}
+
+	public bool IsDone()
+	{
+		return fBreedProgress[0] > 10.0f && fBreedProgress[1] > 10.0f;
+	}
+
+	public override void Update()
     {
         base.Update();
 
         if (x < 0 || y < 0)
             return;
 
-		// Where's the foetus gonna gestate? Temporary code
-		if (fGestationTimeRemaining > 0.0f)
+		for (int i = 0; i < 2; i++)
 		{
-			fGestationTimeRemaining -= Time.deltaTime;
+			if (breedTasks[i] == null)
+			{
+				breedTasks[i] = new Task(Task.Type.BREED);
+				breedTasks[i].associatedTile = this;
+
+				Player.thePlayer.pendingWorkerTasks.Add(breedTasks[i]);
+			}
 		}
-        if (fGestationTimeRemaining <= 0.0f)
-        {
+
+		if (IsDone())
+		{
+			fBreedProgress[0] = 0.0f;
+			fBreedProgress[1] = 0.0f;
+
 			// Check capacity
 			int capacity = Core.theTM.GetNumTilesOfType(TileType.NEST) * Nest.lizardCapacity;
 			int currentNumLizards = 0;
@@ -44,12 +73,12 @@ public class Hatchery : TileBase {
 				currentNumLizards += llist.Count;
 			}
 
-			if ( currentNumLizards < capacity  )
+			if (currentNumLizards < capacity)
 			{
 				fGestationTimeRemaining = 1.0f;
 				SpawnLizard();
 			}
-        }
+		}
     }
 
     private void SpawnLizard()

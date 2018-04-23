@@ -12,7 +12,9 @@ public class Task
         RELAX,
         WORK_ROOM,
         BUILD,
-        TIDY
+        TIDY,
+
+		BREED,
     }
     public Lizard assignedLizard;
     public TileBase associatedTile;

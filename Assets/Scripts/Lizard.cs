@@ -231,6 +231,16 @@ public class Lizard : Entity {
                             SetState(State.IDLE);
                         }
                         break;
+					case Task.Type.BREED:
+						if(currentTile is Hatchery)
+						{
+							if((currentTile as Hatchery).Breed(this))
+							{
+								FinishTask();
+								SetState(State.IDLE);
+							}
+						}
+						break;
                     case Task.Type.EAT:
                     case Task.Type.RELAX:
                     case Task.Type.WORK_ROOM:

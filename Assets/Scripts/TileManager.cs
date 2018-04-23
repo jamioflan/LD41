@@ -137,9 +137,10 @@ public class TileManager : MonoBehaviour {
         foreach (List<Lizard> llist in lizards.Values)
             while (llist.Count != 0)
                 llist[0].Destroy();
-        CreateLizard(hutTile.x, hutTile.y).lizardName = "Yvonne";
-
-    }
+        CreateLizard(hutTile.x, hutTile.y).lizardName = "Luke";
+		CreateLizard(hutTile.x, hutTile.y).lizardName = "Izzy";
+		CreateLizard(hutTile.x, hutTile.y).lizardName = "Zapp";
+	}
 
     // Return whether to continue digging
     public bool HumanDigTile(int x, int y)
