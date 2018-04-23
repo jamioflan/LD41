@@ -177,37 +177,45 @@ public class Lizard : Entity {
 		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
         afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
 
-		for (int i = 0; i < 3; i++)
-			afNeeds[i] = Mathf.Clamp(afNeeds[i], 0.0f, 1.0f);
+        for (int i = 0; i < 3; i++)
+            afNeeds[i] = Mathf.Clamp(afNeeds[i], 0.0f, 1.0f);
 
-        if (!bWasInDangerOfStarving && AmInDangerOfStarving())
-		{
-			TextTicker.AddLine("<color=orange>" + lizardName + " is starving. Get them some food</color>");
-			if (state != State.IDLE)
-				SetState(State.IDLE);
-		}
-		if (!bWasInDangerOfBreaking && AmInDangerOfBreaking())
-		{
-			TextTicker.AddLine("<color=orange>" + lizardName + " is going mad. Get them some TV or fancy human food</color>");
-			if (state != State.IDLE)
-				SetState(State.IDLE);
-		}
 
-		if (ShouldDie())
+        if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
         {
-            TextTicker.AddLine("<color=red>" + lizardName + " died of starvation</color>");
-			Core.theTM.lizards[assignment].Remove(this);
-            Destroy();
-        }
-
-        if (ShouldGoMad())
-        {
-            if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
+            if (!bWasInDangerOfStarving && AmInDangerOfStarving())
             {
-				TextTicker.AddLine("<color=red>" + lizardName + " has gone mad and is trying to leave</color>");
-				SetAndLockAnim(climbAnim);
-                currentTask = new Task(Task.Type.GO_MAD);
-                DoTask();
+                TextTicker.AddLine("<color=orange>" + lizardName + " is starving. Get them some food</color>");
+                AbandonTask();
+                if (state != State.IDLE)
+                    SetState(State.IDLE);
+            }
+            if (!bWasInDangerOfBreaking && AmInDangerOfBreaking())
+            {
+                TextTicker.AddLine("<color=orange>" + lizardName + " is going mad. Get them some TV or fancy human food</color>");
+                AbandonTask();
+                if (state != State.IDLE)
+                    SetState(State.IDLE);
+            }
+
+            if (ShouldDie())
+            {
+                AbandonTask();
+                TextTicker.AddLine("<color=red>" + lizardName + " died of starvation</color>");
+                Core.theTM.lizards[assignment].Remove(this);
+                Destroy();
+            }
+
+            if (ShouldGoMad())
+            {
+                if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
+                {
+                    AbandonTask();
+                    TextTicker.AddLine("<color=red>" + lizardName + " has gone mad and is trying to leave</color>");
+                    SetAndLockAnim(climbAnim);
+                    currentTask = new Task(Task.Type.GO_MAD);
+                    DoTask();
+                }
             }
         }
 
@@ -248,6 +256,7 @@ public class Lizard : Entity {
 
 						if (claimed != null)
 						{
+                            AbandonTask();
 							SetState(State.RETRIEVING_RESOURCE);
 							currentTask = new Task(Task.Type.EAT);
 							SetPath(pathToFoods);
@@ -327,10 +336,16 @@ public class Lizard : Entity {
 					fIdleTime -= Time.deltaTime;
 					if (!targetSet)
 					{
-						if (!currentTile.IsPassable())
+						if (!currentTile.IsLizardy())
 						{
 							TileManager.TestTile del = delegate (TileBase tile) { return tile.IsLizardy(); };
-							SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del)));
+							if (!SetPath(Path.GetPath(currentTile.GetKVPair(), currentTile.GetAdjacentTiles(del))))
+                            {
+                                AbandonTask();
+                                TextTicker.AddLine("<color=red>" + lizardName + " was crushed</color>");
+                                Core.theTM.lizards[assignment].Remove(this);
+                                Destroy();
+                            }
 						}
 						else if (fIdleTime < 0)
 							SetTarget(GetTileCenter(currentTile) + new Vector3(Random.Range(-0.35f, 0.35f), 0.0f, 0.0f));
@@ -493,7 +508,7 @@ public class Lizard : Entity {
                         var tilePath = Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile);
                         if (tilePath == null)
                         {
-                            CannotReachTask();
+                            AbandonTask();
                         }
                         else
                         {
@@ -534,11 +549,13 @@ public class Lizard : Entity {
 
 	}
 
-    public void CannotReachTask()
+    public void AbandonTask()
     {
+        if (currentTask == null)
+            return;
         // Need to give up on this task
         currentTask.assignedLizard = null;
-        Player.thePlayer.pendingTasks[(int)assignment].Add(currentTask);
+        Player.thePlayer.pendingTasks[(int)assignment].Insert(0, currentTask);
         currentTask = null;
         SetState(State.IDLE);
     }
@@ -552,7 +569,7 @@ public class Lizard : Entity {
 
             //Debug.Log("Calling GetPath to travel to task");
             if (!SetPath(Path.GetPath(currentTile.GetKVPair(), currentTask.associatedTile.GetKVPair())))
-                CannotReachTask();
+                AbandonTask();
         }
         else
         {
@@ -572,7 +589,7 @@ public class Lizard : Entity {
             }
             else
             {
-                CannotReachTask();
+                AbandonTask();
             }
         } 
     }

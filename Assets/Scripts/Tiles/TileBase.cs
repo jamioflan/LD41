@@ -104,10 +104,10 @@ abstract public class TileBase : MonoBehaviour {
     public Resource FindResource(Resource.ResourceType type)
     {
         foreach (Resource r in clutteredResources)
-            if (r.type == type)
+            if (r.type == type && !r.isClaimed)
                 return r;
         foreach (Resource r in tidyResources)
-            if (r != null && r.type == type)
+            if (r != null && r.type == type && !r.isClaimed)
                 return r;
         return null;
     }
@@ -131,9 +131,13 @@ abstract public class TileBase : MonoBehaviour {
 
 	public void SetTaskActive(bool b)
 	{
-		taskbar.gameObject.SetActive(b);
-		SetTaskCompletion(0.0f);
+        if (b != taskbar.gameObject.activeSelf)
+        {
+            taskbar.gameObject.SetActive(b);
+            SetTaskCompletion(0.0f);
+        }
 	}
+
 
 	public void SetTaskCompletion(float f)
 	{
@@ -182,8 +186,6 @@ abstract public class TileBase : MonoBehaviour {
         while (lizardsOnTile.Count != 0)
             lizardsOnTile[0].SetTile(replacingTile);
         Destroy();
-        if (queuedTask != null)
-            queuedTask.associatedTile = replacingTile;
     }
 
 	public void CancelBuild()
