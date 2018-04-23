@@ -41,7 +41,7 @@ public class TunnelBore : Entity
         for(int i = 0; i < TileManager.width; i++)
         {
             TileBase tb = Core.theTM.tiles[i, iDepth];
-            tb.bWarning++;
+            tb.bWarning = true;
 
             if (tb.IsLizardy())
             {
@@ -58,7 +58,7 @@ public class TunnelBore : Entity
         for (int i = 0; i < TileManager.width; i++)
         {
             TileBase tb = Core.theTM.tiles[i, iDepth];
-            tb.bWarning--;
+            tb.bWarning = false;
         }
     }
 }

@@ -132,7 +132,7 @@ public class Lizard : Entity {
 
     public void SetState(State newState)
     {
-        Debug.Log("Switching state to " + newState);
+        //Debug.Log("Switching state to " + newState);
         state = newState;
         switch(newState)
         {
@@ -308,7 +308,7 @@ public class Lizard : Entity {
 						{
 							return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
 						};
-						Debug.Log("Calling GetPath to check for a store room");
+						//Debug.Log("Calling GetPath to check for a store room");
 						var storeroomPath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
 						if (storeroomPath == null)
 							break;
@@ -460,7 +460,7 @@ public class Lizard : Entity {
                         {
                             return tile.Type() == TileBase.TileType.STORAGE && tile.NEmptyResourceSlots() > 0;
                         };
-                        Debug.Log("Calling GetPath to go to a storeroom");
+                        //Debug.Log("Calling GetPath to go to a storeroom");
                         var storePath = Path.GetPath(currentTile.GetKVPair(), mgr.GetTiles(del));
                         if (storePath == null)
                         {

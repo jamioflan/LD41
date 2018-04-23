@@ -158,7 +158,7 @@ public class UI_HUD : MonoBehaviour
 
 				if( bHasClicked )
 				{
-					Debug.Log("Clicked on " + hit.collider.gameObject.name);
+					//Debug.Log("Clicked on " + hit.collider.gameObject.name);
 				}
 			}
 
