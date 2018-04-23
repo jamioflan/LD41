@@ -345,9 +345,11 @@ public class Lizard : Entity {
 				{
                     if (currentTask.type == Task.Type.GO_MAD)
                     {
-                        TextTicker.AddLine(lizardName + " went mad and escaped!");
+                        TextTicker.AddLine("<color=red>" + lizardName + " went mad and escaped!</color>");
                         Core.theTM.lizards[assignment].Remove(this);
-                        Destroy(gameObject);
+						Player.thePlayer.AddSuspicion(25.0f);
+						deathClip = null;
+                        Destroy();
                     }
                     else
                     {

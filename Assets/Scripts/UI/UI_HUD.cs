@@ -21,6 +21,8 @@ public class UI_HUD : MonoBehaviour
 	public Text numBreeders, numFarmers, numTailors, numMisc, numTrappers,
 		nextTVBill;
 
+	public Image tutorial;
+	public float fTutorialTime = 0.0f;
 	public Sprite fillSprite;
 
 	public List<Plans> plans = new List<Plans>();
@@ -104,6 +106,10 @@ public class UI_HUD : MonoBehaviour
 		numMisc.text = Core.theTM.GetNumMisc() + "";
 
 		nextTVBill.text = "Next TV Bill: $" + Mathf.FloorToInt(TVRoom.fTVBill);
+
+		fTutorialTime += Time.deltaTime;
+		float fscale = 1.0f + 0.5f * Mathf.Sin(fTutorialTime * 5.0f);
+		tutorial.transform.localScale = new Vector3(fscale, fscale, fscale);
 
 		// Update the mouse over text
 		if ( mouseOverElement != null )
@@ -659,7 +665,7 @@ public class UI_HUD : MonoBehaviour
 
 	public void IncBreeders()	{ Core.theTM.IncBreeders(); }
 	public void DecBreeders()	{ Core.theTM.DecBreeders(); }
-	public void IncFarmers()	{ Core.theTM.IncFarmers(); }
+	public void IncFarmers()	{ Core.theTM.IncFarmers(); tutorial.enabled = false; }
 	public void DecFarmers()	{ Core.theTM.DecFarmers(); }
 	public void IncTrappers()	{ Core.theTM.IncTrappers(); }
 	public void DecTrappers()	{ Core.theTM.DecTrappers(); }

@@ -102,7 +102,7 @@ public class TileManager : MonoBehaviour {
 		for(int i = 0; i < 6; i++)
 			Instantiate < Resource > (foodPrefab).PutInRoom(hutTile);
         RequestNewTile(width - 6, 1, TileBase.TileType.STORAGE, true);
-        RequestNewTile(width - 5, 1, TileBase.TileType.NEST, true);
+        RequestNewTile(width - 5, 1, TileBase.TileType.FARM, true);
 
         for (int i = 0; i < 6; i++)
         {
