@@ -9,6 +9,10 @@ public class Hatchery : TileBase {
         return TileBase.TileType.HATCHERY;
     }
 
+	public override Lizard.Assignment GetAss() { return Lizard.Assignment.HATCHERY; }
+	public override int GetNumAss() { return 2; }
+
+
 	public override bool CanBeBuiltOver() { return false; }
 	public override bool CanBeDug() { return false; }
 	public override bool CanBeFilledIn() { return true; }
@@ -20,7 +24,7 @@ public class Hatchery : TileBase {
     }
 
 	private Task[] breedTasks = new Task[2];
-	private float[] fBreedProgress = new float[2];
+	public float[] fBreedProgress = new float[2];
 
     private float fGestationTimeRemaining = 1.0f;
 
@@ -56,7 +60,7 @@ public class Hatchery : TileBase {
 				breedTasks[i] = new Task(Task.Type.BREED);
 				breedTasks[i].associatedTile = this;
 
-				Player.thePlayer.pendingWorkerTasks.Add(breedTasks[i]);
+				Player.thePlayer.pendingTasks[(int)Lizard.Assignment.HATCHERY].Add(breedTasks[i]);
 			}
 		}
 
@@ -73,10 +77,14 @@ public class Hatchery : TileBase {
 				currentNumLizards += llist.Count;
 			}
 
-			if (currentNumLizards < capacity)
+			//if (currentNumLizards < capacity)
 			{
-				fGestationTimeRemaining = 1.0f;
 				SpawnLizard();
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				breedTasks[i] = null;
 			}
 		}
     }

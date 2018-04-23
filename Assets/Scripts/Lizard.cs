@@ -24,8 +24,11 @@ public class Lizard : Entity {
         HATCHERY,
         TRAP,
         TAILOR,
-        WORKER
-    }
+        WORKER,
+		FARMER,
+
+		NUM_ASSIGNMENTS
+	}
 
     public Assignment assignment = Assignment.WORKER;
 
@@ -174,11 +177,11 @@ public class Lizard : Entity {
         switch (state)
         {
             case State.IDLE:
-                if (Player.thePlayer.pendingWorkerTasks.Count != 0)
+                if (Player.thePlayer.pendingTasks[(int)assignment].Count != 0)
                 {
-                    currentTask = Player.thePlayer.pendingWorkerTasks[0];
+                    currentTask = Player.thePlayer.pendingTasks[(int)assignment][0];
                     currentTask.assignedLizard = this;
-                    Player.thePlayer.pendingWorkerTasks.RemoveAt(0);
+                    Player.thePlayer.pendingTasks[(int)assignment].RemoveAt(0);
                     DoTask();
                     break;
                 }

@@ -17,6 +17,7 @@ public class TileManager : MonoBehaviour {
 
     public Lizard lizardPrefab;
     public Dictionary<Lizard.Assignment, List<Lizard>> lizards = new Dictionary<Lizard.Assignment, List<Lizard>>();
+	public int[] maxAssigned = new int[(int)Lizard.Assignment.NUM_ASSIGNMENTS] { 0, 0, 0, 0, 0 };
 
     public SpriteRenderer connectionPrefabLR;
     public SpriteRenderer connectionPrefabUD;
@@ -26,16 +27,33 @@ public class TileManager : MonoBehaviour {
     public List<Resource> allResources = new List<Resource>();
     public Dictionary<Resource.ResourceType, List<Resource>> unclaimedResources = new Dictionary<Resource.ResourceType, List<Resource>>();
 
-    // Use this for initialization
-    void Start () {
+	public int GetMaxNumBreeders() { return maxAssigned[(int)Lizard.Assignment.HATCHERY]; }
+	public int GetMaxNumFarmers() { return maxAssigned[(int)Lizard.Assignment.FARMER]; }
+	public int GetMaxNumTrappers() { return maxAssigned[(int)Lizard.Assignment.TRAP]; }
+	public int GetMaxNumTailors() { return maxAssigned[(int)Lizard.Assignment.TAILOR]; }
+
+	public int GetNumBreeders() { return lizards[Lizard.Assignment.HATCHERY].Count; }
+	public int GetNumFarmers() { return lizards[Lizard.Assignment.FARMER].Count; }
+	public int GetNumTrappers() { return lizards[Lizard.Assignment.TRAP].Count; }
+	public int GetNumTailors() { return lizards[Lizard.Assignment.TAILOR].Count; }
+	public int GetNumMisc() { return lizards[Lizard.Assignment.WORKER].Count; }
+
+	public void AddAssignmnets(Lizard.Assignment ass, int num)
+	{
+		maxAssigned[(int)ass] += num;
+	}
+
+	// Use this for initialization
+	void Start () {
         // Set up lizard dict
         lizards.Add(Lizard.Assignment.HATCHERY, new List<Lizard>());
         lizards.Add(Lizard.Assignment.TRAP, new List<Lizard>());
         lizards.Add(Lizard.Assignment.TAILOR, new List<Lizard>());
         lizards.Add(Lizard.Assignment.WORKER, new List<Lizard>());
+		lizards.Add(Lizard.Assignment.FARMER, new List<Lizard>());
 
-        // Set up resource dict
-        unclaimedResources.Add(Resource.ResourceType.METAL, new List<Resource>());
+		// Set up resource dict
+		unclaimedResources.Add(Resource.ResourceType.METAL, new List<Resource>());
         unclaimedResources.Add(Resource.ResourceType.GEMS, new List<Resource>());
         unclaimedResources.Add(Resource.ResourceType.MUSHROOMS, new List<Resource>());
         unclaimedResources.Add(Resource.ResourceType.HUMAN_FOOD, new List<Resource>());
@@ -259,7 +277,7 @@ public class TileManager : MonoBehaviour {
             Task task = new Task(Task.Type.BUILD);
             task.associatedTile = tiles[x, y];
 
-            Player.thePlayer.pendingWorkerTasks.Add(task);
+            Player.thePlayer.pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);
 
         }
 
@@ -321,5 +339,90 @@ public class TileManager : MonoBehaviour {
 			return tile.Type() == eType;
 		};
 		return GetTiles(del).Count;
+	}
+
+	public void IncBreeders()
+	{
+		if (GetNumBreeders() < GetMaxNumBreeders() && GetNumMisc() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
+			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.HATCHERY;
+			lizards[Lizard.Assignment.HATCHERY].Add(liz);
+		}
+	}
+
+	public void IncFarmers()
+	{
+		if (GetNumFarmers() < GetMaxNumFarmers() && GetNumMisc() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
+			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.FARMER;
+			lizards[Lizard.Assignment.FARMER].Add(liz);
+		}
+	}
+
+	public void IncTrappers()
+	{
+		if (GetNumTrappers() < GetMaxNumTrappers() && GetNumMisc() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
+			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.TRAP;
+			lizards[Lizard.Assignment.TRAP].Add(liz);
+		}
+	}
+
+	public void IncTailors()
+	{
+		if (GetNumTailors() < GetMaxNumTailors() && GetNumMisc() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.WORKER][0];
+			lizards[Lizard.Assignment.WORKER].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.TAILOR;
+			lizards[Lizard.Assignment.TAILOR].Add(liz);
+		}
+	}
+
+	public void DecBreeders()
+	{
+		if (GetNumBreeders() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.HATCHERY][0];
+			lizards[Lizard.Assignment.HATCHERY].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.WORKER;
+			lizards[Lizard.Assignment.WORKER].Add(liz);
+		}
+	}
+	public void DecFarmers()
+	{
+		if (GetNumFarmers() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.FARMER][0];
+			lizards[Lizard.Assignment.FARMER].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.WORKER;
+			lizards[Lizard.Assignment.WORKER].Add(liz);
+		}
+	}
+	public void DecTrappers()
+	{
+		if (GetNumTrappers() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.TRAP][0];
+			lizards[Lizard.Assignment.TRAP].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.WORKER;
+			lizards[Lizard.Assignment.WORKER].Add(liz);
+		}
+	}
+	public void DecTailors()
+	{
+		if (GetNumTailors() >= 1)
+		{
+			Lizard liz = lizards[Lizard.Assignment.TAILOR][0];
+			lizards[Lizard.Assignment.TAILOR].RemoveAt(0);
+			liz.assignment = Lizard.Assignment.WORKER;
+			lizards[Lizard.Assignment.WORKER].Add(liz);
+		}
 	}
 }
