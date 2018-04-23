@@ -177,8 +177,12 @@ public class Lizard : Entity {
 		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
         afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
 
+        float minNeed = 0.0f;
+        if (state == State.WORKING)
+            minNeed = 0.1f;
+
         for (int i = 0; i < 3; i++)
-            afNeeds[i] = Mathf.Clamp(afNeeds[i], 0.0f, 1.0f);
+            afNeeds[i] = Mathf.Clamp(afNeeds[i], minNeed, 1.0f);
 
 
         if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
