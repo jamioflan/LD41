@@ -17,6 +17,20 @@ public class Player : MonoBehaviour
 	public int metalValue = 5;
 	public int gemValue = 10;
 	public int mushroomValue = 2;
+    public int GetValue(Resource.ResourceType type)
+    {
+        switch (type)
+        {
+            case Resource.ResourceType.METAL:
+                return metalValue;
+            case Resource.ResourceType.GEMS:
+                return gemValue;
+            case Resource.ResourceType.MUSHROOMS:
+                return mushroomValue;
+        }
+        return 0;
+
+    }
 
 	public int lizardsDisguisedAsHumans = 0;
     public float fHumanSuspicion = 0.0f;
@@ -69,23 +83,36 @@ public class Player : MonoBehaviour
 
 	public void SellMetal( int iNumToSell )
 	{
-		iNumToSell = Mathf.Clamp(iNumToSell, 0, metal);
-		metal -= iNumToSell;
-		money += iNumToSell * metalValue;
+        iNumToSell = Mathf.Clamp(iNumToSell, 0, metal);
+        for (int ii = 0; ii < iNumToSell; ++ ii)
+        {
+            Task task = new Task(Task.Type.SELL_RESOURCE, new Dictionary<Resource.ResourceType, int>() { { Resource.ResourceType.METAL, 1} });
+            task.associatedTile = Core.theTM.hutTile;
+            pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);
+        }
+
 	}
 
 	public void SellGems(int iNumToSell)
 	{
-		iNumToSell = Mathf.Clamp(iNumToSell, 0, gems);
-		gems -= iNumToSell;
-		money += iNumToSell * gemValue;
+        iNumToSell = Mathf.Clamp(iNumToSell, 0, gems);
+        for (int ii = 0; ii < iNumToSell; ++ii)
+        {
+            Task task = new Task(Task.Type.SELL_RESOURCE, new Dictionary<Resource.ResourceType, int>() { { Resource.ResourceType.GEMS, 1 } });
+            task.associatedTile = Core.theTM.hutTile;
+            pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);
+        }
 	}
 
 	public void SellMushrooms(int iNumToSell)
 	{
 		iNumToSell = Mathf.Clamp(iNumToSell, 0, mushrooms);
-		mushrooms -= iNumToSell;
-		money += iNumToSell * mushroomValue;
+        for (int ii = 0; ii < iNumToSell; ++ii)
+        {
+            Task task = new Task(Task.Type.SELL_RESOURCE, new Dictionary<Resource.ResourceType, int>() { { Resource.ResourceType.MUSHROOMS, 1 } });
+            task.associatedTile = Core.theTM.hutTile;
+            pendingTasks[(int)Lizard.Assignment.WORKER].Add(task);
+        }
 	}
 
     public void IncrementResourceCount(Resource.ResourceType type, int amount = 1)
