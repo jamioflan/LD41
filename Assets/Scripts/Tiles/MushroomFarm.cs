@@ -19,7 +19,7 @@ public class MushroomFarm : TileBase {
 
 	public float fFarmProgress = 0.0f;
 
-	public static readonly float fMUSHROOM_HARVEST_TIME = 25.0f;
+	public static readonly float fMUSHROOM_HARVEST_TIME = 15.0f;
 
 	private Task task = null;
 

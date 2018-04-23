@@ -24,6 +24,11 @@ public class UI_PauseMenu : MonoBehaviour
 		}
 	}
 
+	public void Unpause()
+	{
+		Core.theCore.RequestState(Core.CORE_STATE.IN_GAME);
+	}
+
 	public void ExitDesktop_OnClick()
 	{
 		Application.Quit();

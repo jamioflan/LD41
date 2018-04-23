@@ -66,7 +66,12 @@ public class Player : MonoBehaviour
             Core.theCore.Lose();
         }
 
-        if(lizardsDisguisedAsHumans >= 10)
+		if(fHumanSuspicion > 0.0f && Core.theTM.GetNumBreeders() + Core.theTM.GetNumFarmers() + Core.theTM.GetNumMisc() + Core.theTM.GetNumTailors() + Core.theTM.GetNumTrappers() == 0)
+		{
+			Core.theCore.Lose();
+		}
+
+        if(lizardsDisguisedAsHumans >= 3)
         {
             Core.theCore.Win();
         }

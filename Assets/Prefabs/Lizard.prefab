@@ -245,6 +245,7 @@ MonoBehaviour:
     associatedTile: {fileID: 0}
     type: 0
   eatingClip: {fileID: 8300000, guid: fe9c8477a8f43454aa55ff02a6bd2a29, type: 3}
+  deathClip: {fileID: 8300000, guid: c5d8c89cbd756674c832a5e4df72e371, type: 3}
   state: 0
   currentTile: {fileID: 0}
   fSpeed: 1

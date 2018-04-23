@@ -616,7 +616,7 @@ public class UI_HUD : MonoBehaviour
 			}
 			case BUILD_ITEM.TRAP:
 			{
-				iMetalCost = 5;
+				iMetalCost = 2;
 				resourceType = Resource.ResourceType.METAL;
 				return TileBase.TileType.TRAP;
 			}

@@ -36,7 +36,7 @@ public class Lizard : Entity {
 
     public Task currentTask;
 
-	public AudioClip eatingClip;
+	public AudioClip eatingClip, deathClip;
 
     public enum State
     {
@@ -70,7 +70,12 @@ public class Lizard : Entity {
 
     public void Destroy()
     {
-        mgr.lizards[assignment].Remove(this);
+		GameObject go = new GameObject("DEath");
+		go.AddComponent<AudioSource>();
+		go.GetComponent<AudioSource>().clip = deathClip;
+		go.GetComponent<AudioSource>().Play();
+
+		mgr.lizards[assignment].Remove(this);
         SetTile(null);
         Destroy(gameObject);
     }
@@ -152,6 +157,8 @@ public class Lizard : Entity {
         for (int i = 0; i < (int)Need.NUM_NEEDS; i++)
             afNeeds[i] = 1.0f;
         currentTask = null;
+
+		GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.6f, 1.0f), Random.Range(0.6f, 1.0f), Random.Range(0.6f, 1.0f));
 	}
 
     public void SetTarget(Vector3 newTarget) {
@@ -172,27 +179,27 @@ public class Lizard : Entity {
 
 		if(!bWasInDangerOfStarving && AmInDangerOfStarving())
 		{
-			TextTicker.AddLine(lizardName + " is starving. Get them some food");
+			TextTicker.AddLine("<color=orange>" + lizardName + " is starving. Get them some food</color>");
 			if (state != State.IDLE)
 				SetState(State.IDLE);
 		}
 		if (!bWasInDangerOfBreaking && AmInDangerOfBreaking())
 		{
-			TextTicker.AddLine(lizardName + " is going mad. Get them some TV or fancy human food");
+			TextTicker.AddLine("<color=orange>" + lizardName + " is going mad. Get them some TV or fancy human food</color>");
 			if (state != State.IDLE)
 				SetState(State.IDLE);
 		}
 
 		if (ShouldDie())
         {
-            TextTicker.AddLine(lizardName + " died of starvation");
+            TextTicker.AddLine("<color=red>" + lizardName + " died of starvation</color>");
 			Core.theTM.lizards[assignment].Remove(this);
-            Destroy(gameObject);
+            Destroy();
         }
 
         if (ShouldGoMad())
         {
-            TextTicker.AddLine(lizardName + " has gone mad and is trying to leave");
+            TextTicker.AddLine("<color=red>" + lizardName + " has gone mad and is trying to leave</color>");
             // TODO: Go into escape state
         }
 
@@ -397,7 +404,7 @@ public class Lizard : Entity {
 						if(currentTile is TVRoom)
 						{
 							afNeeds[(int)Need.ENTERTAINMENT] += 0.1f * Time.deltaTime;
-							(currentTile as TVRoom).IncrementTVBill(0.3f * Time.deltaTime);
+							(currentTile as TVRoom).IncrementTVBill(0.1f * Time.deltaTime);
 							if(afNeeds[(int)Need.ENTERTAINMENT] > 0.9f)
 							{
 								FinishTask();

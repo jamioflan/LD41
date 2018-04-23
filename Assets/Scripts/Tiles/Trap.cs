@@ -17,7 +17,7 @@ public class Trap : TileBase {
 	public override Lizard.Assignment GetAss() { return Lizard.Assignment.TRAP; }
 	public override int GetNumAss() { return 1; }
 
-	private static readonly float fTRAP_TIME = 60.0f;
+	private static readonly float fTRAP_TIME = 30.0f;
 
 	public float fFarmProgress = 0.0f;
 	private Task task = null;

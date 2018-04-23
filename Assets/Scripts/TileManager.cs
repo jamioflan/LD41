@@ -162,9 +162,11 @@ public class TileManager : MonoBehaviour {
             while (llist.Count != 0)
                 llist[0].Destroy();
 
-        CreateLizard(hutTile.x, hutTile.y).lizardName = "Squidge";
-		CreateLizard(hutTile.x, hutTile.y).lizardName = "Nina";
-		CreateLizard(hutTile.x, hutTile.y).lizardName = "Frank";
+		string[] names = (prefabs[(int)TileBase.TileType.HATCHERY] as Hatchery).lizardNames;
+		for(int i = 0; i < 3; i++)
+		{
+			CreateLizard(hutTile.x, hutTile.y).lizardName = names[Random.Range(0, names.Length)];
+		}
 	}
 
 
@@ -203,7 +205,7 @@ public class TileManager : MonoBehaviour {
 				RequestNewTile(x, y, TileBase.TileType.FILLED, true);
 				Player.thePlayer.AddSuspicion(10.0f);
                 TextTicker.AddLine("The humans discovered a lizard hole");
-                TextTicker.AddLine("Suspicion levels have increased");
+                TextTicker.AddLine("<color=orange>Suspicion levels have increased</color>");
                 return false;
 
             case TileBase.TileType.HUT:
@@ -215,21 +217,21 @@ public class TileManager : MonoBehaviour {
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(10.0f);
                 TextTicker.AddLine("A human discovered lizard habitation underground");
-                TextTicker.AddLine("No one really believed them, so the impact was minimal");
+                TextTicker.AddLine("<color=orange>No one really believed them, so the impact was minimal</color>");
                 return false;
 
             case TileBase.TileType.HATCHERY:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(25.0f);
                 TextTicker.AddLine("The humans found a hatchery!");
-                TextTicker.AddLine("Humantown residents demand to know more");
+                TextTicker.AddLine("<color=red>Humantown residents demand to know more</color>");
                 return false;
 
             case TileBase.TileType.TAILOR:
                 RequestNewTile(x, y, TileBase.TileType.FILLED, true);
                 Player.thePlayer.AddSuspicion(50.0f);
                 TextTicker.AddLine("The humans discovered a tailor!");
-                TextTicker.AddLine("The Humantown Herald is on our case!");
+                TextTicker.AddLine("<color=red>The Humantown Herald is on our case!</color>");
                 return false;           
 
         }

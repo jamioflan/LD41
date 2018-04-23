@@ -53,7 +53,8 @@ public class Tailor : TileBase {
 					Player.thePlayer.firstLizard = lizardToSend.lizardName;
 				Player.thePlayer.lizardsDisguisedAsHumans++;
 				Core.theTM.lizards[lizardToSend.assignment].Remove(lizardToSend);
-				Destroy(lizardToSend.gameObject);
+				lizardToSend.deathClip = null;
+				lizardToSend.Destroy();
 			}
 
 			fSkinProgress = 0.0f;
