@@ -15,7 +15,11 @@ public class Task
         TIDY,
 
 		BREED,
-    }
+		FARM,
+		TRAP,
+		TAILOR,
+
+	}
     public Lizard assignedLizard;
     public TileBase associatedTile;
     public Type type;

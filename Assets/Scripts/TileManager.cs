@@ -157,9 +157,9 @@ public class TileManager : MonoBehaviour {
             while (llist.Count != 0)
                 llist[0].Destroy();
 
-        CreateLizard(hutTile.x, hutTile.y).lizardName = "Luke";
-		//CreateLizard(hutTile.x, hutTile.y).lizardName = "Izzy";
-		//CreateLizard(hutTile.x, hutTile.y).lizardName = "Zapp";
+        CreateLizard(hutTile.x, hutTile.y).lizardName = "Squidge";
+		CreateLizard(hutTile.x, hutTile.y).lizardName = "Nina";
+		CreateLizard(hutTile.x, hutTile.y).lizardName = "Frank";
 	}
 
 
