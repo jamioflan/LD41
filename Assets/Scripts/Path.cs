@@ -81,8 +81,8 @@ public class Path {
         if (x < 0 || x >= TileManager.width || y < 0 || y >= TileManager.depth)
         {
             p.isAccessible = false;
-            p.x = -1;
-            p.y = -1;
+            p.x = -10;
+            p.y = -10;
             return p;
         }
         var t = Core.theTM.tiles[x, y];
@@ -153,10 +153,11 @@ public class Path {
             };
             foreach (Point p in next)
             {
-                //Debug.Log("Consider Point: (" + p.x + ", " + p.y + "), travelCost: " + p.travelCost + ", manhattanCost: " + p.manhattanCost + ", isAccessible: "+p.isAccessible);
+                
                 if (!considered.Add(p))
                     // Returns false if it was already there
                     continue;
+                //Debug.Log("Consider Point: (" + p.x + ", " + p.y + "), travelCost: " + p.travelCost + ", manhattanCost: " + p.manhattanCost + ", isAccessible: " + p.isAccessible);
 
                 if (to.Contains(new KeyValuePair<int, int>(p.x, p.y)) )
                 {
@@ -190,20 +191,26 @@ public class Path {
         path.Push(new KeyValuePair<int, int>(current.x, current.y));
 
         var itr = closed.GetEnumerator();
+        itr.MoveNext();
         while (current.travelCost > 0)
         {
             // The way we've set up the map it means that they are sorted by travel cost first
             // This means that we can advance the iterator until it's reached the set of points with the right travel cost
-            int targetKey = -TileManager.width * TileManager.depth * (current.travelCost - 1);
-            while (itr.Current.Key < targetKey)
+            //int targetKey = -TileManager.width * TileManager.depth * (current.travelCost - 1);
+            while (itr.Current.Value.travelCost >= current.travelCost)
+            {
                 itr.MoveNext();
+            }
             // Now advance until we are next to the 'current' one
             while (itr.Current.Value.DistanceTo(current) > 1)
                 itr.MoveNext();
             // We must be next to a new point! Add it to the path and then go again
             current = itr.Current.Value;
+
+
             path.Push(new KeyValuePair<int, int>(current.x, current.y));
         }
+
         return path;
     }
 }
