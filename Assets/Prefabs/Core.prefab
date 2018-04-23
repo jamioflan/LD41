@@ -3477,7 +3477,6 @@ MonoBehaviour:
   mushroomValue: 2
   lizardsDisguisedAsHumans: 0
   fHumanSuspicion: 0
-  pendingWorkerTasks: []
 --- !u!114 &114288777662804806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4708,7 +4707,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300022, guid: fcec11a94f391c048b9ffccfba3fcc77, type: 3}
+  m_Sprite: {fileID: 21300024, guid: fcec11a94f391c048b9ffccfba3fcc77, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
