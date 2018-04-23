@@ -18,6 +18,7 @@ public class Task
 		FARM,
 		TRAP,
 		TAILOR,
+        GO_MAD,
 
 	}
     public Lizard assignedLizard;
@@ -49,6 +50,8 @@ public class Task
         missingResources = new Dictionary<Resource.ResourceType, int>();
         foreach (KeyValuePair<Resource.ResourceType, int> kv in required)
             missingResources.Add(kv.Key, kv.Value);
+        if (type == Type.GO_MAD)
+            associatedTile = Core.theTM.hutTile;
     }
 
     public void UseResources()

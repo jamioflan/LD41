@@ -7,6 +7,7 @@ public class Entity : MonoBehaviour
     public Anim currentAnim;
     public float fAnimTime = 0.0f;
     public bool bFlip = false;
+    bool isLocked;
 
     public AudioClip[] clips;
     public float fMinDelay = 5.0f, fMaxDelay = 10.0f, fDelay = 0.0f;
@@ -16,6 +17,7 @@ public class Entity : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = true;
         }
+        isLocked = false;
 
        // fDelay = Random.Range(fMinDelay, fMaxDelay);
 
@@ -42,8 +44,24 @@ public class Entity : MonoBehaviour
         }
     }
 
+    public void SetAndLockAnim(Anim anim)
+    {
+        isLocked = true;
+        if (anim != currentAnim)
+        {
+            currentAnim = anim;
+            fAnimTime = 0.0f;
+        }
+    }
+
+    public void UnlockAnim()
+    {
+        isLocked = false;
+    }
     public void SetAnim(Anim anim)
     {
+        if (isLocked)
+            return;
         if (anim != currentAnim)
         {
             currentAnim = anim;

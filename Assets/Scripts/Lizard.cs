@@ -127,7 +127,7 @@ public class Lizard : Entity {
 
     public void SetState(State newState)
     {
-        //Debug.Log("Switching state to " + newState);
+        Debug.Log("Switching state to " + newState);
         state = newState;
         switch(newState)
         {
@@ -168,9 +168,9 @@ public class Lizard : Entity {
 
 		afNeeds[(int)Need.FOOD] -= 0.005f * Time.deltaTime;
 		afNeeds[(int)Need.HUMAN_FOOD] -= 0.0025f * Time.deltaTime;
-		afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
+        afNeeds[(int)Need.ENTERTAINMENT] -= 0.0025f * Time.deltaTime;
 
-		if(!bWasInDangerOfStarving && AmInDangerOfStarving())
+        if (!bWasInDangerOfStarving && AmInDangerOfStarving())
 		{
 			TextTicker.AddLine(lizardName + " is starving. Get them some food");
 			if (state != State.IDLE)
@@ -192,8 +192,13 @@ public class Lizard : Entity {
 
         if (ShouldGoMad())
         {
-            TextTicker.AddLine(lizardName + " has gone mad and is trying to leave");
-            // TODO: Go into escape state
+            if (currentTask == null || currentTask.type != Task.Type.GO_MAD)
+            {
+                TextTicker.AddLine(lizardName + " has gone mad and is trying to leave");
+                SetAndLockAnim(climbAnim);
+                currentTask = new Task(Task.Type.GO_MAD);
+                DoTask();
+            }
         }
 
         switch (state)
@@ -331,9 +336,18 @@ public class Lizard : Entity {
             case State.TRAVELLING_TO_TASK:
 				if (Move())
 				{
-					if(currentTask.associatedTile != null)
-						currentTask.associatedTile.SetTaskActive(true);
-					SetState(State.WORKING);
+                    if (currentTask.type == Task.Type.GO_MAD)
+                    {
+                        TextTicker.AddLine(lizardName + " went mad and escaped!");
+                        Core.theTM.lizards[assignment].Remove(this);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        if (currentTask.associatedTile != null)
+                            currentTask.associatedTile.SetTaskActive(true);
+                        SetState(State.WORKING);
+                    }
 				}
                 break;
             case State.WORKING:
@@ -418,6 +432,7 @@ public class Lizard : Entity {
                         break;
                     case Task.Type.EAT:
                     case Task.Type.WORK_ROOM:
+                    case Task.Type.GO_MAD:
                         FinishTask();
                         break;
                         

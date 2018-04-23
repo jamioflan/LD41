@@ -102,11 +102,13 @@ public class Player : MonoBehaviour
 		{
 			for (int j = 0; j < pendingTasks[i].Count; j++)
 			{
-				if (pendingTasks[i][j].associatedTile != null
-					&& pendingTasks[i][j].associatedTile.x == x
-					&& pendingTasks[i][j].associatedTile.y == y)
-					pendingTasks[i].RemoveAt(j);
-				return;
+                if (pendingTasks[i][j].associatedTile != null
+                    && pendingTasks[i][j].associatedTile.x == x
+                    && pendingTasks[i][j].associatedTile.y == y)
+                {
+                    pendingTasks[i].RemoveAt(j);
+                    return;
+                }
 			}
 		}
 	}
