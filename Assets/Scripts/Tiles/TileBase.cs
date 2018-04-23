@@ -21,7 +21,9 @@ abstract public class TileBase : MonoBehaviour {
 	public bool bShouldBeHighlighted = false;
 
     static float fMaxBuildTime = 5.0f;
-    public float fBuildLeft = fMaxBuildTime;
+    float fBuildLeft = fMaxBuildTime;
+
+    public bool isConstructed;
 
     public Resource[] tidyResources;
     public List<Resource> clutteredResources = new List<Resource>();
@@ -58,7 +60,10 @@ abstract public class TileBase : MonoBehaviour {
 
     public void StoreResource(Resource resource)
     {
-        for(int i = 0; i < tidyStorageSpots.Length; i++)
+        resource.Drop();
+        if (isConstructed)
+            Core.theTM.AddToUnclaimed(resource);
+        for (int i = 0; i < tidyStorageSpots.Length; i++)
         {
             if (tidyResources[i] == null)
             {
@@ -71,7 +76,7 @@ abstract public class TileBase : MonoBehaviour {
 
         clutteredResources.Add(resource);
         resource.transform.SetParent(transform);
-        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);
+        resource.transform.localPosition = new Vector3(Random.Range(-0.285f, 0.285f), -0.0625f + Random.Range(0.0f, 0.05f), -1.0f);    
     }
 
     public int NEmptyResourceSlots()
@@ -103,7 +108,7 @@ abstract public class TileBase : MonoBehaviour {
             if (r.type == type)
                 return r;
         foreach (Resource r in tidyResources)
-            if (r.type == type)
+            if (r != null && r.type == type)
                 return r;
         return null;
     }
@@ -127,8 +132,10 @@ abstract public class TileBase : MonoBehaviour {
 
     virtual public bool IsPassable()
     {
-        return fBuildLeft < 0;
+        return isConstructed;
     }
+
+
 
     public virtual void Replace()
     {
@@ -152,8 +159,8 @@ abstract public class TileBase : MonoBehaviour {
         foreach (Resource resource in tidyResources)
             stuffToMove.Add(resource);
 
-        foreach(Resource resource in stuffToMove)
-            replacingTile.StoreResource(resource);
+        foreach (Resource resource in stuffToMove)
+            resource.PutInRoom(replacingTile);
 
         replacingTile.bWarning = bWarning;
 
@@ -164,6 +171,19 @@ abstract public class TileBase : MonoBehaviour {
         Destroy();
         if (queuedTask != null)
             queuedTask.associatedTile = replacingTile;
+    }
+
+    virtual protected void FinishConstruction()
+    {
+        if (isConstructed)
+            return;
+        isConstructed = true;
+        foreach (Resource res in tidyResources)
+            if (res != null)
+                Core.theTM.AddToUnclaimed(res);
+        foreach (Resource res in clutteredResources)
+            if (res != null)
+                Core.theTM.AddToUnclaimed(res);
     }
 
     // Return true if building is done!
@@ -177,7 +197,9 @@ abstract public class TileBase : MonoBehaviour {
         fBuildLeft -= Time.deltaTime;
         SetAlpha(Mathf.Min(1.0f, 0.3f + 0.7f * (1 - fBuildLeft / fMaxBuildTime)));
 
-        return fBuildLeft < 0;
+        if (fBuildLeft < 0)
+            FinishConstruction();
+        return isConstructed;
     }
 
     public void SetAlpha(float alpha)
@@ -201,6 +223,7 @@ abstract public class TileBase : MonoBehaviour {
 
     public virtual void Start ()
     {
+
         warningSprite.enabled = false;
 		if (highlightSprite != null) { highlightSprite.enabled = false; }
 		tidyResources = new Resource[tidyStorageSpots.Length];
@@ -226,6 +249,37 @@ abstract public class TileBase : MonoBehaviour {
             }
         }
 	}
+
+    private TileManager.TestTile alwaysTrue = delegate (TileBase tile)
+    {
+        return true;
+    };
+
+    public List<TileBase> GetAdjacentTiles()
+    {
+        return GetAdjacentTiles(alwaysTrue);
+    }
+
+    public List<TileBase> GetAdjacentTiles(TileManager.TestTile del)
+    {
+        var adjacentTiles = new List<TileBase>();
+        TileBase testTile;
+        testTile = Core.theTM.GetTileBase(x - 1, y);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x + 1, y);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x, y - 1);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+        testTile = Core.theTM.GetTileBase(x, y + 1);
+        if (testTile != null && del(testTile))
+            adjacentTiles.Add(testTile);
+
+
+        return adjacentTiles;
+    }
 
     public virtual void Destroy()
     {

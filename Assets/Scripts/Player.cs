@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 	public int gems = 0;
 	public int mushrooms = 0;
 	public int dinosaurBones = 0;
+    public int humanFood = 0;
+    public int humanSkins = 0;
 	public int money = 0;
 
 	public int metalValue = 5;
@@ -85,4 +87,30 @@ public class Player : MonoBehaviour
 		mushrooms -= iNumToSell;
 		money += iNumToSell * mushroomValue;
 	}
+
+    public void IncrementResourceCount(Resource.ResourceType type, int amount = 1)
+    {
+        Debug.Log("IncrementResourceCount(" + type + ", " + amount + ")");
+        switch (type)
+        {
+            case Resource.ResourceType.METAL:
+                metal += amount;
+                break;
+            case Resource.ResourceType.GEMS:
+                gems += amount;
+                break;
+            case Resource.ResourceType.MUSHROOMS:
+                mushrooms += amount;
+                break;
+            case Resource.ResourceType.HUMAN_FOOD:
+                humanFood += amount;
+                break;
+            case Resource.ResourceType.HUMAN_SKIN:
+                humanSkins += amount;
+                break;
+            case Resource.ResourceType.BONES:
+                dinosaurBones += amount;
+                break;
+        }
+    }
 }

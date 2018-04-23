@@ -46,12 +46,12 @@ public class Metal : TileBase
         if (replacingTile == null)
             return;
 
-        int num = Random.Range(0, 4);
+        int num = Random.Range(1, 4);
         for (int i = 0; i < num; i++)
         {
             Resource metal = Instantiate<Resource>(metalPrefab);
             metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
-            replacingTile.StoreResource(metal);
+            metal.PutInRoom(replacingTile);
             Core.theTM.RegisterResource(metal);
         }
     }

@@ -33,12 +33,12 @@ public class Gems : TileBase
         if (replacingTile == null)
             return;
 
-        int num = Random.Range(0, 3);
+        int num = Random.Range(1, 3);
         for (int i = 0; i < num; i++)
         {
             Resource metal = Instantiate<Resource>(gemPrefab);
             metal.transform.position = transform.position + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), -1.0f);
-            replacingTile.StoreResource(metal);
+            metal.PutInRoom(replacingTile);
             Core.theTM.RegisterResource(metal);
         }
     }
